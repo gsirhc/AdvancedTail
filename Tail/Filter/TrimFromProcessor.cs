@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Tail.Filter
+﻿namespace Tail.Filter
 {
     using System.Text.RegularExpressions;
 
+    /// <summary>
+    /// Trims a tail line from the first match of a regular expression to the end.  For example:
+    /// 
+    /// Trim Regex = "fox"
+    /// Tail Line: "The quick brown fox jumps over the lazy dog"
+    /// 
+    /// Result: "The quick brown " 
+    /// </summary>
     public class TrimFromProcessor : PipelineMember, IFilterProcessor
     {
         private Regex trimFrom = null;

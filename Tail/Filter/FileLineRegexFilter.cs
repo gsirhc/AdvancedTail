@@ -8,6 +8,9 @@ namespace Tail.Filter
 {
     using System.Text.RegularExpressions;
 
+    /// <summary>
+    /// Tail line filter that filters in lines that match a regular expression.  All other lines are hidden.
+    /// </summary>
     public class FileLineRegexFilter : PipelineMember, ILineFilter
     {
         private Regex filter = null;
@@ -36,7 +39,7 @@ namespace Tail.Filter
         {
             return new FilterResult()
             {
-                IsMatch = !EnableFilter || filter.IsMatch(line),
+                IsMatch = !EnableFilter || filter == null || filter.IsMatch(line),
                 Result = line
             };
         }

@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace Tail.Filter
 {
+    /// <summary>
+    /// Simple factory class to create a filter processor for trimming log lines
+    /// </summary>
     public static class TrimProcessorFactory
     {
         public static IFilterProcessor CreateProcessor(string toRegex, string fromRegex)
         {
+            // For now, trim the to, then the from
             IFilterProcessor trimTo = new TrimToProcessor(toRegex)
             {
                 DownstreamMember = new TrimFromProcessor(fromRegex)

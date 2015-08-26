@@ -9,6 +9,10 @@ namespace Tail.Process
     using System.Windows.Forms;
     using Filter;
 
+    /// <summary>
+    /// A thread container to follow text files.  Uses a file watcher to detect changes and also
+    /// periodically checks the file should a watch event not be caught. 
+    /// </summary>
     public class TailThread
     {
         Thread tailThread = null;
@@ -22,20 +26,33 @@ namespace Tail.Process
         bool initialLoad = true;
 
         private readonly Queue<string> queue = new Queue<string>();
-        
+
         private bool enableFilter = true;
         private Action startCallback;
         private Action finishCallback;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TailThread"/> class.
+        /// </summary>
+        /// <param name="startCallback">The start callback that is called before the inital load of the file.</param>
+        /// <param name="updateCallback">The update callback that is called everytime the file is read.</param>
+        /// <param name="finishCallback">The finish callback that is called after the inital load of the file.</param>
         public TailThread(Action startCallback, Action<string> updateCallback, Action finishCallback)
         {
             this.startCallback = startCallback;
             this.updateCallback = updateCallback;
             this.finishCallback = finishCallback;
         }
-        
+
         public ILineFilter Filter { get; set; }
 
+        /// <summary>
+        /// Starts the tail of a given file.
+        /// </summary>
+        /// <param name="file">The file to follow.</param>
+        /// <param name="filter">The filter to apply to the lines, can be null.</param>
+        /// <param name="trimTo">The trim to expression to apply to the lines.</param>
+        /// <param name="trimFrom">The trim from expression to apply to the lines.</param>
         public void Start(string file, string filter, string trimTo, string trimFrom)
         {
             fileToTail = file;
@@ -51,6 +68,9 @@ namespace Tail.Process
             lineCount = 1L;
         }
 
+        /// <summary>
+        /// Stops the tail.
+        /// </summary>
         public void Stop()
         {
             tailThread?.Abort();
@@ -58,7 +78,7 @@ namespace Tail.Process
         }
 
         private void TailFile()
-        { 
+        {
             var directory = Path.GetDirectoryName(fileToTail);
             var fsw = new FileSystemWatcher(directory) { Filter = fileToTail };
             fsw.Changed += Fsw_Changed;
@@ -81,7 +101,7 @@ namespace Tail.Process
                 queue.Enqueue(e.FullPath);
             }
         }
-        
+
         private void UpdateFile()
         {
             var missCount = 0;
@@ -148,6 +168,6 @@ namespace Tail.Process
             }
 
             return true;
-        }        
+        }
     }
 }

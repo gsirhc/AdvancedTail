@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Tail
+﻿namespace Tail
 {
-    using System.Collections;
-    using System.IO;
     using System.Runtime.InteropServices;
-    using System.Text.RegularExpressions;
-    using System.Threading;
     using Process;
     using Filter;
+    using System;
+    using System.Windows.Forms;
 
+    /// <summary>
+    /// Main for displayed to the user.
+    /// </summary>
     public partial class TailForm : Form
     {
         [DllImport("user32.dll")]
@@ -31,7 +22,7 @@ namespace Tail
             InitializeComponent();
             tailThread = new TailThread(InitStartCallback, UpdateDisplayCallback, InitFinishCallback);
         }
-        
+
         protected override void OnShown(EventArgs e)
         {
             textBoxFile.Text = Properties.Settings.Default.FilePath;
@@ -39,7 +30,7 @@ namespace Tail
             textBoxTrimTo.Text = Properties.Settings.Default.TrimTo;
             textBoxTrimFrom.Text = Properties.Settings.Default.TrimFrom;
             checkBoxRunAtStartup.Checked = Properties.Settings.Default.RunAtStartup;
-            
+
             base.OnShown(e);
 
             if (Properties.Settings.Default.RunAtStartup)
@@ -90,14 +81,14 @@ namespace Tail
             Properties.Settings.Default.RunAtStartup = checkBoxRunAtStartup.Checked;
             Properties.Settings.Default.Save();
         }
-        
+
         private void InitStartCallback()
         {
             richTextBoxLog.Invoke(new Action(() =>
             {
                 richTextBoxLog.Enabled = false;
                 richTextBoxLog.Refresh();
-                SendMessage(richTextBoxLog.Handle, WM_SETREDRAW, false, 0);                
+                SendMessage(richTextBoxLog.Handle, WM_SETREDRAW, false, 0);
             }));
         }
 
@@ -115,7 +106,7 @@ namespace Tail
         }
 
         private void InitFinishCallback()
-        {            
+        {
             richTextBoxLog.Invoke(new Action(() =>
             {
                 richTextBoxLog.Enabled = true;
@@ -123,7 +114,7 @@ namespace Tail
                 richTextBoxLog.Refresh();
                 richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
                 richTextBoxLog.ScrollToCaret();
-            }));            
+            }));
         }
 
         private void StartTail()
@@ -138,7 +129,7 @@ namespace Tail
             Properties.Settings.Default.TrimTo = textBoxTrimTo.Text;
             Properties.Settings.Default.TrimFrom = textBoxTrimFrom.Text;
             Properties.Settings.Default.Save();
-            
+
             buttonTailFile.Enabled = false;
             buttonStop.Enabled = true;
             buttonRefresh.Enabled = true;
@@ -168,6 +159,6 @@ namespace Tail
             buttonRefresh.Enabled = false;
 
             tailThread.Stop();
-        }        
+        }
     }
 }

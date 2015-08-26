@@ -25,7 +25,7 @@ namespace Tail.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Source\\VCS\\SAAS\\TRUNK\\Source\\Logs\\VCS.Web.Integration_LTCHRISGALL.log")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string FilePath {
             get {
                 return ((string)(this["FilePath"]));

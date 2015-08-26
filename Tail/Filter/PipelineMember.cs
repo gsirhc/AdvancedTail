@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Tail.Filter
 {
+    /// <summary>
+    /// Base class for any concrete class that participates in the pipeline.  Extend and implement Execute.
+    /// </summary>
     public abstract class PipelineMember : IPipelineMember
     {
         public IPipelineMember DownstreamMember { get; set; }
