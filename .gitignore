@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Tail/obj/Release
+/Tail/obj/Debug
+/Tail/bin/Debug
+/Tail/bin/Release/Tail.vshost.exe.manifest
+/Tail/bin/Release/Tail.vshost.exe.config
+/Tail/bin/Release/Tail.vshost.exe
+/Tail/bin/Release/Tail.pdb
+/Tail/bin/Release/Tail.exe.config
