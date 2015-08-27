@@ -22,8 +22,6 @@ namespace Tail.Filter
                 filter = new Regex(filterStr, RegexOptions.Compiled | RegexOptions.Singleline);
             }
         }
-        
-        public bool EnableFilter { get; set; }
 
         protected override FilterResult Execute(FilterResult result)
         {
@@ -39,7 +37,7 @@ namespace Tail.Filter
         {
             return new FilterResult()
             {
-                IsMatch = !EnableFilter || filter == null || filter.IsMatch(line),
+                IsMatch = !Enabled || filter == null || filter.IsMatch(line),
                 Result = line
             };
         }

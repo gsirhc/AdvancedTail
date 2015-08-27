@@ -12,6 +12,6 @@
         /// </summary>
         /// <param name="line">The line.</param>
         /// <returns><see cref="FilterResult"/></returns>
-        FilterResult IsMatch(string line);
+        FilterResult IsMatch(string line);        
     }
 }

@@ -4,6 +4,7 @@
     using Process;
     using Filter;
     using System;
+    using System.IO;
     using System.Windows.Forms;
 
     /// <summary>
@@ -15,21 +16,26 @@
         public static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
         private const int WM_SETREDRAW = 11;
 
+        private FilterConfigForm filterConfigForm = new FilterConfigForm();
         private TailThread tailThread;
+        private ISerialFileReader serialFileReader;
 
         public TailForm()
         {
             InitializeComponent();
-            tailThread = new TailThread(InitStartCallback, UpdateDisplayCallback, InitFinishCallback);
+            serialFileReader = new CallbackSerialFileReader(InitStartCallback, UpdateDisplayCallback, InitFinishCallback);
+            tailThread = new TailThread(serialFileReader);
         }
 
         protected override void OnShown(EventArgs e)
         {
             textBoxFile.Text = Properties.Settings.Default.FilePath;
-            textBoxFilter.Text = Properties.Settings.Default.Filter;
-            textBoxTrimTo.Text = Properties.Settings.Default.TrimTo;
-            textBoxTrimFrom.Text = Properties.Settings.Default.TrimFrom;
-            checkBoxRunAtStartup.Checked = Properties.Settings.Default.RunAtStartup;
+            filterConfigForm.FilterText = Properties.Settings.Default.Filter;
+            filterConfigForm.TrimToText = Properties.Settings.Default.TrimTo;
+            filterConfigForm.TrimFromText = Properties.Settings.Default.TrimFrom;
+            runAtStartupToolStripMenuItem.Checked = Properties.Settings.Default.RunAtStartup;
+
+            SetState(false);
 
             base.OnShown(e);
 
@@ -45,41 +51,112 @@
             base.OnFormClosing(e);
         }
 
-        private void buttonTailFile_Click(object sender, EventArgs e)
+        private void toolStripButtonOpenFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.InitialDirectory = "c:\\";
+            openFileDialog.Filter = "txt files (*.txt)|*.txt|(*.log)|*.log|All files (*.*)|*.*";
+            openFileDialog.FilterIndex = 2;
+            openFileDialog.RestoreDirectory = true;
+
+            if (!string.IsNullOrWhiteSpace(textBoxFile.Text))
+            {
+                openFileDialog.InitialDirectory = Path.GetDirectoryName(textBoxFile.Text);
+            }
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                textBoxFile.Text = openFileDialog.FileName;
+                StopTail();
+
+                if (runAtStartupToolStripMenuItem.Checked)
+                {
+                    StartTail();
+                }
+            }
+        }
+
+        private void toolStripButtonFilter_Click(object sender, EventArgs e)
+        {
+            if (filterConfigForm.ShowDialog() == DialogResult.OK)
+            {
+                serialFileReader.Filter = filterConfigForm.Filter;
+            }
+        }
+        
+        private void toolStripButtonEnableFilter_Click(object sender, EventArgs e)
+        {
+            toolStripButtonEnableFilter.Checked = !toolStripButtonEnableFilter.Checked;
+            enableFilterToolStripMenuItem.Checked = toolStripButtonEnableFilter.Checked;
+            serialFileReader.Filter?.SetEnabled(toolStripButtonEnableFilter.Checked, false);
+            toolStripButtonRefresh_Click(sender, e);
+            toolStripStatusLabelFilter.Text = "Filter: " + (toolStripButtonEnableFilter.Checked ? "Enabled" : "Disabled");
+        }
+
+        private void toolStripButtonEnableTrim_Click(object sender, EventArgs e)
+        {
+            toolStripButtonEnableTrim.Checked = !toolStripButtonEnableTrim.Checked;
+            enableTrimToolStripMenuItem.Checked = toolStripButtonEnableTrim.Checked;
+            serialFileReader.Filter?.DownstreamMember?.SetEnabled(toolStripButtonEnableTrim.Checked);
+            toolStripButtonRefresh_Click(sender, e);
+            toolStripStatusLabelTrim.Text = "Trim: " + (toolStripButtonEnableTrim.Checked ? "Enabled" : "Disabled");
+        }
+
+        private void toolStripButtonStart_Click(object sender, EventArgs e)
+        {
+            StartTail();
+        }
+
+        private void toolStripButtonStop_Click(object sender, EventArgs e)
+        {
+            StopTail();
+        }
+
+        private void toolStripButtonRefresh_Click(object sender, EventArgs e)
         {
             richTextBoxLog.Clear();
             StartTail();
         }
 
-        private void buttonStop_Click(object sender, EventArgs e)
+        private void wordWrapToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            StopTail();
+            richTextBoxLog.WordWrap = wordWrapToolStripMenuItem.Checked;
+            toolStripButtonWordWrap.Checked = wordWrapToolStripMenuItem.Checked;
         }
 
-        private void buttonClear_Click(object sender, EventArgs e)
+        private void toolStripButtonWordWrap_Click(object sender, EventArgs e)
+        {
+            richTextBoxLog.WordWrap = toolStripButtonWordWrap.Checked;
+            wordWrapToolStripMenuItem.Checked = toolStripButtonWordWrap.Checked;
+        }
+
+        private void toolStripButtonClear_Click(object sender, EventArgs e)
         {
             richTextBoxLog.Clear();
         }
 
-        private void checkBoxWordWrap_CheckedChanged(object sender, EventArgs e)
+        private void runAtStartupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            richTextBoxLog.WordWrap = checkBoxWordWrap.Checked;
-        }
-
-        private void checkBoxEnableFilter_CheckedChanged(object sender, EventArgs e)
-        {
-            tailThread.Filter?.SetEnabled(checkBoxEnableFilter.Checked, false);
-        }
-
-        private void checkBoxEnableTrim_CheckedChanged(object sender, EventArgs e)
-        {
-            tailThread.Filter?.DownstreamMember.SetEnabled(checkBoxEnableTrim.Checked);
-        }
-
-        private void checkBoxRunAtStartup_CheckedChanged(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.RunAtStartup = checkBoxRunAtStartup.Checked;
+            Properties.Settings.Default.RunAtStartup = runAtStartupToolStripMenuItem.Checked;
             Properties.Settings.Default.Save();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void autoScrollToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripButtonAutoScroll.Checked = autoScrollToolStripMenuItem.Checked;
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var message = string.Format("Advanced Tail \n Github: {0} \n License: WTFPL (Do What The F*** You Want To Public License) ",
+                "https://github.com/gsirhc/AdvancedTail");
+            MessageBox.Show(message, "About Tail");
         }
 
         private void InitStartCallback()
@@ -92,12 +169,17 @@
             }));
         }
 
-        private void UpdateDisplayCallback(string data)
+        private void UpdateDisplayCallback(string data, bool clearAll)
         {
             richTextBoxLog.Invoke(new Action(() =>
             {
+                if (clearAll)
+                {
+                    richTextBoxLog.Clear();
+                }
+
                 richTextBoxLog.AppendText(data);
-                if (checkBoxAutoScroll.Checked && richTextBoxLog.Enabled)
+                if (toolStripButtonAutoScroll.Checked && richTextBoxLog.Enabled)
                 {
                     richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
                     richTextBoxLog.ScrollToCaret();
@@ -119,32 +201,30 @@
 
         private void StartTail()
         {
+            richTextBoxLog.Clear();
+
             if (tailThread != null)
             {
                 StopTail();
             }
-
-            Properties.Settings.Default.FilePath = textBoxFile.Text;
-            Properties.Settings.Default.Filter = textBoxFilter.Text;
-            Properties.Settings.Default.TrimTo = textBoxTrimTo.Text;
-            Properties.Settings.Default.TrimFrom = textBoxTrimFrom.Text;
-            Properties.Settings.Default.Save();
-
-            buttonTailFile.Enabled = false;
-            buttonStop.Enabled = true;
-            buttonRefresh.Enabled = true;
-
             try
             {
-                tailThread.Filter = new FileLineRegexFilter(textBoxFilter.Text)
+                Properties.Settings.Default.FilePath = textBoxFile.Text;
+
+                serialFileReader.Filter = filterConfigForm.Filter;
+
+                if (serialFileReader.Filter != null)
                 {
-                    EnableFilter = checkBoxEnableFilter.Checked,
-                    DownstreamMember = TrimProcessorFactory.CreateProcessor(textBoxTrimTo.Text, textBoxTrimFrom.Text)
-                };
+                    Properties.Settings.Default.Filter = filterConfigForm.FilterText;
+                    Properties.Settings.Default.TrimTo = filterConfigForm.TrimToText;
+                    Properties.Settings.Default.TrimFrom = filterConfigForm.TrimFromText;                    
+                }
 
-                tailThread.Filter.DownstreamMember.SetEnabled(checkBoxEnableTrim.Checked);
+                Properties.Settings.Default.Save();
 
-                tailThread.Start(textBoxFile.Text, textBoxFilter.Text, textBoxTrimTo.Text, textBoxTrimFrom.Text);
+                tailThread.Start(textBoxFile.Text);
+
+                SetState(true);
             }
             catch (Exception ex)
             {
@@ -154,11 +234,35 @@
 
         private void StopTail()
         {
-            buttonTailFile.Enabled = true;
-            buttonStop.Enabled = false;
-            buttonRefresh.Enabled = false;
-
             tailThread.Stop();
-        }
+            SetState(false);
+        }        
+
+        private void SetState(bool running)
+        {
+            toolStripButtonStart.Enabled = startToolStripMenuItem.Enabled = !running;
+
+            toolStripButtonRefresh.Enabled = refreshToolStripMenuItem.Enabled = running;
+            toolStripButtonClear.Enabled = clearDisplayToolStripMenuItem.Enabled = running;
+            toolStripButtonStop.Enabled = stopToolStripMenuItem.Enabled = running;
+
+            this.Text = "Tail";
+
+            if (!string.IsNullOrWhiteSpace(textBoxFile.Text))
+            {
+                this.Text = Path.GetFileName(textBoxFile.Text) + " - " + this.Text;
+            }
+
+            if (running)
+            {
+                this.Text += " [Running]";
+            }
+            else
+            {
+                this.Text += " [Stopped]";
+            }
+
+            toolStripStatusLabelStatus.Text = running ? "Following" : "Paused";
+        }        
     }
 }

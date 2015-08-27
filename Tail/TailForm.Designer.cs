@@ -31,31 +31,58 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TailForm));
             this.textBoxFile = new System.Windows.Forms.TextBox();
             this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
-            this.buttonTailFile = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.buttonStop = new System.Windows.Forms.Button();
-            this.textBoxFilter = new System.Windows.Forms.TextBox();
-            this.buttonClear = new System.Windows.Forms.Button();
-            this.buttonRefresh = new System.Windows.Forms.Button();
-            this.checkBoxEnableFilter = new System.Windows.Forms.CheckBox();
-            this.textBoxTrimTo = new System.Windows.Forms.TextBox();
-            this.checkBoxWordWrap = new System.Windows.Forms.CheckBox();
-            this.checkBoxAutoScroll = new System.Windows.Forms.CheckBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBoxTrimFrom = new System.Windows.Forms.TextBox();
-            this.checkBoxEnableTrim = new System.Windows.Forms.CheckBox();
-            this.checkBoxRunAtStartup = new System.Windows.Forms.CheckBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runAtStartupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoScrollToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wordWrapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.clearDisplayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enableFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enableTrimToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonOpenFile = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonFilter = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonEnableFilter = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonEnableTrim = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonStart = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonStop = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonRefresh = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonClear = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonAutoScroll = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonWordWrap = new System.Windows.Forms.ToolStripButton();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelFilter = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelTrim = new System.Windows.Forms.ToolStripStatusLabel();
+            this.menuStrip1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxFile
             // 
             this.textBoxFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxFile.Location = new System.Drawing.Point(92, 12);
+            this.textBoxFile.Location = new System.Drawing.Point(44, 52);
             this.textBoxFile.Name = "textBoxFile";
-            this.textBoxFile.Size = new System.Drawing.Size(660, 20);
+            this.textBoxFile.ReadOnly = true;
+            this.textBoxFile.Size = new System.Drawing.Size(823, 20);
             this.textBoxFile.TabIndex = 1;
             // 
             // richTextBoxLog
@@ -65,208 +92,389 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxLog.DetectUrls = false;
             this.richTextBoxLog.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBoxLog.Location = new System.Drawing.Point(0, 119);
+            this.richTextBoxLog.Location = new System.Drawing.Point(0, 78);
             this.richTextBoxLog.Name = "richTextBoxLog";
-            this.richTextBoxLog.Size = new System.Drawing.Size(879, 450);
+            this.richTextBoxLog.Size = new System.Drawing.Size(879, 464);
             this.richTextBoxLog.TabIndex = 3;
             this.richTextBoxLog.Text = "";
             this.richTextBoxLog.WordWrap = false;
             // 
-            // buttonTailFile
-            // 
-            this.buttonTailFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonTailFile.Location = new System.Drawing.Point(758, 10);
-            this.buttonTailFile.Name = "buttonTailFile";
-            this.buttonTailFile.Size = new System.Drawing.Size(109, 23);
-            this.buttonTailFile.TabIndex = 4;
-            this.buttonTailFile.Text = "Tail";
-            this.buttonTailFile.UseVisualStyleBackColor = true;
-            this.buttonTailFile.Click += new System.EventHandler(this.buttonTailFile_Click);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(60, 15);
+            this.label1.Location = new System.Drawing.Point(12, 55);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 13);
             this.label1.TabIndex = 7;
             this.label1.Text = "File:";
             // 
-            // label2
+            // menuStrip1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 41);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(66, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Regex Filter:";
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.viewToolStripMenuItem,
+            this.tailToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(879, 24);
+            this.menuStrip1.TabIndex = 26;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // buttonStop
+            // fileToolStripMenuItem
             // 
-            this.buttonStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonStop.Enabled = false;
-            this.buttonStop.Location = new System.Drawing.Point(758, 90);
-            this.buttonStop.Name = "buttonStop";
-            this.buttonStop.Size = new System.Drawing.Size(109, 23);
-            this.buttonStop.TabIndex = 13;
-            this.buttonStop.Text = "Stop";
-            this.buttonStop.UseVisualStyleBackColor = true;
-            this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openFileToolStripMenuItem,
+            this.runAtStartupToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
             // 
-            // textBoxFilter
+            // openFileToolStripMenuItem
             // 
-            this.textBoxFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxFilter.Location = new System.Drawing.Point(92, 38);
-            this.textBoxFilter.Name = "textBoxFilter";
-            this.textBoxFilter.Size = new System.Drawing.Size(558, 20);
-            this.textBoxFilter.TabIndex = 14;
+            this.openFileToolStripMenuItem.Image = global::Tail.Properties.Resources.folder_page;
+            this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
+            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.openFileToolStripMenuItem.Text = "Open File...";
+            this.openFileToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonOpenFile_Click);
             // 
-            // buttonClear
+            // runAtStartupToolStripMenuItem
             // 
-            this.buttonClear.Location = new System.Drawing.Point(12, 90);
-            this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(109, 23);
-            this.buttonClear.TabIndex = 15;
-            this.buttonClear.Text = "Clear Display";
-            this.buttonClear.UseVisualStyleBackColor = true;
-            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+            this.runAtStartupToolStripMenuItem.CheckOnClick = true;
+            this.runAtStartupToolStripMenuItem.Name = "runAtStartupToolStripMenuItem";
+            this.runAtStartupToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.runAtStartupToolStripMenuItem.Text = "Run at Startup";
+            this.runAtStartupToolStripMenuItem.Click += new System.EventHandler(this.runAtStartupToolStripMenuItem_Click);
             // 
-            // buttonRefresh
+            // toolStripSeparator3
             // 
-            this.buttonRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonRefresh.Enabled = false;
-            this.buttonRefresh.Location = new System.Drawing.Point(758, 63);
-            this.buttonRefresh.Name = "buttonRefresh";
-            this.buttonRefresh.Size = new System.Drawing.Size(109, 23);
-            this.buttonRefresh.TabIndex = 16;
-            this.buttonRefresh.Text = "Refresh";
-            this.buttonRefresh.UseVisualStyleBackColor = true;
-            this.buttonRefresh.Click += new System.EventHandler(this.buttonTailFile_Click);
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(146, 6);
             // 
-            // checkBoxEnableFilter
+            // exitToolStripMenuItem
             // 
-            this.checkBoxEnableFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxEnableFilter.AutoSize = true;
-            this.checkBoxEnableFilter.Checked = true;
-            this.checkBoxEnableFilter.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxEnableFilter.Location = new System.Drawing.Point(656, 40);
-            this.checkBoxEnableFilter.Name = "checkBoxEnableFilter";
-            this.checkBoxEnableFilter.Size = new System.Drawing.Size(84, 17);
-            this.checkBoxEnableFilter.TabIndex = 17;
-            this.checkBoxEnableFilter.Text = "Enable Filter";
-            this.checkBoxEnableFilter.UseVisualStyleBackColor = true;
-            this.checkBoxEnableFilter.CheckedChanged += new System.EventHandler(this.checkBoxEnableFilter_CheckedChanged);
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // textBoxTrimTo
+            // viewToolStripMenuItem
             // 
-            this.textBoxTrimTo.Location = new System.Drawing.Point(92, 64);
-            this.textBoxTrimTo.Name = "textBoxTrimTo";
-            this.textBoxTrimTo.Size = new System.Drawing.Size(233, 20);
-            this.textBoxTrimTo.TabIndex = 18;
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.autoScrollToolStripMenuItem,
+            this.wordWrapToolStripMenuItem,
+            this.toolStripSeparator6,
+            this.clearDisplayToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
             // 
-            // checkBoxWordWrap
+            // autoScrollToolStripMenuItem
             // 
-            this.checkBoxWordWrap.AutoSize = true;
-            this.checkBoxWordWrap.Location = new System.Drawing.Point(127, 94);
-            this.checkBoxWordWrap.Name = "checkBoxWordWrap";
-            this.checkBoxWordWrap.Size = new System.Drawing.Size(81, 17);
-            this.checkBoxWordWrap.TabIndex = 20;
-            this.checkBoxWordWrap.Text = "Word Wrap";
-            this.checkBoxWordWrap.UseVisualStyleBackColor = true;
-            this.checkBoxWordWrap.CheckedChanged += new System.EventHandler(this.checkBoxWordWrap_CheckedChanged);
+            this.autoScrollToolStripMenuItem.Checked = true;
+            this.autoScrollToolStripMenuItem.CheckOnClick = true;
+            this.autoScrollToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.autoScrollToolStripMenuItem.Name = "autoScrollToolStripMenuItem";
+            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.autoScrollToolStripMenuItem.Text = "Auto Scroll";
+            this.autoScrollToolStripMenuItem.Click += new System.EventHandler(this.autoScrollToolStripMenuItem_Click);
             // 
-            // checkBoxAutoScroll
+            // wordWrapToolStripMenuItem
             // 
-            this.checkBoxAutoScroll.AutoSize = true;
-            this.checkBoxAutoScroll.Checked = true;
-            this.checkBoxAutoScroll.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAutoScroll.Location = new System.Drawing.Point(214, 94);
-            this.checkBoxAutoScroll.Name = "checkBoxAutoScroll";
-            this.checkBoxAutoScroll.Size = new System.Drawing.Size(77, 17);
-            this.checkBoxAutoScroll.TabIndex = 21;
-            this.checkBoxAutoScroll.Text = "Auto Scroll";
-            this.checkBoxAutoScroll.UseVisualStyleBackColor = true;
+            this.wordWrapToolStripMenuItem.CheckOnClick = true;
+            this.wordWrapToolStripMenuItem.Name = "wordWrapToolStripMenuItem";
+            this.wordWrapToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.wordWrapToolStripMenuItem.Text = "Word Wrap";
+            this.wordWrapToolStripMenuItem.Click += new System.EventHandler(this.wordWrapToolStripMenuItem_Click);
             // 
-            // label3
+            // toolStripSeparator6
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 68);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(80, 13);
-            this.label3.TabIndex = 19;
-            this.label3.Text = "Trim To Regex:";
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(139, 6);
             // 
-            // label4
+            // clearDisplayToolStripMenuItem
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(331, 67);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(90, 13);
-            this.label4.TabIndex = 22;
-            this.label4.Text = "Trim From Regex:";
+            this.clearDisplayToolStripMenuItem.Name = "clearDisplayToolStripMenuItem";
+            this.clearDisplayToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.clearDisplayToolStripMenuItem.Text = "Clear Display";
+            this.clearDisplayToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonClear_Click);
             // 
-            // textBoxTrimFrom
+            // tailToolStripMenuItem
             // 
-            this.textBoxTrimFrom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxTrimFrom.Location = new System.Drawing.Point(427, 64);
-            this.textBoxTrimFrom.Name = "textBoxTrimFrom";
-            this.textBoxTrimFrom.Size = new System.Drawing.Size(223, 20);
-            this.textBoxTrimFrom.TabIndex = 23;
+            this.tailToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startToolStripMenuItem,
+            this.stopToolStripMenuItem,
+            this.refreshToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.filterToolStripMenuItem,
+            this.enableFilterToolStripMenuItem,
+            this.enableTrimToolStripMenuItem});
+            this.tailToolStripMenuItem.Name = "tailToolStripMenuItem";
+            this.tailToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
+            this.tailToolStripMenuItem.Text = "Tail";
             // 
-            // checkBoxEnableTrim
+            // startToolStripMenuItem
             // 
-            this.checkBoxEnableTrim.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxEnableTrim.AutoSize = true;
-            this.checkBoxEnableTrim.Checked = true;
-            this.checkBoxEnableTrim.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxEnableTrim.Location = new System.Drawing.Point(656, 67);
-            this.checkBoxEnableTrim.Name = "checkBoxEnableTrim";
-            this.checkBoxEnableTrim.Size = new System.Drawing.Size(82, 17);
-            this.checkBoxEnableTrim.TabIndex = 24;
-            this.checkBoxEnableTrim.Text = "Enable Trim";
-            this.checkBoxEnableTrim.UseVisualStyleBackColor = true;
-            this.checkBoxEnableTrim.CheckedChanged += new System.EventHandler(this.checkBoxEnableTrim_CheckedChanged);
+            this.startToolStripMenuItem.Image = global::Tail.Properties.Resources.resultset_next;
+            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.startToolStripMenuItem.Text = "Start";
+            this.startToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonStart_Click);
             // 
-            // checkBoxRunAtStartup
+            // stopToolStripMenuItem
             // 
-            this.checkBoxRunAtStartup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxRunAtStartup.AutoSize = true;
-            this.checkBoxRunAtStartup.Location = new System.Drawing.Point(766, 37);
-            this.checkBoxRunAtStartup.Name = "checkBoxRunAtStartup";
-            this.checkBoxRunAtStartup.Size = new System.Drawing.Size(95, 17);
-            this.checkBoxRunAtStartup.TabIndex = 25;
-            this.checkBoxRunAtStartup.Text = "Run at Startup";
-            this.checkBoxRunAtStartup.UseVisualStyleBackColor = true;
-            this.checkBoxRunAtStartup.CheckedChanged += new System.EventHandler(this.checkBoxRunAtStartup_CheckedChanged);
+            this.stopToolStripMenuItem.Image = global::Tail.Properties.Resources.stop;
+            this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.stopToolStripMenuItem.Text = "Stop";
+            this.stopToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonStop_Click);
+            // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Image = global::Tail.Properties.Resources.arrow_refresh;
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.refreshToolStripMenuItem.Text = "Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonRefresh_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(135, 6);
+            // 
+            // filterToolStripMenuItem
+            // 
+            this.filterToolStripMenuItem.Image = global::Tail.Properties.Resources.application_form_edit;
+            this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
+            this.filterToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.filterToolStripMenuItem.Text = "Filter...";
+            this.filterToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonFilter_Click);
+            // 
+            // enableFilterToolStripMenuItem
+            // 
+            this.enableFilterToolStripMenuItem.Checked = true;
+            this.enableFilterToolStripMenuItem.CheckOnClick = true;
+            this.enableFilterToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.enableFilterToolStripMenuItem.Name = "enableFilterToolStripMenuItem";
+            this.enableFilterToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.enableFilterToolStripMenuItem.Text = "Enable Filter";
+            this.enableFilterToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonEnableFilter_Click);
+            // 
+            // enableTrimToolStripMenuItem
+            // 
+            this.enableTrimToolStripMenuItem.Checked = true;
+            this.enableTrimToolStripMenuItem.CheckOnClick = true;
+            this.enableTrimToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.enableTrimToolStripMenuItem.Name = "enableTrimToolStripMenuItem";
+            this.enableTrimToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.enableTrimToolStripMenuItem.Text = "Enable Trim";
+            this.enableTrimToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonEnableTrim_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonOpenFile,
+            this.toolStripSeparator4,
+            this.toolStripButtonFilter,
+            this.toolStripButtonEnableFilter,
+            this.toolStripButtonEnableTrim,
+            this.toolStripSeparator1,
+            this.toolStripButtonStart,
+            this.toolStripButtonStop,
+            this.toolStripButtonRefresh,
+            this.toolStripButtonClear,
+            this.toolStripSeparator2,
+            this.toolStripButtonAutoScroll,
+            this.toolStripButtonWordWrap});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(879, 25);
+            this.toolStrip1.TabIndex = 27;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButtonOpenFile
+            // 
+            this.toolStripButtonOpenFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonOpenFile.Image = global::Tail.Properties.Resources.folder_page;
+            this.toolStripButtonOpenFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonOpenFile.Name = "toolStripButtonOpenFile";
+            this.toolStripButtonOpenFile.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonOpenFile.Text = "Open File...";
+            this.toolStripButtonOpenFile.ToolTipText = "Open File...";
+            this.toolStripButtonOpenFile.Click += new System.EventHandler(this.toolStripButtonOpenFile_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButtonFilter
+            // 
+            this.toolStripButtonFilter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonFilter.Image = global::Tail.Properties.Resources.application_form_edit;
+            this.toolStripButtonFilter.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonFilter.Name = "toolStripButtonFilter";
+            this.toolStripButtonFilter.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonFilter.Text = "Filter...";
+            this.toolStripButtonFilter.Click += new System.EventHandler(this.toolStripButtonFilter_Click);
+            // 
+            // toolStripButtonEnableFilter
+            // 
+            this.toolStripButtonEnableFilter.Checked = true;
+            this.toolStripButtonEnableFilter.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripButtonEnableFilter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonEnableFilter.Image = global::Tail.Properties.Resources.application_form_delete;
+            this.toolStripButtonEnableFilter.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonEnableFilter.Name = "toolStripButtonEnableFilter";
+            this.toolStripButtonEnableFilter.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonEnableFilter.Text = "Enable/Disable Filter";
+            this.toolStripButtonEnableFilter.Click += new System.EventHandler(this.toolStripButtonEnableFilter_Click);
+            // 
+            // toolStripButtonEnableTrim
+            // 
+            this.toolStripButtonEnableTrim.Checked = true;
+            this.toolStripButtonEnableTrim.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripButtonEnableTrim.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonEnableTrim.Image = global::Tail.Properties.Resources.cut_red;
+            this.toolStripButtonEnableTrim.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonEnableTrim.Name = "toolStripButtonEnableTrim";
+            this.toolStripButtonEnableTrim.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonEnableTrim.Text = "Enable/Disable Trim";
+            this.toolStripButtonEnableTrim.Click += new System.EventHandler(this.toolStripButtonEnableTrim_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButtonStart
+            // 
+            this.toolStripButtonStart.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonStart.Image = global::Tail.Properties.Resources.resultset_next;
+            this.toolStripButtonStart.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonStart.Name = "toolStripButtonStart";
+            this.toolStripButtonStart.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonStart.Text = "Start Tail";
+            this.toolStripButtonStart.Click += new System.EventHandler(this.toolStripButtonStart_Click);
+            // 
+            // toolStripButtonStop
+            // 
+            this.toolStripButtonStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonStop.Image = global::Tail.Properties.Resources.stop;
+            this.toolStripButtonStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonStop.Name = "toolStripButtonStop";
+            this.toolStripButtonStop.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonStop.Text = "Stop Tail";
+            this.toolStripButtonStop.Click += new System.EventHandler(this.toolStripButtonStop_Click);
+            // 
+            // toolStripButtonRefresh
+            // 
+            this.toolStripButtonRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonRefresh.Image = global::Tail.Properties.Resources.arrow_refresh;
+            this.toolStripButtonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonRefresh.Name = "toolStripButtonRefresh";
+            this.toolStripButtonRefresh.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonRefresh.Text = "Refresh";
+            this.toolStripButtonRefresh.Click += new System.EventHandler(this.toolStripButtonRefresh_Click);
+            // 
+            // toolStripButtonClear
+            // 
+            this.toolStripButtonClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonClear.Image = global::Tail.Properties.Resources.page_white;
+            this.toolStripButtonClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonClear.Name = "toolStripButtonClear";
+            this.toolStripButtonClear.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonClear.Text = "Clear Display (not file)";
+            this.toolStripButtonClear.Click += new System.EventHandler(this.toolStripButtonClear_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButtonAutoScroll
+            // 
+            this.toolStripButtonAutoScroll.Checked = true;
+            this.toolStripButtonAutoScroll.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripButtonAutoScroll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonAutoScroll.Image = global::Tail.Properties.Resources.page_white_put;
+            this.toolStripButtonAutoScroll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonAutoScroll.Name = "toolStripButtonAutoScroll";
+            this.toolStripButtonAutoScroll.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonAutoScroll.Text = "Auto Scroll";
+            // 
+            // toolStripButtonWordWrap
+            // 
+            this.toolStripButtonWordWrap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonWordWrap.Image = global::Tail.Properties.Resources.arrow_undo;
+            this.toolStripButtonWordWrap.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonWordWrap.Name = "toolStripButtonWordWrap";
+            this.toolStripButtonWordWrap.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonWordWrap.Text = "Word Wrap";
+            this.toolStripButtonWordWrap.Click += new System.EventHandler(this.toolStripButtonWordWrap_Click);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabelStatus,
+            this.toolStripStatusLabelFilter,
+            this.toolStripStatusLabelTrim});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 545);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(879, 24);
+            this.statusStrip1.TabIndex = 28;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabelStatus
+            // 
+            this.toolStripStatusLabelStatus.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.toolStripStatusLabelStatus.Name = "toolStripStatusLabelStatus";
+            this.toolStripStatusLabelStatus.Size = new System.Drawing.Size(43, 19);
+            this.toolStripStatusLabelStatus.Text = "Ready";
+            // 
+            // toolStripStatusLabelFilter
+            // 
+            this.toolStripStatusLabelFilter.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.toolStripStatusLabelFilter.Name = "toolStripStatusLabelFilter";
+            this.toolStripStatusLabelFilter.Size = new System.Drawing.Size(85, 19);
+            this.toolStripStatusLabelFilter.Text = "Filter: Enabled";
+            // 
+            // toolStripStatusLabelTrim
+            // 
+            this.toolStripStatusLabelTrim.Name = "toolStripStatusLabelTrim";
+            this.toolStripStatusLabelTrim.Size = new System.Drawing.Size(80, 19);
+            this.toolStripStatusLabelTrim.Text = "Trim: Enabled";
             // 
             // TailForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(879, 569);
-            this.Controls.Add(this.checkBoxRunAtStartup);
-            this.Controls.Add(this.checkBoxEnableTrim);
-            this.Controls.Add(this.textBoxTrimFrom);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.checkBoxAutoScroll);
-            this.Controls.Add(this.checkBoxWordWrap);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBoxTrimTo);
-            this.Controls.Add(this.checkBoxEnableFilter);
-            this.Controls.Add(this.buttonRefresh);
-            this.Controls.Add(this.buttonClear);
-            this.Controls.Add(this.textBoxFilter);
-            this.Controls.Add(this.buttonStop);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.buttonTailFile);
             this.Controls.Add(this.richTextBoxLog);
             this.Controls.Add(this.textBoxFile);
+            this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "TailForm";
             this.Text = "Tail";
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -275,22 +483,45 @@
         #endregion
         private System.Windows.Forms.TextBox textBoxFile;
         private System.Windows.Forms.RichTextBox richTextBoxLog;
-        private System.Windows.Forms.Button buttonTailFile;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button buttonStop;
-        private System.Windows.Forms.TextBox textBoxFilter;
-        private System.Windows.Forms.Button buttonClear;
-        private System.Windows.Forms.Button buttonRefresh;
-        private System.Windows.Forms.CheckBox checkBoxEnableFilter;
-        private System.Windows.Forms.TextBox textBoxTrimTo;
-        private System.Windows.Forms.CheckBox checkBoxWordWrap;
-        private System.Windows.Forms.CheckBox checkBoxAutoScroll;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBoxTrimFrom;
-        private System.Windows.Forms.CheckBox checkBoxEnableTrim;
-        private System.Windows.Forms.CheckBox checkBoxRunAtStartup;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonOpenFile;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonStart;
+        private System.Windows.Forms.ToolStripButton toolStripButtonStop;
+        private System.Windows.Forms.ToolStripButton toolStripButtonRefresh;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton toolStripButtonAutoScroll;
+        private System.Windows.Forms.ToolStripButton toolStripButtonWordWrap;
+        private System.Windows.Forms.ToolStripButton toolStripButtonEnableFilter;
+        private System.Windows.Forms.ToolStripButton toolStripButtonEnableTrim;
+        private System.Windows.Forms.ToolStripButton toolStripButtonFilter;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tailToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stopToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem runAtStartupToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem autoScrollToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem wordWrapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem filterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem enableFilterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem enableTrimToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton toolStripButtonClear;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem clearDisplayToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelStatus;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelFilter;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelTrim;
     }
 }
 
