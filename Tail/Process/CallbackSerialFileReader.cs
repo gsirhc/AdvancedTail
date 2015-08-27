@@ -17,7 +17,7 @@
 
         private Action startCallback;
         private Action finishCallback;
-        private Action<string, bool> updateCallback;
+        private Action<string, long, bool> updateCallback;
 
         private readonly Queue<string> queue = new Queue<string>();
 
@@ -31,7 +31,7 @@
         /// <param name="startCallback">The start callback that is called before the inital load of the file.</param>
         /// <param name="updateCallback">The update callback that is called everytime the file is read.</param>
         /// <param name="finishCallback">The finish callback that is called after the inital load of the file.</param>
-        public CallbackSerialFileReader(Action startCallback, Action<string, bool> updateCallback, Action finishCallback)
+        public CallbackSerialFileReader(Action startCallback, Action<string, long, bool> updateCallback, Action finishCallback)
         {
             this.startCallback = startCallback;
             this.updateCallback = updateCallback;
@@ -113,7 +113,7 @@
                         lastPositionDict[next] = 1L;
                         initialLoad = true;
                         startCallback?.Invoke();
-                        updateCallback("", true);
+                        updateCallback("", 0, true);
                     }
 
                     fs.Seek(lastPosition, SeekOrigin.Begin);
@@ -140,8 +140,8 @@
 
                 if (IsMatchFilter(ref line))
                 {
-                    line = "[" + lineCount.ToString().PadLeft(6) + "] " + line + Environment.NewLine;
-                    updateCallback(line, false);
+                    line = line + Environment.NewLine;
+                    updateCallback(line, lineCount, false);
                 }
 
                 lineCountDict[fileKey]++;
