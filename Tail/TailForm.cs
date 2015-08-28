@@ -6,6 +6,7 @@
     using System;
     using System.Diagnostics;
     using System.IO;
+    using System.Reflection;
     using System.Threading;
     using System.Windows.Forms;
     using Demo;
@@ -31,7 +32,6 @@
         {
             this.initialFile = string.IsNullOrEmpty(initialFile) ? settingsManager.LastFile : initialFile;
             InitializeComponent();
-            InitializeTailManager();
         }
 
         private bool IsDemo
@@ -59,17 +59,22 @@
 
         protected override void OnShown(EventArgs e)
         {
-            runAtStartupToolStripMenuItem.Checked = Properties.Settings.Default.RunAtStartup;            
-            InitializeNewFile(initialFile);
-
             base.OnShown(e);
 
-            if (runAtStartupToolStripMenuItem.Checked)
-            {
-                this.tailManager.StartTail();
-            }
-        }
+            runAtStartupToolStripMenuItem.Checked = Properties.Settings.Default.RunAtStartup;
 
+            if (!string.IsNullOrEmpty(this.initialFile))
+            {
+                InitializeNewFile(this.initialFile);
+                InitializeTailManager();
+
+                if (!string.IsNullOrEmpty(this.initialFile) || runAtStartupToolStripMenuItem.Checked)
+                {
+                    this.tailManager.StartTail();
+                }
+            }            
+        }
+        
         private void InitializeNewFile(string file)
         {
             richTextBoxLog.Clear();
@@ -105,23 +110,26 @@
         {
             var file = OpenFile();
 
-            System.Diagnostics.Process process = new System.Diagnostics.Process();
-            process.StartInfo.FileName = "tail.exe";
-            process.StartInfo.Arguments = file;
-            process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
-            process.Start();
+            if (file != null)
+            {
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                process.StartInfo.FileName = Assembly.GetExecutingAssembly().Location;
+                process.StartInfo.WorkingDirectory = Path.GetDirectoryName(process.StartInfo.FileName);
+                process.StartInfo.Arguments = file;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+                process.Start();
+            }
         }
 
         private void toolStripButtonOpenFile_Click(object sender, EventArgs e)
         {
             var file = OpenFile();
 
-            textBoxFile.Text = file;
-            InitializeNewFile(file);
-            this.tailManager.StopTail();
-
-            if (runAtStartupToolStripMenuItem.Checked)
+            if (file != null)
             {
+                textBoxFile.Text = file;
+                InitializeNewFile(file);
+                this.tailManager.StopTail();
                 this.tailManager.StartTail();
             }
         }
@@ -140,8 +148,30 @@
                 openFileDialog.InitialDirectory = Path.GetDirectoryName(textBoxFile.Text);
             }
 
-            return openFileDialog.ShowDialog() == DialogResult.OK ?
-                openFileDialog.FileName : (string)null;
+            return openFileDialog.ShowDialog() == DialogResult.OK ? openFileDialog.FileName : (string)null;
+        }
+
+        private void recentFilesToolStripMenuItem_MouseHover(object sender, EventArgs e)
+        {
+            recentFilesToolStripMenuItem.DropDownItems.Clear();
+            foreach (var last in settingsManager.GetLastUsedList(20))
+            {
+                if (!string.IsNullOrWhiteSpace(last))
+                {
+                    recentFilesToolStripMenuItem.DropDownItems.Add(last, null, RecentFilesToolStripMenuItem_ChildClick);
+                }
+            }
+        }
+
+        private void RecentFilesToolStripMenuItem_ChildClick(object sender, EventArgs e)
+        {
+            var file = sender?.ToString();
+            if (!string.IsNullOrWhiteSpace(file))
+            {
+                InitializeNewFile(file);
+                this.tailManager.StopTail();
+                this.tailManager.StartTail();
+            }
         }
 
         private void toolStripButtonFilter_Click(object sender, EventArgs e)
@@ -307,6 +337,7 @@
             if (running && !IsDemo && !string.IsNullOrEmpty(textBoxFile.Text))
             {
                 settingsManager.LastFile = textBoxFile.Text;
+                settingsManager.GetFileSettings(textBoxFile.Text).LastUsed = DateTime.Now;
             }
 
             toolStripButtonStart.Enabled = startToolStripMenuItem.Enabled = !running;

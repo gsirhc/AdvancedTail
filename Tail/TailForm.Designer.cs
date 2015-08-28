@@ -34,6 +34,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileInNewWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runAtStartupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -46,33 +47,34 @@
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.clearDisplayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enableFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enableTrimToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabelFilter = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabelTrim = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripTextBoxSearch = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButtonOpenFile = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonFilter = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonStart = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonStop = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonRefresh = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonClear = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonEnableTrim = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonEnableFilter = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripTextBoxSearch = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButtonSearch = new System.Windows.Forms.ToolStripButton();
-            this.openFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelFilter = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelTrim = new System.Windows.Forms.ToolStripStatusLabel();
+            this.recentFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.noFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -130,12 +132,21 @@
             this.openFileToolStripMenuItem,
             this.openFileInNewWindowToolStripMenuItem,
             this.runAtStartupToolStripMenuItem,
+            this.recentFilesToolStripMenuItem,
             this.toolStripSeparator3,
             this.demoToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
+            // 
+            // openFileToolStripMenuItem
+            // 
+            this.openFileToolStripMenuItem.Image = global::Tail.Properties.Resources.folder_page;
+            this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
+            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.openFileToolStripMenuItem.Text = "Open File...";
+            this.openFileToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonOpenFile_Click);
             // 
             // openFileInNewWindowToolStripMenuItem
             // 
@@ -149,7 +160,7 @@
             this.runAtStartupToolStripMenuItem.CheckOnClick = true;
             this.runAtStartupToolStripMenuItem.Name = "runAtStartupToolStripMenuItem";
             this.runAtStartupToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.runAtStartupToolStripMenuItem.Text = "Run at Startup";
+            this.runAtStartupToolStripMenuItem.Text = "Run Last File at Startup";
             this.runAtStartupToolStripMenuItem.Click += new System.EventHandler(this.runAtStartupToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
@@ -233,10 +244,42 @@
             this.tailToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
             this.tailToolStripMenuItem.Text = "Tail";
             // 
+            // startToolStripMenuItem
+            // 
+            this.startToolStripMenuItem.Image = global::Tail.Properties.Resources.resultset_next;
+            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.startToolStripMenuItem.Text = "Start";
+            this.startToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonStart_Click);
+            // 
+            // stopToolStripMenuItem
+            // 
+            this.stopToolStripMenuItem.Image = global::Tail.Properties.Resources.stop;
+            this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.stopToolStripMenuItem.Text = "Stop";
+            this.stopToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonStop_Click);
+            // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Image = global::Tail.Properties.Resources.arrow_refresh;
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.refreshToolStripMenuItem.Text = "Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonRefresh_Click);
+            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(135, 6);
+            // 
+            // filterToolStripMenuItem
+            // 
+            this.filterToolStripMenuItem.Image = global::Tail.Properties.Resources.application_form_edit;
+            this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
+            this.filterToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.filterToolStripMenuItem.Text = "Filter...";
+            this.filterToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonFilter_Click);
             // 
             // enableFilterToolStripMenuItem
             // 
@@ -287,58 +330,6 @@
             this.toolStrip1.TabIndex = 27;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabelStatus,
-            this.toolStripStatusLabelFilter,
-            this.toolStripStatusLabelTrim});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 545);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(879, 24);
-            this.statusStrip1.TabIndex = 28;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabelStatus
-            // 
-            this.toolStripStatusLabelStatus.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.toolStripStatusLabelStatus.Name = "toolStripStatusLabelStatus";
-            this.toolStripStatusLabelStatus.Size = new System.Drawing.Size(43, 19);
-            this.toolStripStatusLabelStatus.Text = "Ready";
-            // 
-            // toolStripStatusLabelFilter
-            // 
-            this.toolStripStatusLabelFilter.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.toolStripStatusLabelFilter.Name = "toolStripStatusLabelFilter";
-            this.toolStripStatusLabelFilter.Size = new System.Drawing.Size(85, 19);
-            this.toolStripStatusLabelFilter.Text = "Filter: Enabled";
-            // 
-            // toolStripStatusLabelTrim
-            // 
-            this.toolStripStatusLabelTrim.Name = "toolStripStatusLabelTrim";
-            this.toolStripStatusLabelTrim.Size = new System.Drawing.Size(80, 19);
-            this.toolStripStatusLabelTrim.Text = "Trim: Enabled";
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripTextBoxSearch
-            // 
-            this.toolStripTextBoxSearch.Name = "toolStripTextBoxSearch";
-            this.toolStripTextBoxSearch.Size = new System.Drawing.Size(100, 25);
-            // 
             // toolStripButtonOpenFile
             // 
             this.toolStripButtonOpenFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -359,6 +350,11 @@
             this.toolStripButtonFilter.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonFilter.Text = "Filter...";
             this.toolStripButtonFilter.Click += new System.EventHandler(this.toolStripButtonFilter_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripButtonStart
             // 
@@ -400,6 +396,11 @@
             this.toolStripButtonClear.Text = "Clear Display (not file)";
             this.toolStripButtonClear.Click += new System.EventHandler(this.toolStripButtonClear_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
             // toolStripButtonEnableTrim
             // 
             this.toolStripButtonEnableTrim.Checked = true;
@@ -424,6 +425,16 @@
             this.toolStripButtonEnableFilter.Text = "Enable/Disable Filter";
             this.toolStripButtonEnableFilter.Click += new System.EventHandler(this.toolStripButtonEnableFilter_Click);
             // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripTextBoxSearch
+            // 
+            this.toolStripTextBoxSearch.Name = "toolStripTextBoxSearch";
+            this.toolStripTextBoxSearch.Size = new System.Drawing.Size(100, 25);
+            // 
             // toolStripButtonSearch
             // 
             this.toolStripButtonSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -434,45 +445,52 @@
             this.toolStripButtonSearch.Text = "Search displayed contents";
             this.toolStripButtonSearch.Click += new System.EventHandler(this.toolStripButtonSearch_Click);
             // 
-            // openFileToolStripMenuItem
+            // statusStrip1
             // 
-            this.openFileToolStripMenuItem.Image = global::Tail.Properties.Resources.folder_page;
-            this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
-            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.openFileToolStripMenuItem.Text = "Open File...";
-            this.openFileToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonOpenFile_Click);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabelStatus,
+            this.toolStripStatusLabelFilter,
+            this.toolStripStatusLabelTrim});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 545);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(879, 24);
+            this.statusStrip1.TabIndex = 28;
+            this.statusStrip1.Text = "statusStrip1";
             // 
-            // startToolStripMenuItem
+            // toolStripStatusLabelStatus
             // 
-            this.startToolStripMenuItem.Image = global::Tail.Properties.Resources.resultset_next;
-            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.startToolStripMenuItem.Text = "Start";
-            this.startToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonStart_Click);
+            this.toolStripStatusLabelStatus.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.toolStripStatusLabelStatus.Name = "toolStripStatusLabelStatus";
+            this.toolStripStatusLabelStatus.Size = new System.Drawing.Size(43, 19);
+            this.toolStripStatusLabelStatus.Text = "Ready";
             // 
-            // stopToolStripMenuItem
+            // toolStripStatusLabelFilter
             // 
-            this.stopToolStripMenuItem.Image = global::Tail.Properties.Resources.stop;
-            this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
-            this.stopToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.stopToolStripMenuItem.Text = "Stop";
-            this.stopToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonStop_Click);
+            this.toolStripStatusLabelFilter.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.toolStripStatusLabelFilter.Name = "toolStripStatusLabelFilter";
+            this.toolStripStatusLabelFilter.Size = new System.Drawing.Size(85, 19);
+            this.toolStripStatusLabelFilter.Text = "Filter: Enabled";
             // 
-            // refreshToolStripMenuItem
+            // toolStripStatusLabelTrim
             // 
-            this.refreshToolStripMenuItem.Image = global::Tail.Properties.Resources.arrow_refresh;
-            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.refreshToolStripMenuItem.Text = "Refresh";
-            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonRefresh_Click);
+            this.toolStripStatusLabelTrim.Name = "toolStripStatusLabelTrim";
+            this.toolStripStatusLabelTrim.Size = new System.Drawing.Size(80, 19);
+            this.toolStripStatusLabelTrim.Text = "Trim: Enabled";
             // 
-            // filterToolStripMenuItem
+            // recentFilesToolStripMenuItem
             // 
-            this.filterToolStripMenuItem.Image = global::Tail.Properties.Resources.application_form_edit;
-            this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
-            this.filterToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.filterToolStripMenuItem.Text = "Filter...";
-            this.filterToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonFilter_Click);
+            this.recentFilesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.noFilesToolStripMenuItem});
+            this.recentFilesToolStripMenuItem.Name = "recentFilesToolStripMenuItem";
+            this.recentFilesToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.recentFilesToolStripMenuItem.Text = "Recent Files";
+            this.recentFilesToolStripMenuItem.MouseHover += new System.EventHandler(this.recentFilesToolStripMenuItem_MouseHover);
+            // 
+            // noFilesToolStripMenuItem
+            // 
+            this.noFilesToolStripMenuItem.Name = "noFilesToolStripMenuItem";
+            this.noFilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.noFilesToolStripMenuItem.Text = "No Files";
             // 
             // TailForm
             // 
@@ -545,6 +563,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBoxSearch;
         private System.Windows.Forms.ToolStripButton toolStripButtonSearch;
+        private System.Windows.Forms.ToolStripMenuItem recentFilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem noFilesToolStripMenuItem;
     }
 }
 

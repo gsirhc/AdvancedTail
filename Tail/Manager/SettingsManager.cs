@@ -39,6 +39,14 @@
 
             return fileSettingsDict[fileName];
         }
+        
+        public IEnumerable<string> GetLastUsedList(int lastUsedCount)
+        {
+            List<KeyValuePair<string, FileSettings>> list = fileSettingsDict.ToList();
+            list.Sort((firstPair, nextPair) => -1 * firstPair.Value.LastUsed.CompareTo(nextPair.Value.LastUsed));
+
+            return list.Take(lastUsedCount).Select(kvp => kvp.Key);
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether run at startup or not.

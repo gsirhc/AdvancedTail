@@ -11,5 +11,6 @@ namespace Tail.Settings
         public string FilterRegex { get; set; }
         public string ToTrimRegex { get; set; }
         public string FromTrimRegex { get; set; }
+        public DateTime LastUsed { get; set; }
     }
 }
