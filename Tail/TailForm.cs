@@ -4,6 +4,7 @@
     using Process;
     using Filter;
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Threading;
     using System.Windows.Forms;
@@ -20,13 +21,15 @@
         public static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
         private const int WM_SETREDRAW = 11;
 
+        private string initialFile = "";
         private FilterConfigForm filterConfigForm = new FilterConfigForm();
         private SettingsManager settingsManager = new SettingsManager();
 
         private ITailManager tailManager;
 
-        public TailForm()
+        public TailForm(string initialFile)
         {
+            this.initialFile = string.IsNullOrEmpty(initialFile) ? settingsManager.LastFile : initialFile;
             InitializeComponent();
             InitializeTailManager();
         }
@@ -57,7 +60,7 @@
         protected override void OnShown(EventArgs e)
         {
             runAtStartupToolStripMenuItem.Checked = Properties.Settings.Default.RunAtStartup;            
-            InitializeNewFile(settingsManager.LastFile);
+            InitializeNewFile(initialFile);
 
             base.OnShown(e);
 
@@ -98,7 +101,32 @@
             base.OnFormClosing(e);
         }
 
+        private void openFileInNewWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var file = OpenFile();
+
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            process.StartInfo.FileName = "tail.exe";
+            process.StartInfo.Arguments = file;
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+            process.Start();
+        }
+
         private void toolStripButtonOpenFile_Click(object sender, EventArgs e)
+        {
+            var file = OpenFile();
+
+            textBoxFile.Text = file;
+            InitializeNewFile(file);
+            this.tailManager.StopTail();
+
+            if (runAtStartupToolStripMenuItem.Checked)
+            {
+                this.tailManager.StartTail();
+            }
+        }
+
+        private string OpenFile()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
@@ -112,17 +140,8 @@
                 openFileDialog.InitialDirectory = Path.GetDirectoryName(textBoxFile.Text);
             }
 
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                textBoxFile.Text = openFileDialog.FileName;
-                InitializeNewFile(openFileDialog.FileName);
-                this.tailManager.StopTail();
-
-                if (runAtStartupToolStripMenuItem.Checked)
-                {
-                    this.tailManager.StartTail();
-                }
-            }
+            return openFileDialog.ShowDialog() == DialogResult.OK ?
+                openFileDialog.FileName : (string)null;
         }
 
         private void toolStripButtonFilter_Click(object sender, EventArgs e)
@@ -132,13 +151,14 @@
                 filterConfigForm.Filter?.SetEnabled(enableFilterToolStripMenuItem.Checked, false);
                 filterConfigForm.Filter?.DownstreamMember?.SetEnabled(enableTrimToolStripMenuItem.Checked);
 
-                Properties.Settings.Default.LastFile = textBoxFile.Text;
+                if (!string.IsNullOrEmpty(textBoxFile.Text))
+                {
+                    settingsManager.GetFileSettings(textBoxFile.Text).FilterRegex = filterConfigForm.FilterText;
+                    settingsManager.GetFileSettings(textBoxFile.Text).ToTrimRegex = filterConfigForm.TrimToText;
+                    settingsManager.GetFileSettings(textBoxFile.Text).FromTrimRegex = filterConfigForm.TrimFromText;
 
-                settingsManager.GetFileSettings(textBoxFile.Text).FilterRegex = filterConfigForm.FilterText;
-                settingsManager.GetFileSettings(textBoxFile.Text).ToTrimRegex = filterConfigForm.TrimToText;
-                settingsManager.GetFileSettings(textBoxFile.Text).FromTrimRegex = filterConfigForm.TrimFromText;
-
-                settingsManager.Save();
+                    settingsManager.Save();
+                }
             }
         }
         
@@ -191,6 +211,24 @@
         private void toolStripButtonClear_Click(object sender, EventArgs e)
         {
             richTextBoxLog.Clear();
+        }
+
+        private void toolStripButtonSearch_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(toolStripTextBoxSearch.TextBox.Text))
+            {
+                var startPosition = 0;
+                if (richTextBoxLog.SelectionLength > 0)
+                {
+                    startPosition = richTextBoxLog.SelectionStart + richTextBoxLog.SelectionLength;
+                }
+
+                var location = richTextBoxLog.Find(toolStripTextBoxSearch.TextBox.Text, startPosition, RichTextBoxFinds.None);
+                if (location == -1)
+                {
+                    MessageBox.Show("Not Found - searched passed end of document", "Search");
+                }
+            }
         }
 
         private void runAtStartupToolStripMenuItem_Click(object sender, EventArgs e)
@@ -266,6 +304,11 @@
         
         private void SetState(bool running)
         {
+            if (running && !IsDemo && !string.IsNullOrEmpty(textBoxFile.Text))
+            {
+                settingsManager.LastFile = textBoxFile.Text;
+            }
+
             toolStripButtonStart.Enabled = startToolStripMenuItem.Enabled = !running;
 
             toolStripButtonRefresh.Enabled = refreshToolStripMenuItem.Enabled = running;
@@ -310,6 +353,6 @@
                 InitializeNewFile(tailManager.GetFileNameCallback());
                 tailManager.StartTail(false, false);
             }
-        }
+        }        
     }
 }

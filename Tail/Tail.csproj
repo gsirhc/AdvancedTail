@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\find.png" />
     <None Include="Resources\page_white.png" />
     <None Include="Resources\cut_red.png" />
     <None Include="Resources\application_form_add.png" />

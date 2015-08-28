@@ -56,7 +56,8 @@
                 }
 
                 serialFileReader.Filter = GetFilterCallback();
-                
+
+                serialFileReader.EnableQueue(true);
                 tailThread.Start(file);
 
                 SetStateCallback(true);
@@ -69,6 +70,7 @@
 
         public virtual void StopTail()
         {
+            serialFileReader.EnableQueue(false);
             tailThread?.Stop();
             SetStateCallback(false);
         }

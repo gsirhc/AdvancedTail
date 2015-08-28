@@ -33,9 +33,7 @@
         {
             this.startCallback = startCallback;
             this.updateCallback = updateCallback;
-            this.finishCallback = finishCallback;
-            
-            EnableQueue(true);
+            this.finishCallback = finishCallback;            
         }
 
         public void ClearQueue()
