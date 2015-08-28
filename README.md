@@ -36,25 +36,25 @@ you'd expect.
 ##### How does filter work?
 Lets say you the following log file:
 
-'''
+```
 [7:10:01pm] This is a test log line
 [7:10:02pm] We want to see this line because it rocks
 [7:10:03pm] And we want to see this line because it rules
 [7:10:04pm] But not this line
-'''
+```
 
 If you want to filter out the lines you don't want see, you could create a filter like this:
 
-''' "to see" '''
+``` "to see" ```
 
 AdvancedTail would display:
 
-'''
+```
 [7:10:02pm] We want to see this line
 [7:10:03pm] And we want to see this line
-'''
+```
 
-So regex filters can be simple text.  You can even OR text like '''"rules|rocks"'''.
+So regex filters can be simple text.  You can even OR text like "rules|rocks".
 
 #### Trimming
 AdvancedTail also allows you to trim lines based on regular expressions.  This is useful
@@ -67,22 +67,24 @@ The trimming feature provides to types:
 ##### How does trimming work?
 Lets say you this log file again:
 
-'''
+```
 [7:10:02pm] We want to see this line because it rocks
 [7:10:03pm] And we want to see this line because it rules
-'''
+```
 
 If you want to only see the "to see" part of the lines you'd create a trim expression like this:
 
-''' trim to: "to see" '''
-''' trim from: "this" '''
+``` 
+trim to: "to see"
+trim from: "this"
+```
 
 AdvancedTail would display:
 
-'''
+```
 to see 
 to see
-'''
+```
 
 #### Known Issues and Limitations
 * Loading large files (approaching 10K lines or more) can be slow initially if not filtering
