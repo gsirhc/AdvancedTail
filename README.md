@@ -4,7 +4,7 @@ A lightweight .NET Windows program to follow changing text files and provides ad
 ### Features at a Glance
 * Tail any text-based file in a user-friendly GUI
 * Advanced Filtering using regular expressions
-* Advanced line trimming using regular expressions to enhance readbility
+* Advanced line trimming using regular expressions to enhance readability
 * Lightweight/small footprint
 * Demo mode to show how it works
 * Simple text search
@@ -41,9 +41,9 @@ Lets say you have the following log file:
 [7:10:04pm] And we want to see this line because it rules
 ```
 
-If you want to filter out the lines you don't want to see, create a filter like this:
+To filter out the lines you don't want to see, create a filter like this:
 
-``` to see ```
+``` "to see" ```
 
 AdvancedTail will display:
 
@@ -63,6 +63,7 @@ if you want to remove common text from the lines to make them easier to read.
 The trimming feature provides two types of trims:
 * Trim To: Trims from the beginning of the line to the first character of the match
 * Trim From: Trims from the first character of the match to the end.
+
 NOTE: If using "To" and "From" together, trims the "To" first, then applies the "From" to the remaining text.
 
 Lets say you this log file:
@@ -72,7 +73,7 @@ Lets say you this log file:
 [7:10:04pm] And we like this line because it rules and rolls
 ```
 
-And lets say you want to trim off the common parts of the lines:
+To trim off the common parts of the lines:
 
 ``` 
 trim to: "it"
@@ -89,13 +90,14 @@ it rules
 Or you can be more specific with the "To":  ```trim to: "it rules|it rocks"```
 
 #### Known Issues and Limitations
-* Loading large files (approaching 10K lines or more) can be slow initially if not filtering
-   * This only applies to opening the file, refreshing and enabling/disabling a filter or trim
-   * After the load, the tail is not impacted but the file size.
-   * Future release may allow user to sepcify how much of the file to load back from the end (similar to -n in Linux's tail).
+* Large files (approaching 10K lines or more) can be slow to load initially if not filtering.
+   * This only applies to opening the file, refreshing and enabling/disabling a filter or trim.
+   * After the load, tail is not impacted but the file size.
+   * Future release may allow user to sepcify how much of the file to load back from the end (similar to "-n" in Linux's tail).
 * Line numbers are embedded in the file display as regular text
    * Future release will display line numbers outside of the text area.
 * Cannot type into "File:" path textbox.
+   * Work around is to use the "Open File..." menu item or button
    * Future release will allow the user to type in the file path
 * Search is difficult to use when a file is rapidly changing.
    * May not fix, search is intended to be simple
