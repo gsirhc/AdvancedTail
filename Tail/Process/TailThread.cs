@@ -18,14 +18,16 @@ namespace Tail.Process
         Thread tailThread = null;
         private ISerialFileReader serialFileReader;
         private string fileToTail;
+        private Action<Exception> exceptionHandler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TailThread" /> class.
         /// </summary>
         /// <param name="serialFileReader">The line file reader.</param>
-        public TailThread(ISerialFileReader serialFileReader)
+        public TailThread(ISerialFileReader serialFileReader, Action<Exception> exceptionHandler)
         {
             this.serialFileReader = serialFileReader;
+            this.exceptionHandler = exceptionHandler;
         }
 
         //public ILineFilter Filter { get; set; }
@@ -56,22 +58,34 @@ namespace Tail.Process
 
         private void TailFile()
         {
-            var directory = Path.GetDirectoryName(fileToTail);
-            var fsw = new FileSystemWatcher(directory) { Filter = fileToTail };
-            fsw.Filter = "*.*";
-
-            fsw.NotifyFilter = NotifyFilters.LastWrite;
-
-            fsw.Changed += Fsw_Changed;
-            fsw.EnableRaisingEvents = true;
-
-            fsw.InternalBufferSize = 1024 * 1024 * 2;
-            
-            serialFileReader.Enqueue(fileToTail);
-
-            while (true)
+            try
             {
-                fsw.WaitForChanged(WatcherChangeTypes.Changed);
+                if (!File.Exists(fileToTail))
+                {
+                    throw new FileNotFoundException("Could not find the file", fileToTail);
+                }
+
+                var directory = Path.GetDirectoryName(fileToTail);
+                var fsw = new FileSystemWatcher(directory) { Filter = fileToTail };
+                fsw.Filter = "*.*";
+
+                fsw.NotifyFilter = NotifyFilters.LastWrite;
+
+                fsw.Changed += Fsw_Changed;
+                fsw.EnableRaisingEvents = true;
+
+                fsw.InternalBufferSize = 1024 * 1024 * 2;
+
+                serialFileReader.Enqueue(fileToTail);
+
+                while (true)
+                {
+                    fsw.WaitForChanged(WatcherChangeTypes.Changed);
+                }
+            }
+            catch (Exception ex)
+            {
+                exceptionHandler(ex);
             }
         }
 

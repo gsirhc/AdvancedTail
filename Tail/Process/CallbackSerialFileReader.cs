@@ -15,8 +15,8 @@
         private Dictionary<string, long> lineCountDict = new Dictionary<string, long>();
         bool initialLoad = true;
 
-        private Action startCallback;
-        private Action finishCallback;
+        private Action<bool> startCallback;
+        private Action<bool, long> finishCallback;
         private Action<string, long, bool> updateCallback;
 
         private readonly Queue<string> queue = new Queue<string>();
@@ -31,7 +31,7 @@
         /// <param name="startCallback">The start callback that is called before the inital load of the file.</param>
         /// <param name="updateCallback">The update callback that is called everytime the file is read.</param>
         /// <param name="finishCallback">The finish callback that is called after the inital load of the file.</param>
-        public CallbackSerialFileReader(Action startCallback, Action<string, long, bool> updateCallback, Action finishCallback)
+        public CallbackSerialFileReader(Action<bool> startCallback, Action<string, long, bool> updateCallback, Action<bool, long> finishCallback)
         {
             this.startCallback = startCallback;
             this.updateCallback = updateCallback;
@@ -91,12 +91,13 @@
 
                 if (next == null)
                 {
-                    Thread.Sleep(10);
+                    Thread.Sleep(100);
                     continue;
                 }
 
-                if (initialLoad) startCallback?.Invoke();
+                startCallback?.Invoke(initialLoad);
 
+                var linesRead = 0L;
                 using (FileStream fs = File.Open(next, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
                     if (!lastPositionDict.ContainsKey(next))
@@ -112,7 +113,6 @@
                         lastPositionDict[next] = 0L;
                         lastPositionDict[next] = 1L;
                         initialLoad = true;
-                        startCallback?.Invoke();
                         updateCallback("", 0, true);
                     }
 
@@ -120,19 +120,20 @@
 
                     var reader = new StreamReader(fs);
 
-                    ReadLines(reader, next);
+                    linesRead = ReadLines(reader, next);
 
                     lastPositionDict[next] = fs.Position;
                 }
 
-                if (initialLoad) finishCallback?.Invoke();
+                finishCallback?.Invoke(initialLoad, linesRead);
 
                 initialLoad = false;
             }
         }
 
-        private void ReadLines(StreamReader reader, string fileKey)
+        private long ReadLines(StreamReader reader, string fileKey)
         {
+            var previousLineCount = lineCountDict[fileKey];
             string line;
             while (!string.IsNullOrEmpty((line = reader.ReadLine())))
             {
@@ -146,6 +147,8 @@
 
                 lineCountDict[fileKey]++;
             }
+
+            return lineCountDict[fileKey] - previousLineCount;
         }
 
         private bool IsMatchFilter(ref string line)
