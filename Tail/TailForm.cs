@@ -21,16 +21,19 @@
         private const int WM_SETREDRAW = 11;
 
         private FilterConfigForm filterConfigForm = new FilterConfigForm();
-        private TailThread tailThread;
-        private ISerialFileReader serialFileReader;
-        private DemoWriterThread demoThread;
         private SettingsManager settingsManager = new SettingsManager();
+
+        private ITailManager tailManager;
 
         public TailForm()
         {
             InitializeComponent();
-            serialFileReader = new CallbackSerialFileReader(StartReadCallback, UpdateDisplayCallback, FinishReadCallback);
-            tailThread = new TailThread(serialFileReader, exceptionHandler);
+            InitializeTailManager();
+        }
+
+        private bool IsDemo
+        {
+            get { return tailManager is DemoTailManager; }
         }
 
         private void exceptionHandler(Exception ex)
@@ -60,7 +63,7 @@
 
             if (runAtStartupToolStripMenuItem.Checked)
             {
-                StartTail();
+                this.tailManager.StartTail();
             }
         }
 
@@ -76,9 +79,22 @@
             SetState(false);
         }
 
+        private void InitializeTailManager()
+        {
+            var serialFileReader = new CallbackSerialFileReader(StartReadCallback, UpdateDisplayCallback, FinishReadCallback);
+            this.tailManager = new FileTailManager(serialFileReader)
+            {
+                ClearDisplayCallback = richTextBoxLog.Clear,
+                ExceptionCallback = exceptionHandler,
+                GetFileNameCallback = () => textBoxFile.Text,
+                GetFilterCallback = () => filterConfigForm.Filter,
+                SetStateCallback = SetState
+            };
+        }
+
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            StopTail(true);
+            this.tailManager.StopTail();
             base.OnFormClosing(e);
         }
 
@@ -100,11 +116,11 @@
             {
                 textBoxFile.Text = openFileDialog.FileName;
                 InitializeNewFile(openFileDialog.FileName);
-                StopTail();
+                this.tailManager.StopTail();
 
                 if (runAtStartupToolStripMenuItem.Checked)
                 {
-                    StartTail();
+                    this.tailManager.StartTail();
                 }
             }
         }
@@ -113,22 +129,24 @@
         {
             if (filterConfigForm.ShowDialog() == DialogResult.OK)
             {
-                GetFilterFromForm();
+                filterConfigForm.Filter?.SetEnabled(enableFilterToolStripMenuItem.Checked, false);
+                filterConfigForm.Filter?.DownstreamMember?.SetEnabled(enableTrimToolStripMenuItem.Checked);
+
+                Properties.Settings.Default.LastFile = textBoxFile.Text;
+
+                settingsManager.GetFileSettings(textBoxFile.Text).FilterRegex = filterConfigForm.FilterText;
+                settingsManager.GetFileSettings(textBoxFile.Text).ToTrimRegex = filterConfigForm.TrimToText;
+                settingsManager.GetFileSettings(textBoxFile.Text).FromTrimRegex = filterConfigForm.TrimFromText;
+
+                settingsManager.Save();
             }
         }
-
-        private void GetFilterFromForm()
-        {
-            serialFileReader.Filter = filterConfigForm.Filter;
-            serialFileReader.Filter.SetEnabled(toolStripButtonEnableFilter.Checked, false);
-            serialFileReader.Filter.DownstreamMember?.SetEnabled(toolStripButtonEnableTrim.Enabled);
-        }
-
+        
         private void toolStripButtonEnableFilter_Click(object sender, EventArgs e)
         {
             toolStripButtonEnableFilter.Checked = !toolStripButtonEnableFilter.Checked;
             enableFilterToolStripMenuItem.Checked = toolStripButtonEnableFilter.Checked;
-            serialFileReader.Filter?.SetEnabled(toolStripButtonEnableFilter.Checked, false);
+            filterConfigForm.Filter?.SetEnabled(enableFilterToolStripMenuItem.Checked, false);
             toolStripButtonRefresh_Click(sender, e);
             toolStripStatusLabelFilter.Text = "Filter: " + (toolStripButtonEnableFilter.Checked ? "Enabled" : "Disabled");
         }
@@ -137,26 +155,32 @@
         {
             toolStripButtonEnableTrim.Checked = !toolStripButtonEnableTrim.Checked;
             enableTrimToolStripMenuItem.Checked = toolStripButtonEnableTrim.Checked;
-            serialFileReader.Filter?.DownstreamMember?.SetEnabled(toolStripButtonEnableTrim.Checked);
+            filterConfigForm.Filter?.DownstreamMember?.SetEnabled(enableTrimToolStripMenuItem.Checked);
             toolStripButtonRefresh_Click(sender, e);
             toolStripStatusLabelTrim.Text = "Trim: " + (toolStripButtonEnableTrim.Checked ? "Enabled" : "Disabled");
         }
 
         private void toolStripButtonStart_Click(object sender, EventArgs e)
         {
-            StartTail();
+            tailManager.StartTail();
         }
 
         private void toolStripButtonStop_Click(object sender, EventArgs e)
         {
-            StopTail();
+            tailManager.StopTail();
+
+            if (IsDemo)
+            {
+                InitializeTailManager();
+                InitializeNewFile(settingsManager.LastFile);
+            }
         }
 
         private void toolStripButtonRefresh_Click(object sender, EventArgs e)
         {
             richTextBoxLog.Clear();
-            StopTail();
-            StartTail();
+            tailManager.StopTail();
+            tailManager.StartTail();
         }
 
         private void wordWrapToolStripMenuItem_Click(object sender, EventArgs e)
@@ -239,75 +263,7 @@
                 }
             }));
         }
-
-        private void StartTail(bool save = true, bool stop = true)
-        {
-            richTextBoxLog.Clear();
-            
-            if (stop && tailThread != null)
-            {
-                StopTail();
-            }
-            try
-            {
-                if (string.IsNullOrEmpty(textBoxFile.Text))
-                {
-                    return;
-                }
-
-                GetFilterFromForm();
-
-                if (save)
-                {
-                    Properties.Settings.Default.LastFile = textBoxFile.Text;
-
-                    if (serialFileReader.Filter != null)
-                    {
-                        settingsManager.GetFileSettings(textBoxFile.Text).FilterRegex = filterConfigForm.FilterText;
-                        settingsManager.GetFileSettings(textBoxFile.Text).ToTrimRegex = filterConfigForm.TrimToText;
-                        settingsManager.GetFileSettings(textBoxFile.Text).FromTrimRegex = filterConfigForm.TrimFromText;
-                    }
-
-                    settingsManager.Save();
-                }
-
-                tailThread.Start(textBoxFile.Text);
-
-                SetState(true);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Filter Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
         
-        private void StopTail(bool formClosing = false)
-        {
-            if (demoThread != null)
-            {
-                if (!formClosing)
-                {
-                    if (MessageBox.Show("Do you want to stop the demo?", "Stop Demo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    {
-                        demoThread.Stop();
-                        demoThread = null;
-                        InitializeNewFile(settingsManager.LastFile);
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                else
-                {
-                    demoThread.Stop();
-                }
-            }
-
-            tailThread.Stop();
-            SetState(false);
-        }
-
         private void SetState(bool running)
         {
             toolStripButtonStart.Enabled = startToolStripMenuItem.Enabled = !running;
@@ -337,23 +293,22 @@
 
         private void demoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (demoThread != null)
+            if (IsDemo)
             {
-                StopTail();
                 return;
             }
+
+            tailManager.StopTail();
 
             var message = "Demo mode will generate a log file automatically and tail it.  Do you want to continue?";
             if (MessageBox.Show(message, "Demo Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                StopTail();
+                tailManager.StopTail();
+                tailManager = new DemoTailManager(tailManager);
 
-                demoThread = new DemoWriterThread();
-                demoThread.Start();
-
-                textBoxFile.Text = demoThread.DemoFile;
-                InitializeNewFile(demoThread.DemoFile);
-                StartTail(false, false);
+                textBoxFile.Text = tailManager.GetFileNameCallback();
+                InitializeNewFile(tailManager.GetFileNameCallback());
+                tailManager.StartTail(false, false);
             }
         }
     }

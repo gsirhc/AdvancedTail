@@ -9,10 +9,10 @@
     /// </summary>
     public class DemoTailManager : ITailManager
     {
-        private FileTailManager fileTailManager;
+        private ITailManager fileTailManager;
         private DemoWriterThread demoThread = new DemoWriterThread();
 
-        public DemoTailManager(FileTailManager fileTailManager)
+        public DemoTailManager(ITailManager fileTailManager)
         {
             this.fileTailManager = fileTailManager;
         }
@@ -47,16 +47,16 @@
             set { throw new NotImplementedException(); }
         }
 
-        public void StartTail(bool stop = true)
+        public void StartTail(bool save = true, bool stop = true)
         {
-            fileTailManager.StartTail();
             demoThread.Start();
+            fileTailManager.StartTail(false);
         }
 
         public void StopTail()
         {
-            fileTailManager.StopTail();
             demoThread.Stop();
+            fileTailManager.StopTail();
         }
     }
 }

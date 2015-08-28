@@ -21,8 +21,6 @@
 
         private readonly Queue<string> queue = new Queue<string>();
 
-        private bool enableFilter = true;
-
         Thread updateFileThread = null;
 
         /// <summary>

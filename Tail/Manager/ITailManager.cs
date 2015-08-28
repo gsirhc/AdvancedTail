@@ -51,8 +51,9 @@ namespace Tail.Manager
         /// <summary>
         /// Starts the tail.
         /// </summary>
+        /// <param name="save">if set to <c>true</c> [save].</param>
         /// <param name="stop">if set to <c>true</c> [stop].</param>
-        void StartTail(bool stop = true);
+        void StartTail(bool save = true, bool stop = true);
 
         /// <summary>
         /// Stops the tail.
