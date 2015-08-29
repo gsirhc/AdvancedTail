@@ -30,7 +30,7 @@
 
         public TailForm(string initialFile)
         {
-            this.initialFile = string.IsNullOrEmpty(initialFile) ? settingsManager.LastFile : initialFile;
+            this.initialFile = initialFile;
             InitializeComponent();
         }
 
@@ -63,12 +63,16 @@
 
             runAtStartupToolStripMenuItem.Checked = Properties.Settings.Default.RunAtStartup;
 
+            InitializeTailManager();
+
+            bool hasArgFile = !string.IsNullOrEmpty(initialFile);
+            this.initialFile = hasArgFile ? initialFile : settingsManager.LastFile;
+
             if (!string.IsNullOrEmpty(this.initialFile))
             {
                 InitializeNewFile(this.initialFile);
-                InitializeTailManager();
 
-                if (!string.IsNullOrEmpty(this.initialFile) || runAtStartupToolStripMenuItem.Checked)
+                if (hasArgFile && runAtStartupToolStripMenuItem.Checked)
                 {
                     this.tailManager.StartTail();
                 }
@@ -338,6 +342,7 @@
             {
                 settingsManager.LastFile = textBoxFile.Text;
                 settingsManager.GetFileSettings(textBoxFile.Text).LastUsed = DateTime.Now;
+                settingsManager.Save();
             }
 
             toolStripButtonStart.Enabled = startToolStripMenuItem.Enabled = !running;
