@@ -19,14 +19,14 @@ A lightweight .NET Windows program to follow changing text files and provides ad
 
 ### Features in Detail
 
-##### Line Numbers
-Line numbers can be displayed if desired.  When filtering, the original line numbers are
-maintained.
+![Main Form](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/main.png)
 
 #### Filtering
 AdvancedTail provides a filtering engine to remove lines from the displayed text using regular expressions.
 Though regex is a scary/complex search language, it easily provides all the filtering capabilties
 you'd expect and the expressions can be simple (see below for an example).
+
+![Filter Form Screenshot](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/filter.png)
 
 ##### How does filtering work?
 AdvancedTail uses a given regular expression and tests it against each line of the file.  If the line is a match
