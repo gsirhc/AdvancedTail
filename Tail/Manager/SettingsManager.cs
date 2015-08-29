@@ -10,7 +10,7 @@
     /// </summary>
     public class SettingsManager
     {
-        private Dictionary<string, FileSettings> fileSettingsDict;
+        FileSettingsMap fileSettingsMap = new FileSettingsMap();   
 
         /// <summary>
         /// Gets the file settings for a given file.
@@ -18,31 +18,12 @@
         /// <param name="fileName">Name of the file.</param>
         public FileSettings GetFileSettings(string fileName)
         {
-            if (fileSettingsDict == null)
-            {
-                var serializer = new JavaScriptSerializer();
-                fileSettingsDict = new Dictionary<string, FileSettings>();
-                var dict = (Dictionary<string, object>)serializer.DeserializeObject(Properties.Settings.Default.Files2);
-                if (dict != null)
-                {
-                    foreach (var kvp in dict)
-                    {
-                        fileSettingsDict.Add(kvp.Key, serializer.Deserialize<FileSettings>(kvp.Value.ToString()));
-                    }
-                }
-            }
-
-            if (!fileSettingsDict.ContainsKey(fileName))
-            {
-                fileSettingsDict.Add(fileName, new FileSettings());
-            }
-
-            return fileSettingsDict[fileName];
+            return fileSettingsMap.Get(fileName);
         }
         
         public IEnumerable<string> GetLastUsedList(int lastUsedCount)
         {
-            List<KeyValuePair<string, FileSettings>> list = fileSettingsDict.ToList();
+            List<KeyValuePair<string, FileSettings>> list = fileSettingsMap.Map.ToList();
             list.Sort((firstPair, nextPair) => -1 * firstPair.Value.LastUsed.CompareTo(nextPair.Value.LastUsed));
 
             return list.Take(lastUsedCount).Select(kvp => kvp.Key);
@@ -90,10 +71,10 @@
         public void Save()
         {
             var filesJson = "";
-            if (fileSettingsDict != null)
+            if (fileSettingsMap.Map.Any())
             {
                 var serializer = new JavaScriptSerializer();
-                filesJson = serializer.Serialize(fileSettingsDict.ToDictionary(
+                filesJson = serializer.Serialize(fileSettingsMap.Map.ToDictionary(
                     item => item.Key.ToString(), 
                     item => serializer.Serialize(item.Value)));
             }

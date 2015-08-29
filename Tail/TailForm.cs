@@ -102,7 +102,7 @@
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            this.tailManager.StopTail();
+            this.tailManager?.StopTail();
             base.OnFormClosing(e);
         }
 

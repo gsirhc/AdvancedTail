@@ -72,6 +72,7 @@
     <Compile Include="Process\CallbackSerialFileReader.cs" />
     <Compile Include="Settings\FileSettings.cs" />
     <Compile Include="Manager\SettingsManager.cs" />
+    <Compile Include="Settings\FileSettingsMap.cs" />
     <Compile Include="TailForm.cs">
       <SubType>Form</SubType>
     </Compile>
