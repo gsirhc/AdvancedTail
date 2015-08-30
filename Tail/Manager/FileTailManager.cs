@@ -10,21 +10,12 @@
     public class FileTailManager : ITailManager
     {
         private TailThread tailThread;
-        private ISerialFileReader serialFileReader;
 
-        public FileTailManager(ISerialFileReader serialFileReader)
-        {
-            this.serialFileReader = serialFileReader;
-        }
-
+        public ISerialFileReader SerialFileReader { get; set; }
         public Action ClearDisplayCallback { get; set; }
-
         public Action<bool> SetStateCallback { get; set; }
-
         public Action<Exception> ExceptionCallback { get; set; }
-
         public Func<string> GetFileNameCallback { get; set; }
-
         public Func<ILineFilter> GetFilterCallback { get; set; }
         
         public virtual void StartTail(bool save = true, bool stop = true)
@@ -36,7 +27,7 @@
 
             if (tailThread == null)
             {
-                tailThread = new TailThread(serialFileReader, ExceptionCallback);
+                tailThread = new TailThread(SerialFileReader, ExceptionCallback);
             }
 
             ClearDisplayCallback();
@@ -55,9 +46,9 @@
                     return;
                 }
 
-                serialFileReader.Filter = GetFilterCallback();
+                SerialFileReader.Filter = GetFilterCallback();
 
-                serialFileReader.EnableQueue(true);
+                SerialFileReader.EnableQueue(true);
                 tailThread.Start(file);
 
                 SetStateCallback(true);
@@ -70,7 +61,7 @@
 
         public virtual void StopTail()
         {
-            serialFileReader.EnableQueue(false);
+            SerialFileReader.EnableQueue(false);
             tailThread?.Stop();
             SetStateCallback(false);
         }

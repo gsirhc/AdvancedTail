@@ -12,6 +12,15 @@
     {
         FileSettingsMap fileSettingsMap = new FileSettingsMap();   
 
+        public SettingsManager()
+        {
+            if (Properties.Settings.Default.UpgradeRequired)
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.UpgradeRequired = false;
+            }
+        }
+
         /// <summary>
         /// Gets the file settings for a given file.
         /// </summary>
@@ -62,6 +71,24 @@
             set
             {
                 Properties.Settings.Default.LastFile = value;
+            }
+        }
+        
+        /// <summary>
+        /// Gets or sets the load last n lines setting.
+        /// </summary>
+        /// <value>
+        /// The load last n lines.
+        /// </value>
+        public int LoadLastLines
+        {
+            get
+            {
+                return Properties.Settings.Default.LoadLastLines;
+            }
+            set
+            {
+                Properties.Settings.Default.LoadLastLines = value;
             }
         }
 

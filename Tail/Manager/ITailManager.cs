@@ -2,12 +2,15 @@ namespace Tail.Manager
 {
     using System;
     using Filter;
+    using Process;
 
     /// <summary>
     /// Interface to manage tail.  Takes some burden off the Form.
     /// </summary>
     public interface ITailManager
     {
+        ISerialFileReader SerialFileReader { get; set; }
+
         /// <summary>
         /// Gets or sets the clear display callback.
         /// </summary>
@@ -51,6 +54,7 @@ namespace Tail.Manager
         /// <summary>
         /// Starts the tail.
         /// </summary>
+        /// <param name="loadLastLines">Load last n lines.</param>
         /// <param name="save">if set to <c>true</c> [save].</param>
         /// <param name="stop">if set to <c>true</c> [stop].</param>
         void StartTail(bool save = true, bool stop = true);

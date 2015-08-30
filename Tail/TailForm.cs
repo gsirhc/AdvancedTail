@@ -28,6 +28,11 @@
 
         private ITailManager tailManager;
 
+        private int LoadLastNLines
+        {
+            get { return checkBoxLoadAll.Checked ? -1 : (int)numericUpDownLoadLast.Value; }
+        }
+
         public TailForm(string initialFile)
         {
             this.initialFile = initialFile;
@@ -39,7 +44,7 @@
             get { return tailManager is DemoTailManager; }
         }
 
-        private void exceptionHandler(Exception ex)
+        private void ExceptionHandler(Exception ex)
         {
             if (ex is ThreadAbortException)
             {
@@ -61,7 +66,9 @@
         {
             base.OnShown(e);
 
-            runAtStartupToolStripMenuItem.Checked = Properties.Settings.Default.RunAtStartup;
+            runAtStartupToolStripMenuItem.Checked = settingsManager.RunAtStartup;
+            numericUpDownLoadLast.Value = settingsManager.LoadLastLines >= 0 ? settingsManager.LoadLastLines : 10;
+            checkBoxLoadAll.Checked = settingsManager.LoadLastLines == -1;
 
             InitializeTailManager();
 
@@ -90,14 +97,23 @@
 
             SetState(false);
         }
-
+        
         private void InitializeTailManager()
         {
-            var serialFileReader = new CallbackSerialFileReader(StartReadCallback, UpdateDisplayCallback, FinishReadCallback);
-            this.tailManager = new FileTailManager(serialFileReader)
+            var serialFileReader = new CallbackSerialFileReader()
             {
+                StartCallback = StartReadCallback,
+                UpdateCallback = UpdateDisplayCallback,
+                FinishCallback = FinishReadCallback,
+                ExceptionCallback = ExceptionHandler,
+                LoadLastLines = LoadLastNLines
+            };
+
+            this.tailManager = new FileTailManager()
+            {
+                SerialFileReader = serialFileReader,
                 ClearDisplayCallback = richTextBoxLog.Clear,
-                ExceptionCallback = exceptionHandler,
+                ExceptionCallback = ExceptionHandler,
                 GetFileNameCallback = () => textBoxFile.Text,
                 GetFilterCallback = () => filterConfigForm.Filter,
                 SetStateCallback = SetState
@@ -247,6 +263,29 @@
             richTextBoxLog.Clear();
         }
 
+        private void numericUpDownLoadLast_ValueChanged(object sender, EventArgs e)
+        {
+            if (!checkBoxLoadAll.Checked && tailManager != null)
+            {
+                tailManager.SerialFileReader.LoadLastLines = (int)numericUpDownLoadLast.Value;
+            }
+        }
+
+        private void checkBoxLoadAll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (tailManager != null)
+            {
+                tailManager.SerialFileReader.LoadLastLines = LoadLastNLines;
+
+                if (checkBoxLoadAll.Checked)
+                {
+                    toolStripButtonRefresh_Click(sender, e);
+                }
+            }
+
+            numericUpDownLoadLast.Enabled = !checkBoxLoadAll.Checked;
+        }
+
         private void toolStripButtonSearch_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(toolStripTextBoxSearch.TextBox.Text))
@@ -342,6 +381,7 @@
             {
                 settingsManager.LastFile = textBoxFile.Text;
                 settingsManager.GetFileSettings(textBoxFile.Text).LastUsed = DateTime.Now;
+                settingsManager.LoadLastLines = LoadLastNLines;
                 settingsManager.Save();
             }
 
@@ -376,19 +416,18 @@
             {
                 return;
             }
-
-            tailManager.StopTail();
-
+            
             var message = "Demo mode will generate a log file automatically and tail it.  Do you want to continue?";
             if (MessageBox.Show(message, "Demo Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 tailManager.StopTail();
+                tailManager.SerialFileReader.LoadLastLines = -1;
                 tailManager = new DemoTailManager(tailManager);
 
                 textBoxFile.Text = tailManager.GetFileNameCallback();
                 InitializeNewFile(tailManager.GetFileNameCallback());
                 tailManager.StartTail(false, false);
             }
-        }        
+        }
     }
 }

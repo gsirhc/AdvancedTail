@@ -90,10 +90,6 @@ it rules
 Or you can be more specific with the "To":  ```trim to: "it rules|it rocks"```
 
 #### Known Issues and Limitations
-* Large files (approaching 10K lines or more) can be slow to load initially if not filtering.
-   * This only applies to opening the file, refreshing and enabling/disabling a filter or trim.
-   * After the load, tail is not impacted by the file size.
-   * Future release may allow users to sepcify how much of the file to load backward from the end (similar to "-n" in Linux's tail).
 * Line numbers are embedded in the file display as regular text
    * Future release will display line numbers outside of the text area.
 * Cannot type into "File:" path textbox.

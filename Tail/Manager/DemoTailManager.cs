@@ -3,6 +3,7 @@
     using System;
     using Demo;
     using Filter;
+    using Process;
 
     /// <summary>
     /// Tail Manager to run the demo.  Runs a FileTailManager with another thread to generate a file to follow.
@@ -15,6 +16,12 @@
         public DemoTailManager(ITailManager fileTailManager)
         {
             this.fileTailManager = fileTailManager;
+        }
+
+        public ISerialFileReader SerialFileReader
+        {
+            get { return fileTailManager.SerialFileReader; }
+            set { fileTailManager.SerialFileReader = value; }
         }
 
         public Action ClearDisplayCallback
@@ -34,7 +41,7 @@
             get { return fileTailManager.ExceptionCallback; }
             set { fileTailManager.ExceptionCallback = value; }
         }
-
+        
         public Func<string> GetFileNameCallback
         {
             get { return () => demoThread.DemoFile; }
