@@ -70,6 +70,7 @@
     <Compile Include="Manager\ITailManager.cs" />
     <Compile Include="Process\ISerialFileReader.cs" />
     <Compile Include="Process\CallbackSerialFileReader.cs" />
+    <Compile Include="Process\TailStatistics.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Settings\FileSettings.cs" />
     <Compile Include="Manager\SettingsManager.cs" />

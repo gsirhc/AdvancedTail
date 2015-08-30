@@ -13,7 +13,7 @@
     public class CallbackSerialFileReader : ISerialFileReader
     {
         private Dictionary<string, long> lastPositionDict = new Dictionary<string, long>();
-        private Dictionary<string, long> lineCountDict = new Dictionary<string, long>();
+        private Dictionary<string, TailStatistics> fileStatistics = new Dictionary<string, TailStatistics>();
         private bool initialLoad = true;
         
         private readonly Queue<string> queue = new Queue<string>();
@@ -29,7 +29,7 @@
         }
 
         public Action<bool> StartCallback { get; set; }
-        public Action<bool, long> FinishCallback { get; set; }
+        public Action<bool, TailStatistics> FinishCallback { get; set; }
         public Action<string, long, bool> UpdateCallback { get; set; }
         public Action<Exception> ExceptionCallback { get; set; }
         public int LoadLastLines { get; set; }
@@ -40,7 +40,7 @@
             {
                 queue.Clear();
                 lastPositionDict = new Dictionary<string, long>();
-                lineCountDict = new Dictionary<string, long>();
+                fileStatistics = new Dictionary<string, TailStatistics>();
             }
         }
 
@@ -94,7 +94,7 @@
                     if (!lastPositionDict.ContainsKey(next))
                     {
                         lastPositionDict.Add(next, 0L);
-                        lineCountDict.Add(next, 0L);
+                        fileStatistics.Add(next, new TailStatistics());
                     }
 
                     StartCallback?.Invoke(initialLoad);
@@ -128,7 +128,7 @@
                         lastPositionDict[next] = fs.Position;
                     }
 
-                    FinishCallback?.Invoke(initialLoad, linesRead);
+                    FinishCallback?.Invoke(initialLoad, fileStatistics[next]);
 
                     initialLoad = false;
                 }
@@ -141,20 +141,30 @@
 
         private long ReadLines(StreamReader reader, string fileKey, int minLineCount)
         {
-            var previousLineCount = lineCountDict[fileKey];
+            var statistics = fileStatistics[fileKey];
+            var previousLineCount = statistics.Total;
             string line;
             while (((line = reader.ReadLine()) != null))
             {
-                var lineCount = ++lineCountDict[fileKey];
-                
-                if (lineCount > minLineCount && IsMatchFilter(ref line))
+                var lineCount = ++statistics.Total;
+
+                if (lineCount >= minLineCount)
                 {
-                    line = line + Environment.NewLine;
-                    UpdateCallback(line, lineCount, false);
+                    if (IsMatchFilter(ref line))
+                    {
+                        line = line + Environment.NewLine;
+                        statistics.Displayed++;
+                        UpdateCallback(line, lineCount, false);
+                    }
+                    else
+                    {
+                        statistics.Ignored++;
+                    }
                 }
             }
 
-            return lineCountDict[fileKey] - previousLineCount;
+            statistics.LastRead = statistics.Total - previousLineCount;
+            return statistics.LastRead;
         }
 
         private bool IsMatchFilter(ref string line)

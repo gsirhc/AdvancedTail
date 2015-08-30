@@ -330,11 +330,10 @@
             richTextBoxLog.Invoke(new Action(() =>
             {   if (initialLoad)
                 {
-                    toolStripStatusLabelStatus.Text = "Reading...";
                     richTextBoxLog.Enabled = false;
                     richTextBoxLog.Refresh();
                 }
-
+            
                 SendMessage(richTextBoxLog.Handle, WM_SETREDRAW, false, 0);
             }));
         }
@@ -357,7 +356,7 @@
             }));
         }
 
-        private void FinishReadCallback(bool initialLoad, long linesRead)
+        private void FinishReadCallback(bool initialLoad, TailStatistics tailStatistics)
         {
             richTextBoxLog.Invoke(new Action(() =>
             {
@@ -367,10 +366,16 @@
                     richTextBoxLog.Enabled = true;
                 }
 
+                var now = DateTime.Now;
+                toolStripStatusLabelRead.Text = string.Format("Updated: {0} (Read {1})", now.ToString("g"), tailStatistics.LastRead);
+                toolStripStatusLabelTotalLines.Text = "Total: " + tailStatistics.Total;
+                toolStripStatusLabelLinesDisplayed.Text = "Displayed: " + tailStatistics.Displayed;
+                toolStripStatusLabelLinesIgnored.Text = "Ignored: " + tailStatistics.Ignored;
+
                 SendMessage(richTextBoxLog.Handle, WM_SETREDRAW, true, 0);
                 richTextBoxLog.Refresh();
 
-                if (initialLoad || (linesRead > 0 && autoScrollToolStripMenuItem.Checked && richTextBoxLog.Enabled))
+                if (initialLoad || (tailStatistics.LastRead > 0 && autoScrollToolStripMenuItem.Checked && richTextBoxLog.Enabled))
                 {
                     richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
                     richTextBoxLog.ScrollToCaret();
