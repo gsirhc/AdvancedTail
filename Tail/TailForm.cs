@@ -93,7 +93,9 @@
 
             filterConfigForm.FilterText = settingsManager.GetFileSettings(file).FilterRegex;
             filterConfigForm.TrimToText = settingsManager.GetFileSettings(file).ToTrimRegex;
-            filterConfigForm.TrimFromText = settingsManager.GetFileSettings(file).FromTrimRegex;            
+            filterConfigForm.TrimFromText = settingsManager.GetFileSettings(file).FromTrimRegex;
+            filterConfigForm.Filter?.SetEnabled(toolStripButtonEnableFilter.Checked, false);
+            filterConfigForm.Filter?.DownstreamMember?.SetEnabled(toolStripButtonEnableFilter.Checked);
 
             SetState(false);
         }
@@ -106,7 +108,8 @@
                 UpdateCallback = UpdateDisplayCallback,
                 FinishCallback = FinishReadCallback,
                 ExceptionCallback = ExceptionHandler,
-                LoadLastLines = LoadLastNLines
+                LoadLastLines = LoadLastNLines,
+                Filter = filterConfigForm.Filter
             };
 
             this.tailManager = new FileTailManager()
