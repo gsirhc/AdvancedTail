@@ -100,3 +100,7 @@ Or you can be more specific with the "To":  ```trim to: "it rules|it rocks"```
    * Work around is to stop the tail then search.
 
 Please enter any issues not listed above into the projects [GitHub issues section](https://github.com/gsirhc/AdvancedTail/issues).
+
+### License
+The AdvancedTail source code and binaries are free and unencumbered public domain software. 
+For more information, see the [UNLICENSE]http://unlicense.org/ or the UNLICENSE.txt file.

@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		screenshots\filter.png = screenshots\filter.png
 		screenshots\main.png = screenshots\main.png
 		README.md = README.md
+		UNLICENSE.txt = UNLICENSE.txt
 	EndProjectSection
 EndProject
 Global
