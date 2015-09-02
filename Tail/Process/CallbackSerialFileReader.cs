@@ -106,7 +106,6 @@
 
                     var minLineCount = totalLineCount - LoadLastLines;
 
-                    var linesRead = 0L;
                     using (FileStream fs = File.Open(next, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     {
                         var lastPosition = lastPositionDict[next];
@@ -123,7 +122,7 @@
 
                         var reader = new StreamReader(fs);
 
-                        linesRead = ReadLines(reader, next, minLineCount);
+                        ReadLines(reader, next, minLineCount);
 
                         lastPositionDict[next] = fs.Position;
                     }
@@ -139,11 +138,12 @@
             }
         }
 
-        private long ReadLines(StreamReader reader, string fileKey, int minLineCount)
+        private void ReadLines(StreamReader reader, string fileKey, int minLineCount)
         {
             var statistics = fileStatistics[fileKey];
             var previousLineCount = statistics.Total;
             string line;
+            var added = 0;
             while (((line = reader.ReadLine()) != null))
             {
                 var lineCount = ++statistics.Total;
@@ -155,6 +155,7 @@
                         line = line + Environment.NewLine;
                         statistics.Displayed++;
                         UpdateCallback(line, lineCount, false);
+                        added++;
                     }
                     else
                     {
@@ -163,8 +164,7 @@
                 }
             }
 
-            statistics.LastRead = statistics.Total - previousLineCount;
-            return statistics.LastRead;
+            statistics.LastRead = added;
         }
 
         private bool IsMatchFilter(ref string line)

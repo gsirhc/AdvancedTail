@@ -14,7 +14,7 @@
         {
             Stop();
 
-            File.WriteAllText(DemoFile, "This is a demo file for tail.\r\nIt will update at random intervals with random text.\r\nTo exit demo mode, simply stop the tail.\r\n----------------------------------------\r\n");
+            File.WriteAllText(DemoFile, "This is a demo file for AdvancedTail.\r\nIt will update at random intervals with random text.\r\nTo exit demo mode, simply stop the tail.\r\n----------------------------------------\r\n");
 
             demoThread = new Thread(WriteFileLoop);
             demoThread.Start();

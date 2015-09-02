@@ -64,6 +64,7 @@
 
         protected override void OnShown(EventArgs e)
         {
+            SetState(false);
             base.OnShown(e);
 
             runAtStartupToolStripMenuItem.Checked = settingsManager.RunAtStartup;
@@ -199,19 +200,16 @@
 
         private void toolStripButtonFilter_Click(object sender, EventArgs e)
         {
-            if (filterConfigForm.ShowDialog() == DialogResult.OK)
+            if (filterConfigForm.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(textBoxFile.Text))
             {
                 filterConfigForm.Filter?.SetEnabled(enableFilterToolStripMenuItem.Checked, false);
                 filterConfigForm.Filter?.DownstreamMember?.SetEnabled(enableTrimToolStripMenuItem.Checked);
+                tailManager.SerialFileReader.Filter = filterConfigForm.Filter;
 
-                if (!string.IsNullOrEmpty(textBoxFile.Text))
-                {
-                    settingsManager.GetFileSettings(textBoxFile.Text).FilterRegex = filterConfigForm.FilterText;
-                    settingsManager.GetFileSettings(textBoxFile.Text).ToTrimRegex = filterConfigForm.TrimToText;
-                    settingsManager.GetFileSettings(textBoxFile.Text).FromTrimRegex = filterConfigForm.TrimFromText;
-
-                    settingsManager.Save();
-                }
+                settingsManager.GetFileSettings(textBoxFile.Text).FilterRegex = filterConfigForm.FilterText;
+                settingsManager.GetFileSettings(textBoxFile.Text).ToTrimRegex = filterConfigForm.TrimToText;
+                settingsManager.GetFileSettings(textBoxFile.Text).FromTrimRegex = filterConfigForm.TrimFromText;
+                settingsManager.Save();
             }
         }
         
@@ -328,7 +326,8 @@
         private void StartReadCallback(bool initialLoad)
         {
             richTextBoxLog.Invoke(new Action(() =>
-            {   if (initialLoad)
+            {
+                if (initialLoad)
                 {
                     richTextBoxLog.Enabled = false;
                     richTextBoxLog.Refresh();
@@ -371,12 +370,11 @@
                 toolStripStatusLabelTotalLines.Text = "Total: " + tailStatistics.Total;
                 toolStripStatusLabelLinesDisplayed.Text = "Displayed: " + tailStatistics.Displayed;
                 toolStripStatusLabelLinesIgnored.Text = "Ignored: " + tailStatistics.Ignored;
-
-                SendMessage(richTextBoxLog.Handle, WM_SETREDRAW, true, 0);
-                richTextBoxLog.Refresh();
-
+                
                 if (initialLoad || (tailStatistics.LastRead > 0 && autoScrollToolStripMenuItem.Checked && richTextBoxLog.Enabled))
                 {
+                    SendMessage(richTextBoxLog.Handle, WM_SETREDRAW, true, 0);
+                    richTextBoxLog.Refresh();
                     richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
                     richTextBoxLog.ScrollToCaret();
                 }
@@ -385,6 +383,25 @@
         
         private void SetState(bool running)
         {
+            if (string.IsNullOrEmpty(textBoxFile.Text))
+            {
+                toolStripButtonStart.Enabled = startToolStripMenuItem.Enabled = false;
+                toolStripButtonRefresh.Enabled = refreshToolStripMenuItem.Enabled = false;
+                toolStripButtonClear.Enabled = clearDisplayToolStripMenuItem.Enabled = false;
+                toolStripButtonStop.Enabled = stopToolStripMenuItem.Enabled = false;
+
+                toolStripButtonFilter.Enabled = filterToolStripMenuItem.Enabled = false;
+                toolStripButtonEnableFilter.Enabled = enableFilterToolStripMenuItem.Enabled = false;
+                toolStripButtonEnableTrim.Enabled = enableTrimToolStripMenuItem.Enabled = false;
+                toolStripButtonSearch.Enabled = toolStripTextBoxSearch.Enabled = false;
+                return;
+            }
+
+            toolStripButtonFilter.Enabled = filterToolStripMenuItem.Enabled = true;
+            toolStripButtonEnableFilter.Enabled = enableFilterToolStripMenuItem.Enabled = true;
+            toolStripButtonEnableTrim.Enabled = enableTrimToolStripMenuItem.Enabled = true;
+            toolStripButtonSearch.Enabled = toolStripTextBoxSearch.Enabled = true;
+
             if (running && !IsDemo && !string.IsNullOrEmpty(textBoxFile.Text))
             {
                 settingsManager.LastFile = textBoxFile.Text;
@@ -399,7 +416,7 @@
             toolStripButtonClear.Enabled = clearDisplayToolStripMenuItem.Enabled = running;
             toolStripButtonStop.Enabled = stopToolStripMenuItem.Enabled = running;
 
-            this.Text = "Tail";
+            this.Text = "AdvancedTail";
 
             if (!string.IsNullOrWhiteSpace(textBoxFile.Text))
             {
