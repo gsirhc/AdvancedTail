@@ -103,4 +103,4 @@ Please enter any issues not listed above into the projects [GitHub issues sectio
 
 ### License
 The AdvancedTail source code and binaries are free and unencumbered public domain software. 
-For more information, see the [UNLICENSE]http://unlicense.org/ or the UNLICENSE.txt file.
+For more information, see the [UNLICENSE](http://unlicense.org/) or the UNLICENSE.txt file.
