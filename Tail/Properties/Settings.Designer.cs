@@ -86,5 +86,41 @@ namespace Tail.Properties {
                 this["UpgradeRequired"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool WordWrap {
+            get {
+                return ((bool)(this["WordWrap"]));
+            }
+            set {
+                this["WordWrap"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowLineNumbers {
+            get {
+                return ((bool)(this["ShowLineNumbers"]));
+            }
+            set {
+                this["ShowLineNumbers"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoScroll {
+            get {
+                return ((bool)(this["AutoScroll"]));
+            }
+            set {
+                this["AutoScroll"] = value;
+            }
+        }
     }
 }

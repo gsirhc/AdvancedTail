@@ -141,7 +141,6 @@
         private void ReadLines(StreamReader reader, string fileKey, int minLineCount)
         {
             var statistics = fileStatistics[fileKey];
-            var previousLineCount = statistics.Total;
             string line;
             var added = 0;
             while (((line = reader.ReadLine()) != null))

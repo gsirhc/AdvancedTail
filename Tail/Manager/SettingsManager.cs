@@ -46,14 +46,44 @@
         /// </value>
         public bool RunAtStartup
         {
-            get
-            {
-                return Properties.Settings.Default.RunAtStartup;
-            }
-            set
-            {
-                Properties.Settings.Default.RunAtStartup = value;
-            }
+            get { return Properties.Settings.Default.RunAtStartup; }
+            set { Properties.Settings.Default.RunAtStartup = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to word-wrap the log display.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [word wrap]; otherwise, <c>false</c>.
+        /// </value>
+        public bool WordWrap
+        {
+            get { return Properties.Settings.Default.WordWrap; }
+            set { Properties.Settings.Default.WordWrap = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to show line numbers in the file display.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [show line numbers]; otherwise, <c>false</c>.
+        /// </value>
+        public bool ShowLineNumbers
+        {
+            get { return Properties.Settings.Default.ShowLineNumbers; }
+            set { Properties.Settings.Default.ShowLineNumbers = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [automatic scroll].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [automatic scroll]; otherwise, <c>false</c>.
+        /// </value>
+        public bool AutoScroll
+        {
+            get { return Properties.Settings.Default.AutoScroll; }
+            set { Properties.Settings.Default.AutoScroll = value; }
         }
 
         /// <summary>

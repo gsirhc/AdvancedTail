@@ -10,3 +10,7 @@
 /Tail/bin/Release/Tail.vshost.exe
 /Tail/bin/Release/Tail.pdb
 /Tail/bin/Release/Tail.exe.config
+*.suo
+/Tail/bin/Release/demo.log
+/.vs/config/applicationhost.config
+/Tail/Tail.csproj.user
