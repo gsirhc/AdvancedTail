@@ -104,10 +104,11 @@
                     richTextBoxLog.Enabled = true;
                     toolStripStatusLabelStatus.Text = "Following";
                 }
-                
+
+                SendMessage(richTextBoxLog.Handle, WM_SETREDRAW, true, 0);
+
                 if (initialLoad || (tailStatistics.LastRead > 0))
                 {
-                    SendMessage(richTextBoxLog.Handle, WM_SETREDRAW, true, 0);
                     richTextBoxLog.Refresh();
                     if (autoScroll && richTextBoxLog.Enabled)
                     {

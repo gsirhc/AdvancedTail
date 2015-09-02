@@ -220,6 +220,14 @@
         {
             mainMenuToolbar.SetState(running, IsDemo);
             logDisplay.SetState(running);
+
+            this.Text = "AdvancedTail";
+
+            if (!string.IsNullOrWhiteSpace(mainMenuToolbar.FilePath))
+            {
+                this.Text = Path.GetFileName(mainMenuToolbar.FilePath) + " - " + this.Text + 
+                    (running ? " [Running]" : " [Stopped]");
+            }
         }
     }
 }
