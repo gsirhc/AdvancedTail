@@ -122,5 +122,29 @@ namespace Tail.Properties {
                 this["AutoScroll"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableFilter {
+            get {
+                return ((bool)(this["EnableFilter"]));
+            }
+            set {
+                this["EnableFilter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableTrim {
+            get {
+                return ((bool)(this["EnableTrim"]));
+            }
+            set {
+                this["EnableTrim"] = value;
+            }
+        }
     }
 }

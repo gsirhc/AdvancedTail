@@ -42,10 +42,14 @@
             
             while (true)
             {
-                var text = randomTextList[randomLineGenerator.Next(0, randomTextList.Count - 1)];
+                var linesToPrint = randomDelayGenerator.Next(1, 10);
 
-                var line = string.Format("[{0}] {1}\r\n", DateTime.Now.ToLongTimeString(), text);
-                File.AppendAllText(file, line);
+                for (int i = 0; i < linesToPrint; i++)
+                {
+                    var text = randomTextList[randomLineGenerator.Next(0, randomTextList.Count - 1)];
+                    var line = string.Format("[{0}] {1}\r\n", DateTime.Now.ToLongTimeString(), text);
+                    File.AppendAllText(file, line);
+                }
 
                 var wait = randomDelayGenerator.Next(50, 3000);
                 Thread.Sleep(wait);

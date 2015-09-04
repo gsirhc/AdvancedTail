@@ -7,6 +7,7 @@
     using System.Windows.Forms;
 
     using Manager;
+    using Settings;
 
     /// <summary>
     /// The Main menu and toolbars control
@@ -30,8 +31,6 @@
         public event Action SettingsUpdated;
 
         public event Action EditFilter;
-        public event Action<bool> EnableFilter;
-        public event Action<bool> EnableTrim;
 
         public event Action<string> SearchNext;
 
@@ -41,7 +40,25 @@
 
         public int LoadLastNLines
         {
-            get { return checkBoxLoadAll.Checked ? -1 : (int)numericUpDownLoadLast.Value; }
+            get
+            {
+                if (comboBoxLoadLast.SelectedItem == null)
+                {
+                    return FileSettings.Default.LoadLastLines;
+                }
+
+                switch (comboBoxLoadLast.SelectedItem.ToString())
+                {
+                    case "ALL":
+                        return -1;
+                    default:
+                        return int.Parse(comboBoxLoadLast.SelectedItem.ToString());
+                }
+            }
+            set
+            {
+                comboBoxLoadLast.SelectedItem = value == -1 ? "ALL" : value.ToString();
+            }
         }
 
         public string FilePath
@@ -52,20 +69,32 @@
 
         public bool FilterEnabled
         {
-            get { return toolStripButtonEnableFilter.Checked; }
+            get { return enableFilterToolStripMenuItem.Checked; }
+            set { enableFilterToolStripMenuItem.Checked = value; }
         }
 
         public bool TrimEnabled
         {
-            get { return toolStripButtonEnableTrim.Checked; }
+            get { return enableTrimToolStripMenuItem.Checked; }
+            set { enableTrimToolStripMenuItem.Checked = value; }
         }
+
+        private FileSettings CurrentFileSettings => !string.IsNullOrEmpty(FilePath) ? settingsManager.GetFileSettings(FilePath) : FileSettings.Default;
 
         public void Initialize(SettingsManager settingsManager)
         {
             this.settingsManager = settingsManager;
 
             runAtStartupToolStripMenuItem.Checked = settingsManager.RunAtStartup;
-            wordWrapToolStripMenuItem.Checked = settingsManager.WordWrap;
+            wordWrapToolStripMenuItem.Checked = CurrentFileSettings.WordWrap;
+        }
+
+        public void InitialFileSettings(FileSettings fileSettings)
+        {
+            enableFilterToolStripMenuItem.Checked = fileSettings.EnableFilter;
+            enableTrimToolStripMenuItem.Checked = fileSettings.EnableTrim;
+            LoadLastNLines = fileSettings.LoadLastLines;
+            autoScrollToolStripMenuItem.Checked = fileSettings.AutoScroll;
         }
 
         public void SetState(bool running, bool allowSave)
@@ -79,22 +108,22 @@
                 toolStripButtonStop.Enabled = stopToolStripMenuItem.Enabled = false;
 
                 toolStripButtonFilter.Enabled = filterToolStripMenuItem.Enabled = false;
-                toolStripButtonEnableFilter.Enabled = enableFilterToolStripMenuItem.Enabled = false;
-                toolStripButtonEnableTrim.Enabled = enableTrimToolStripMenuItem.Enabled = false;
+                enableFilterToolStripMenuItem.Enabled = false;
+                enableTrimToolStripMenuItem.Enabled = false;
                 toolStripButtonSearch.Enabled = toolStripTextBoxSearch.Enabled = false;
                 return;
             }
 
             toolStripButtonFilter.Enabled = filterToolStripMenuItem.Enabled = true;
-            toolStripButtonEnableFilter.Enabled = enableFilterToolStripMenuItem.Enabled = true;
-            toolStripButtonEnableTrim.Enabled = enableTrimToolStripMenuItem.Enabled = true;
+            enableFilterToolStripMenuItem.Enabled = true;
+            enableTrimToolStripMenuItem.Enabled = true;
             toolStripButtonSearch.Enabled = toolStripTextBoxSearch.Enabled = true;
-
+            
             if (running && !allowSave && !string.IsNullOrEmpty(textFile))
             {
                 settingsManager.LastFile = textFile;
-                settingsManager.GetFileSettings(textFile).LastUsed = DateTime.Now;
-                settingsManager.LoadLastLines = LoadLastNLines;
+                CurrentFileSettings.LastUsed = DateTime.Now;
+                CurrentFileSettings.LoadLastLines = LoadLastNLines;
                 settingsManager.Save();
             }
 
@@ -103,6 +132,7 @@
             toolStripButtonRefresh.Enabled = refreshToolStripMenuItem.Enabled = running;
             toolStripButtonClear.Enabled = clearDisplayToolStripMenuItem.Enabled = running;
             toolStripButtonStop.Enabled = stopToolStripMenuItem.Enabled = running;
+            comboBoxLoadLast.Enabled = !running;
 
             this.Text = "AdvancedTail";
 
@@ -166,30 +196,20 @@
 
         private void autoScrollToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            settingsManager.AutoScroll = autoScrollToolStripMenuItem.Checked;
+            CurrentFileSettings.AutoScroll = autoScrollToolStripMenuItem.Checked;
             SettingsUpdated?.Invoke();
         }
 
         private void showLineNumbersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            settingsManager.ShowLineNumbers = showLineNumbersToolStripMenuItem.Checked;
+            CurrentFileSettings.ShowLineNumbers = showLineNumbersToolStripMenuItem.Checked;
             SettingsUpdated?.Invoke();
         }
 
-        private void numericUpDownLoadLast_ValueChanged(object sender, EventArgs e)
+        private void comboBoxLoadLast_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!checkBoxLoadAll.Checked)
-            {
-                settingsManager.LoadLastLines = (int)numericUpDownLoadLast.Value;
-                SettingsUpdated?.Invoke();
-            }
-        }
-
-        private void checkBoxLoadAll_CheckedChanged(object sender, EventArgs e)
-        {
-            settingsManager.LoadLastLines = -1;
+            CurrentFileSettings.LoadLastLines = LoadLastNLines;
             SettingsUpdated?.Invoke();
-            numericUpDownLoadLast.Enabled = !checkBoxLoadAll.Checked;
         }
 
         private void toolStripButtonSearch_Click(object sender, EventArgs e)
@@ -197,25 +217,30 @@
             SearchNext?.Invoke(toolStripTextBoxSearch.TextBox.Text);
         }
 
+        private void toolStripTextBoxSearch_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (int)Keys.Return)
+            {
+                SearchNext?.Invoke(toolStripTextBoxSearch.TextBox.Text);
+                e.Handled = true;
+            }
+        }
+
         private void toolStripButtonFilter_Click(object sender, EventArgs e)
         {
             EditFilter?.Invoke();
-            EnableFilter?.Invoke(enableFilterToolStripMenuItem.Checked);
-            EnableTrim?.Invoke(enableTrimToolStripMenuItem.Checked);
         }
 
-        private void toolStripButtonEnableFilter_Click(object sender, EventArgs e)
+        private void enableFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            toolStripButtonEnableFilter.Checked = !toolStripButtonEnableFilter.Checked;
-            enableFilterToolStripMenuItem.Checked = toolStripButtonEnableFilter.Checked;
-            EnableFilter?.Invoke(enableFilterToolStripMenuItem.Checked);
+            CurrentFileSettings.EnableFilter = enableFilterToolStripMenuItem.Checked;
+            SettingsUpdated?.Invoke();
         }
 
-        private void toolStripButtonEnableTrim_Click(object sender, EventArgs e)
+        private void enableTrimToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            toolStripButtonEnableTrim.Checked = !toolStripButtonEnableTrim.Checked;
-            enableTrimToolStripMenuItem.Checked = toolStripButtonEnableTrim.Checked;
-            EnableTrim?.Invoke(enableTrimToolStripMenuItem.Checked);
+            CurrentFileSettings.EnableTrim = enableFilterToolStripMenuItem.Checked;
+            SettingsUpdated?.Invoke();
         }
 
         private void toolStripButtonStart_Click(object sender, EventArgs e)
@@ -235,7 +260,7 @@
 
         private void wordWrapToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            settingsManager.WordWrap = wordWrapToolStripMenuItem.Checked;
+            CurrentFileSettings.WordWrap = wordWrapToolStripMenuItem.Checked;
             SettingsUpdated?.Invoke();
         }
 
@@ -290,6 +315,6 @@
             {
                 textBoxFile.Text = file;
             }
-        }
+        }        
     }
 }

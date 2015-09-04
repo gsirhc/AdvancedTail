@@ -64,18 +64,13 @@
             this.toolStripButtonRefresh = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonClear = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButtonEnableTrim = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonEnableFilter = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripTextBoxSearch = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButtonSearch = new System.Windows.Forms.ToolStripButton();
-            this.numericUpDownLoadLast = new System.Windows.Forms.NumericUpDown();
-            this.checkBoxLoadAll = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxFile = new System.Windows.Forms.TextBox();
+            this.comboBoxLoadLast = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLoadLast)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -120,7 +115,7 @@
             // openFileInNewWindowToolStripMenuItem
             // 
             this.openFileInNewWindowToolStripMenuItem.Name = "openFileInNewWindowToolStripMenuItem";
-            this.openFileInNewWindowToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.openFileInNewWindowToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.openFileInNewWindowToolStripMenuItem.Text = "Open File in New Window...";
             this.openFileInNewWindowToolStripMenuItem.Click += new System.EventHandler(this.openFileInNewWindowToolStripMenuItem_Click);
             // 
@@ -128,51 +123,51 @@
             // 
             this.runAtStartupToolStripMenuItem.CheckOnClick = true;
             this.runAtStartupToolStripMenuItem.Name = "runAtStartupToolStripMenuItem";
-            this.runAtStartupToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.runAtStartupToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.runAtStartupToolStripMenuItem.Text = "Run Last File at Startup";
             this.runAtStartupToolStripMenuItem.Click += new System.EventHandler(this.runAtStartupToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(221, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(217, 6);
             // 
             // recentFilesToolStripMenuItem
             // 
             this.recentFilesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.noFilesToolStripMenuItem});
             this.recentFilesToolStripMenuItem.Name = "recentFilesToolStripMenuItem";
-            this.recentFilesToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.recentFilesToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.recentFilesToolStripMenuItem.Text = "Recent Files";
             this.recentFilesToolStripMenuItem.MouseHover += new System.EventHandler(this.recentFilesToolStripMenuItem_MouseHover);
             // 
             // noFilesToolStripMenuItem
             // 
             this.noFilesToolStripMenuItem.Name = "noFilesToolStripMenuItem";
-            this.noFilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.noFilesToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.noFilesToolStripMenuItem.Text = "No Files";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(221, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(217, 6);
             // 
             // demoToolStripMenuItem
             // 
             this.demoToolStripMenuItem.Name = "demoToolStripMenuItem";
-            this.demoToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.demoToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.demoToolStripMenuItem.Text = "Demo...";
             this.demoToolStripMenuItem.Click += new System.EventHandler(this.demoToolStripMenuItem_Click);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(221, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(217, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -270,7 +265,7 @@
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(135, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
             // 
             // filterToolStripMenuItem
             // 
@@ -287,9 +282,9 @@
             this.enableFilterToolStripMenuItem.CheckOnClick = true;
             this.enableFilterToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.enableFilterToolStripMenuItem.Name = "enableFilterToolStripMenuItem";
-            this.enableFilterToolStripMenuItem.Size = new System.Drawing.Size(156, 26);
+            this.enableFilterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.enableFilterToolStripMenuItem.Text = "Enable Filter";
-            this.enableFilterToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonEnableFilter_Click);
+            this.enableFilterToolStripMenuItem.Click += new System.EventHandler(this.enableFilterToolStripMenuItem_Click);
             // 
             // enableTrimToolStripMenuItem
             // 
@@ -297,9 +292,9 @@
             this.enableTrimToolStripMenuItem.CheckOnClick = true;
             this.enableTrimToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.enableTrimToolStripMenuItem.Name = "enableTrimToolStripMenuItem";
-            this.enableTrimToolStripMenuItem.Size = new System.Drawing.Size(156, 26);
+            this.enableTrimToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.enableTrimToolStripMenuItem.Text = "Enable Trim";
-            this.enableTrimToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonEnableTrim_Click);
+            this.enableTrimToolStripMenuItem.Click += new System.EventHandler(this.enableTrimToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -320,9 +315,6 @@
             this.toolStripButtonRefresh,
             this.toolStripButtonClear,
             this.toolStripSeparator2,
-            this.toolStripButtonEnableTrim,
-            this.toolStripButtonEnableFilter,
-            this.toolStripSeparator4,
             this.toolStripTextBoxSearch,
             this.toolStripButtonSearch});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
@@ -408,42 +400,12 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButtonEnableTrim
-            // 
-            this.toolStripButtonEnableTrim.Checked = true;
-            this.toolStripButtonEnableTrim.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripButtonEnableTrim.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonEnableTrim.Image = global::Tail.Properties.Resources.cut_red;
-            this.toolStripButtonEnableTrim.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButtonEnableTrim.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonEnableTrim.Name = "toolStripButtonEnableTrim";
-            this.toolStripButtonEnableTrim.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonEnableTrim.Text = "Enable/Disable Trim";
-            this.toolStripButtonEnableTrim.Click += new System.EventHandler(this.toolStripButtonEnableTrim_Click);
-            // 
-            // toolStripButtonEnableFilter
-            // 
-            this.toolStripButtonEnableFilter.Checked = true;
-            this.toolStripButtonEnableFilter.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripButtonEnableFilter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonEnableFilter.Image = global::Tail.Properties.Resources.application_form_delete;
-            this.toolStripButtonEnableFilter.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButtonEnableFilter.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonEnableFilter.Name = "toolStripButtonEnableFilter";
-            this.toolStripButtonEnableFilter.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonEnableFilter.Text = "Enable/Disable Filter";
-            this.toolStripButtonEnableFilter.Click += new System.EventHandler(this.toolStripButtonEnableFilter_Click);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-            // 
             // toolStripTextBoxSearch
             // 
             this.toolStripTextBoxSearch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolStripTextBoxSearch.Name = "toolStripTextBoxSearch";
             this.toolStripTextBoxSearch.Size = new System.Drawing.Size(150, 25);
+            this.toolStripTextBoxSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBoxSearch_KeyPress);
             // 
             // toolStripButtonSearch
             // 
@@ -456,41 +418,10 @@
             this.toolStripButtonSearch.Text = "Search displayed contents";
             this.toolStripButtonSearch.Click += new System.EventHandler(this.toolStripButtonSearch_Click);
             // 
-            // numericUpDownLoadLast
-            // 
-            this.numericUpDownLoadLast.Location = new System.Drawing.Point(59, 51);
-            this.numericUpDownLoadLast.Margin = new System.Windows.Forms.Padding(2);
-            this.numericUpDownLoadLast.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.numericUpDownLoadLast.Name = "numericUpDownLoadLast";
-            this.numericUpDownLoadLast.Size = new System.Drawing.Size(39, 20);
-            this.numericUpDownLoadLast.TabIndex = 36;
-            this.numericUpDownLoadLast.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.numericUpDownLoadLast.ValueChanged += new System.EventHandler(this.numericUpDownLoadLast_ValueChanged);
-            // 
-            // checkBoxLoadAll
-            // 
-            this.checkBoxLoadAll.AutoSize = true;
-            this.checkBoxLoadAll.Location = new System.Drawing.Point(102, 52);
-            this.checkBoxLoadAll.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBoxLoadAll.Name = "checkBoxLoadAll";
-            this.checkBoxLoadAll.Size = new System.Drawing.Size(64, 17);
-            this.checkBoxLoadAll.TabIndex = 35;
-            this.checkBoxLoadAll.Text = "Load All";
-            this.checkBoxLoadAll.UseVisualStyleBackColor = true;
-            this.checkBoxLoadAll.CheckedChanged += new System.EventHandler(this.checkBoxLoadAll_CheckedChanged);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(-2, 53);
+            this.label2.Location = new System.Drawing.Point(8, 53);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(57, 13);
@@ -501,18 +432,33 @@
             // 
             this.textBoxFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxFile.Location = new System.Drawing.Point(171, 50);
+            this.textBoxFile.Location = new System.Drawing.Point(127, 50);
             this.textBoxFile.Name = "textBoxFile";
             this.textBoxFile.ReadOnly = true;
-            this.textBoxFile.Size = new System.Drawing.Size(449, 20);
+            this.textBoxFile.Size = new System.Drawing.Size(493, 20);
             this.textBoxFile.TabIndex = 33;
+            // 
+            // comboBoxLoadLast
+            // 
+            this.comboBoxLoadLast.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxLoadLast.FormattingEnabled = true;
+            this.comboBoxLoadLast.Items.AddRange(new object[] {
+            "10",
+            "50",
+            "100",
+            "1000",
+            "ALL"});
+            this.comboBoxLoadLast.Location = new System.Drawing.Point(70, 50);
+            this.comboBoxLoadLast.Name = "comboBoxLoadLast";
+            this.comboBoxLoadLast.Size = new System.Drawing.Size(51, 21);
+            this.comboBoxLoadLast.TabIndex = 35;
+            this.comboBoxLoadLast.SelectedIndexChanged += new System.EventHandler(this.comboBoxLoadLast_SelectedIndexChanged);
             // 
             // MainMenuToolbar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.numericUpDownLoadLast);
-            this.Controls.Add(this.checkBoxLoadAll);
+            this.Controls.Add(this.comboBoxLoadLast);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBoxFile);
             this.Controls.Add(this.toolStrip1);
@@ -523,7 +469,6 @@
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLoadLast)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -567,14 +512,10 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonRefresh;
         private System.Windows.Forms.ToolStripButton toolStripButtonClear;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton toolStripButtonEnableTrim;
-        private System.Windows.Forms.ToolStripButton toolStripButtonEnableFilter;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBoxSearch;
         private System.Windows.Forms.ToolStripButton toolStripButtonSearch;
-        private System.Windows.Forms.NumericUpDown numericUpDownLoadLast;
-        private System.Windows.Forms.CheckBox checkBoxLoadAll;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxFile;
+        private System.Windows.Forms.ComboBox comboBoxLoadLast;
     }
 }

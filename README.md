@@ -8,6 +8,8 @@ A lightweight .NET Windows program to follow changing text files and provides ad
 * Lightweight/small footprint
 * Demo mode to show how it works
 * Simple text search
+* Saves a file history in the users appdata folder, including filters per file
+* Can run multiple instances to tail several logs at once
 
 ### System Requirements
 * Windows 7 SP1 or higher
@@ -88,6 +90,15 @@ it rules
 ```
 
 Or you can be more specific with the "To":  ```trim to: "it rules|it rocks"```
+
+#### File History
+AdvancedTail saves a history of all files you have tailed.  This includes
+saving the filters/trim expressions per file so that when you select a file,
+AdvancedTail will preload the last expressions.  These settings are stored
+in your users appdata folders ("%appdata%") allowing for multiple user
+settings on servers or other shared systems.
+
+AdvancedTail also supports automatically tailing the last file on load.
 
 #### Known Issues and Limitations
 * Line numbers are embedded in the file display as regular text

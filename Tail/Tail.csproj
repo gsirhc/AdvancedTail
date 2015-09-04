@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Process\TailLine.cs" />
     <Compile Include="UserControls\LogDisplay.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -81,7 +82,7 @@
     <Compile Include="Manager\DemoTailManager.cs" />
     <Compile Include="Manager\ITailManager.cs" />
     <Compile Include="Process\ISerialFileReader.cs" />
-    <Compile Include="Process\CallbackSerialFileReader.cs" />
+    <Compile Include="Process\CallbackFileReader.cs" />
     <Compile Include="Process\TailStatistics.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Settings\FileSettings.cs" />

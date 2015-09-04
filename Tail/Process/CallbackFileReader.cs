@@ -10,7 +10,7 @@
     /// <summary>
     /// Implementation of <see cref="ISerialFileReader" /> that uses callbacks to inform a parent of certain actions.
     /// </summary>
-    public class CallbackSerialFileReader : ISerialFileReader
+    public class CallbackFileReader : ISerialFileReader
     {
         private Dictionary<string, long> lastPositionDict = new Dictionary<string, long>();
         private Dictionary<string, TailStatistics> fileStatistics = new Dictionary<string, TailStatistics>();
@@ -21,16 +21,16 @@
         private Thread updateFileThread = null;
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="CallbackSerialFileReader"/> class.
+        /// Initializes a new instance of the <see cref="CallbackFileReader"/> class.
         /// </summary>
-        public CallbackSerialFileReader()
+        public CallbackFileReader()
         {
             LoadLastLines = 10;
         }
 
         public Action<bool> StartCallback { get; set; }
         public Action<bool, TailStatistics> FinishCallback { get; set; }
-        public Action<string, long, bool> UpdateCallback { get; set; }
+        public Action<IList<TailLine>, bool> UpdateCallback { get; set; }
         public Action<Exception> ExceptionCallback { get; set; }
         public int LoadLastLines { get; set; }
 
@@ -115,7 +115,7 @@
                             lastPositionDict[next] = 0L;
                             lastPositionDict[next] = 0L;
                             initialLoad = true;
-                            UpdateCallback("", 0, true);
+                            UpdateCallback(new TailLine[0], true);
                         }
 
                         fs.Seek(lastPosition, SeekOrigin.Begin);
@@ -141,6 +141,8 @@
         private void ReadLines(StreamReader reader, string fileKey, int minLineCount)
         {
             var statistics = fileStatistics[fileKey];
+            var lineList = new List<TailLine>();
+
             string line;
             var added = 0;
             while (((line = reader.ReadLine()) != null))
@@ -151,9 +153,8 @@
                 {
                     if (IsMatchFilter(ref line))
                     {
-                        line = line + Environment.NewLine;
-                        statistics.Displayed++;
-                        UpdateCallback(line, lineCount, false);
+                        lineList.Add(new TailLine { Line = line + Environment.NewLine, LineNumber = lineCount });
+                        statistics.Displayed++;                        
                         added++;
                     }
                     else
@@ -162,6 +163,8 @@
                     }
                 }
             }
+
+            UpdateCallback(lineList, false);
 
             statistics.LastRead = added;
         }

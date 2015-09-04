@@ -33,8 +33,6 @@
             mainMenuToolbar.StopTail += StopTail;
 
             mainMenuToolbar.EditFilter += EditFilter;
-            mainMenuToolbar.EnableFilter += EnableFilter;
-            mainMenuToolbar.EnableTrim += EnableTrim;
 
             mainMenuToolbar.RefreshFile += RefreshFile;
             mainMenuToolbar.SelectedFile += InitializeNewFile;
@@ -44,7 +42,12 @@
             mainMenuToolbar.SearchNext += logDisplay.Search;
             mainMenuToolbar.StartDemo += StartDemo;
             mainMenuToolbar.Exit += this.Close;
+
+            logDisplay.FilterToggle += FilterToggle;
+            logDisplay.TrimToggle += TrimToggle;
         }
+
+        private FileSettings CurrentFileSettings => !string.IsNullOrEmpty(mainMenuToolbar.FilePath) ?  settingsManager.GetFileSettings(mainMenuToolbar.FilePath) : FileSettings.Default;
 
         protected override void OnShown(EventArgs e)
         {
@@ -52,10 +55,7 @@
             base.OnShown(e);
 
             mainMenuToolbar.Initialize(settingsManager);
-
-            //numericUpDownLoadLast.Value = settingsManager.LoadLastLines >= 0 ? settingsManager.LoadLastLines : 10;
-            //checkBoxLoadAll.Checked = settingsManager.LoadLastLines == -1;
-
+            
             InitializeTailManager();
 
             bool hasArgFile = !string.IsNullOrEmpty(initialFile);
@@ -65,7 +65,7 @@
             {
                 InitializeNewFile(this.initialFile);
 
-                if (hasArgFile && settingsManager.RunAtStartup)
+                if (settingsManager.RunAtStartup)
                 {
                     this.tailManager.StartTail();
                 }
@@ -77,22 +77,32 @@
             logDisplay.Clear();
             mainMenuToolbar.FilePath = file;
 
-            filterConfigForm.FilterText = settingsManager.GetFileSettings(file).FilterRegex;
-            filterConfigForm.TrimToText = settingsManager.GetFileSettings(file).ToTrimRegex;
-            filterConfigForm.TrimFromText = settingsManager.GetFileSettings(file).FromTrimRegex;
-            filterConfigForm.Filter?.SetEnabled(mainMenuToolbar.FilterEnabled, false);
-            filterConfigForm.Filter?.DownstreamMember?.SetEnabled(mainMenuToolbar.TrimEnabled);
+            var fileSettings = CurrentFileSettings;
+
+            filterConfigForm.FilterText = fileSettings.FilterRegex;
+            filterConfigForm.TrimToText = fileSettings.ToTrimRegex;
+            filterConfigForm.TrimFromText = fileSettings.FromTrimRegex;
+
+            EnableFilter(fileSettings.EnableFilter);
+            EnableTrim(fileSettings.EnableTrim);
+
+            mainMenuToolbar.InitialFileSettings(fileSettings);
+
+            logDisplay.AutoScroll = fileSettings.AutoScroll;
+            logDisplay.ShowLineNumbers = fileSettings.ShowLineNumbers;
 
             SetState(false);
         }
 
         private void InitializeTailManager()
         {
-            var serialFileReader = new CallbackSerialFileReader()
+            var fileSettings = CurrentFileSettings;
+
+            var serialFileReader = new CallbackFileReader()
             {
                 StartCallback = logDisplay.StartWrite,
-                UpdateCallback = (l, n, c) => logDisplay.Write(l, n, settingsManager.ShowLineNumbers, c),
-                FinishCallback = (i, t) => logDisplay.EndWrite(i, settingsManager.AutoScroll, t),
+                UpdateCallback = logDisplay.Write,
+                FinishCallback = logDisplay.EndWrite,
                 ExceptionCallback = ExceptionHandler,
                 LoadLastLines = mainMenuToolbar.LoadLastNLines,
                 Filter = filterConfigForm.Filter
@@ -143,24 +153,46 @@
                 settingsManager.Save();
             }
         }
+        
+        private void FilterToggle()
+        {
+            mainMenuToolbar.FilterEnabled = !mainMenuToolbar.FilterEnabled;
+            EnableFilter(mainMenuToolbar.FilterEnabled);
+        }
+
+        private void TrimToggle()
+        {
+            mainMenuToolbar.TrimEnabled = !mainMenuToolbar.TrimEnabled;
+            EnableTrim(mainMenuToolbar.TrimEnabled);
+        }
 
         private void EnableFilter(bool enable)
         {
             filterConfigForm.Filter?.SetEnabled(enable, false);
             logDisplay.SetFilterState(enable);
+            CurrentFileSettings.EnableFilter = enable;
         }
 
         private void EnableTrim(bool enable)
         {
             filterConfigForm.Filter?.DownstreamMember?.SetEnabled(enable);
             logDisplay.SetTrimState(enable);
+            CurrentFileSettings.EnableTrim = enable;
         }
 
         private void SettingsUpdated()
         {
-            logDisplay.WordWrap = settingsManager.WordWrap;
-            logDisplay.AutoScroll = settingsManager.AutoScroll;
-            tailManager.SerialFileReader.LoadLastLines = settingsManager.LoadLastLines;
+            var fileSettings = CurrentFileSettings;
+            logDisplay.WordWrap = fileSettings.WordWrap;
+            logDisplay.AutoScroll = fileSettings.AutoScroll;
+            logDisplay.ShowLineNumbers = fileSettings.ShowLineNumbers;
+
+            tailManager.SerialFileReader.LoadLastLines = fileSettings.LoadLastLines;
+
+            EnableFilter(fileSettings.EnableFilter);
+            EnableTrim(fileSettings.EnableTrim);
+
+            settingsManager.Save();
         }
 
         private void RefreshFile()

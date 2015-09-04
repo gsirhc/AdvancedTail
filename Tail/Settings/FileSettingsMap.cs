@@ -20,7 +20,7 @@ namespace Tail.Settings
             {
                 if (!SafeMap.ContainsKey(fileName))
                 {
-                    SafeMap.Add(fileName, new FileSettings());
+                    SafeMap.Add(fileName, FileSettings.Default);
                 }
 
                 return SafeMap[fileName];

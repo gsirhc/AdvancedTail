@@ -42,10 +42,11 @@
             // 
             // richTextBoxLog
             // 
-            this.richTextBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.richTextBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxLog.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBoxLog.HideSelection = false;
             this.richTextBoxLog.Location = new System.Drawing.Point(0, 0);
             this.richTextBoxLog.Name = "richTextBoxLog";
             this.richTextBoxLog.Size = new System.Drawing.Size(622, 407);
@@ -84,6 +85,7 @@
             this.toolStripStatusLabelFilter.Name = "toolStripStatusLabelFilter";
             this.toolStripStatusLabelFilter.Size = new System.Drawing.Size(85, 19);
             this.toolStripStatusLabelFilter.Text = "Filter: Enabled";
+            this.toolStripStatusLabelFilter.Click += new System.EventHandler(this.toolStripStatusLabelFilter_Click);
             // 
             // toolStripStatusLabelTrim
             // 
@@ -91,6 +93,7 @@
             this.toolStripStatusLabelTrim.Name = "toolStripStatusLabelTrim";
             this.toolStripStatusLabelTrim.Size = new System.Drawing.Size(84, 19);
             this.toolStripStatusLabelTrim.Text = "Trim: Enabled";
+            this.toolStripStatusLabelTrim.Click += new System.EventHandler(this.toolStripStatusLabelTrim_Click);
             // 
             // toolStripStatusLabelRead
             // 
