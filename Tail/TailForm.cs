@@ -85,7 +85,7 @@
 
             EnableFilter(fileSettings.EnableFilter);
             EnableTrim(fileSettings.EnableTrim);
-
+            
             mainMenuToolbar.InitialFileSettings(fileSettings);
 
             logDisplay.AutoScroll = fileSettings.AutoScroll;
@@ -149,6 +149,10 @@
                 settingsManager.GetFileSettings(mainMenuToolbar.FilePath).ToTrimRegex = filterConfigForm.TrimToText;
                 settingsManager.GetFileSettings(mainMenuToolbar.FilePath).FromTrimRegex = filterConfigForm.TrimFromText;
                 settingsManager.Save();
+
+                tailManager.SerialFileReader.Filter = filterConfigForm.Filter;
+                EnableFilter(mainMenuToolbar.FilterEnabled);
+                EnableTrim(mainMenuToolbar.TrimEnabled);
             }
         }
         
