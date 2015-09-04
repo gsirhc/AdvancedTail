@@ -99,12 +99,12 @@
 
                     StartCallback?.Invoke(initialLoad);
                     var totalLineCount = 0;
-                    if (LoadLastLines >= 0 && lastPositionDict[next] == 0)
+                    var minLineCount = 0;
+                    if (initialLoad && LoadLastLines >= 0 && lastPositionDict[next] == 0)
                     {
                         totalLineCount = File.ReadLines(next).Count();
-                    }
-
-                    var minLineCount = totalLineCount - LoadLastLines;
+                        minLineCount = totalLineCount > LoadLastLines ? totalLineCount - LoadLastLines : 0;
+                    }                    
 
                     using (FileStream fs = File.Open(next, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     {
@@ -144,29 +144,30 @@
             var lineList = new List<TailLine>();
 
             string line;
-            var added = 0;
+            var linesRead = 0;
             while (((line = reader.ReadLine()) != null))
             {
                 var lineCount = ++statistics.Total;
 
-                if (lineCount >= minLineCount)
+                if (lineCount > minLineCount)
                 {
                     if (IsMatchFilter(ref line))
                     {
                         lineList.Add(new TailLine { Line = line + Environment.NewLine, LineNumber = lineCount });
                         statistics.Displayed++;                        
-                        added++;
                     }
                     else
                     {
                         statistics.Ignored++;
                     }
                 }
+
+                linesRead++;
             }
 
             UpdateCallback(lineList, false);
 
-            statistics.LastRead = added;
+            statistics.LastRead = linesRead;
         }
 
         private bool IsMatchFilter(ref string line)

@@ -12,9 +12,9 @@
     /// </summary>
     public partial class LogDisplay : UserControl
     {
-        [DllImport("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
-        private const int WM_SETREDRAW = 11;
+        //[DllImport("user32.dll")]
+        //public static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
+        //private const int WM_SETREDRAW = 11;
 
         public event Action FilterToggle;
         public event Action TrimToggle;
@@ -78,7 +78,9 @@
                 {
                     richTextBoxLog.Enabled = false;
                     richTextBoxLog.Refresh();
-                }                
+                }
+
+                //SendMessage(richTextBoxLog.Handle, WM_SETREDRAW, false, 0);
             }));
         }
 
@@ -104,10 +106,8 @@
 
                         stringBuilder.Append(formattedLine);
                     }
-
-                    //SendMessage(richTextBoxLog.Handle, WM_SETREDRAW, false, 0);
+                    
                     richTextBoxLog.AppendText(stringBuilder.ToString());
-                    //SendMessage(richTextBoxLog.Handle, WM_SETREDRAW, true, 0);
                 }
             }));
         }
@@ -120,12 +120,14 @@
                 {
                     richTextBoxLog.Enabled = true;
                     toolStripStatusLabelStatus.Text = "Following";
-                }                
+                }
+
+                //SendMessage(richTextBoxLog.Handle, WM_SETREDRAW, true, 0);
 
                 if (initialLoad || (tailStatistics.LastRead > 0))
                 {
-                    richTextBoxLog.Refresh();
-                    if (AutoScroll && richTextBoxLog.Enabled)
+                    //richTextBoxLog.Refresh();
+                    if (AutoScroll && richTextBoxLog.Enabled && richTextBoxLog.SelectionStart < richTextBoxLog.Text.Length)
                     {
                         richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
                         richTextBoxLog.ScrollToCaret();

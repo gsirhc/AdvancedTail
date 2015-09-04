@@ -96,8 +96,6 @@
 
         private void InitializeTailManager()
         {
-            var fileSettings = CurrentFileSettings;
-
             var serialFileReader = new CallbackFileReader()
             {
                 StartCallback = logDisplay.StartWrite,
