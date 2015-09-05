@@ -8,9 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{68C969B3-D0F4-4607-8271-1117AEA9EAA3}"
 	ProjectSection(SolutionItems) = preProject
 		screenshots\filter.png = screenshots\filter.png
+		LICENSE.txt = LICENSE.txt
 		screenshots\main.png = screenshots\main.png
 		README.md = README.md
-		UNLICENSE.txt = UNLICENSE.txt
 	EndProjectSection
 EndProject
 Global

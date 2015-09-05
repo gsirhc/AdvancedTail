@@ -1,7 +1,6 @@
 # AdvancedTail
 A lightweight .NET Windows program to follow changing text files and provides advanced filtering and formatting.
 
-### Features at a Glance
 * Tail any text-based file in a user-friendly GUI
 * Advanced Filtering using regular expressions
 * Advanced line trimming using regular expressions to enhance readability
@@ -93,12 +92,9 @@ Or you can be more specific with the "To":  ```trim to: "it rules|it rocks"```
 
 #### File History
 AdvancedTail saves a history of all files you have tailed.  This includes
-saving the filters/trim expressions per file so that when you select a file,
-AdvancedTail will preload the last expressions.  These settings are stored
+saving the filters/trim expressions per file.  These settings are stored
 in your users appdata folders ("%appdata%") allowing for multiple user
 settings on servers or other shared systems.
-
-AdvancedTail also supports automatically tailing the last file on load.
 
 #### Known Issues and Limitations
 * Line numbers are embedded in the file display as regular text
@@ -113,5 +109,4 @@ AdvancedTail also supports automatically tailing the last file on load.
 Please enter any issues not listed above into the projects [GitHub issues section](https://github.com/gsirhc/AdvancedTail/issues).
 
 ### License
-The AdvancedTail source code and binaries are free and unencumbered public domain software. 
-For more information, see the [UNLICENSE](http://unlicense.org/) or the UNLICENSE.txt file.
+The code and executable are licensed under the [MIT License (MIT)](https://github.com/gsirhc/AdvancedTail/blob/master/LICENSE.txt)
