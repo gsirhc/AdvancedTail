@@ -20,7 +20,7 @@ A lightweight .NET Windows program to follow changing text files and provides ad
 
 ### Features in Detail
 
-![Main Form](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/main.png)
+![Main Form](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/main2.png)
 
 #### Filtering
 AdvancedTail provides a filtering engine to remove lines from the displayed text using regular expressions.
