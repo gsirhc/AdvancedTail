@@ -154,7 +154,7 @@
 
         private void toolStripButtonOpenFile_Click(object sender, EventArgs e)
         {
-            var file = OpenFile();
+            var file = OpenFile("Open");
 
             if (file != null)
             {
@@ -165,7 +165,7 @@
 
         private void openFileInNewWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var file = OpenFile();
+            var file = OpenFile("Open in New Window");
 
             if (file != null)
             {
@@ -178,12 +178,13 @@
             }
         }
 
-        private string OpenFile()
+        private string OpenFile(string title)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
             openFileDialog.InitialDirectory = "c:\\";
             openFileDialog.Filter = "txt files (*.txt)|*.txt|(*.log)|*.log|All files (*.*)|*.*";
+            openFileDialog.Title = title;
             openFileDialog.FilterIndex = 2;
             openFileDialog.RestoreDirectory = true;
 

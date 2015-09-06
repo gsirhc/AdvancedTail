@@ -108,14 +108,17 @@
             this.openFileToolStripMenuItem.Image = global::Tail.Properties.Resources.folder_page;
             this.openFileToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
-            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.openFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.openFileToolStripMenuItem.Text = "Open File...";
             this.openFileToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonOpenFile_Click);
             // 
             // openFileInNewWindowToolStripMenuItem
             // 
             this.openFileInNewWindowToolStripMenuItem.Name = "openFileInNewWindowToolStripMenuItem";
-            this.openFileInNewWindowToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.openFileInNewWindowToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.O)));
+            this.openFileInNewWindowToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.openFileInNewWindowToolStripMenuItem.Text = "Open File in New Window...";
             this.openFileInNewWindowToolStripMenuItem.Click += new System.EventHandler(this.openFileInNewWindowToolStripMenuItem_Click);
             // 
@@ -155,7 +158,9 @@
             // demoToolStripMenuItem
             // 
             this.demoToolStripMenuItem.Name = "demoToolStripMenuItem";
-            this.demoToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.demoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
+            this.demoToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.demoToolStripMenuItem.Text = "Demo...";
             this.demoToolStripMenuItem.Click += new System.EventHandler(this.demoToolStripMenuItem_Click);
             // 
@@ -167,7 +172,8 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -217,7 +223,8 @@
             // clearDisplayToolStripMenuItem
             // 
             this.clearDisplayToolStripMenuItem.Name = "clearDisplayToolStripMenuItem";
-            this.clearDisplayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearDisplayToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            this.clearDisplayToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.clearDisplayToolStripMenuItem.Text = "Clear Display";
             this.clearDisplayToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonClear_Click);
             // 
@@ -232,7 +239,7 @@
             this.enableFilterToolStripMenuItem,
             this.enableTrimToolStripMenuItem});
             this.tailToolStripMenuItem.Name = "tailToolStripMenuItem";
-            this.tailToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
+            this.tailToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.tailToolStripMenuItem.Text = "Tail";
             // 
             // startToolStripMenuItem
@@ -240,6 +247,7 @@
             this.startToolStripMenuItem.Image = global::Tail.Properties.Resources.resultset_next;
             this.startToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
+            this.startToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.startToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.startToolStripMenuItem.Text = "Start";
             this.startToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonStart_Click);
@@ -249,6 +257,7 @@
             this.stopToolStripMenuItem.Image = global::Tail.Properties.Resources.stop;
             this.stopToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
+            this.stopToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F5)));
             this.stopToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.stopToolStripMenuItem.Text = "Stop";
             this.stopToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonStop_Click);
@@ -258,7 +267,8 @@
             this.refreshToolStripMenuItem.Image = global::Tail.Properties.Resources.arrow_refresh;
             this.refreshToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.refreshToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.refreshToolStripMenuItem.Text = "Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonRefresh_Click);
             // 
@@ -272,7 +282,8 @@
             this.filterToolStripMenuItem.Image = global::Tail.Properties.Resources.application_form_edit;
             this.filterToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
-            this.filterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.filterToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
+            this.filterToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.filterToolStripMenuItem.Text = "Filter...";
             this.filterToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonFilter_Click);
             // 
@@ -282,7 +293,8 @@
             this.enableFilterToolStripMenuItem.CheckOnClick = true;
             this.enableFilterToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.enableFilterToolStripMenuItem.Name = "enableFilterToolStripMenuItem";
-            this.enableFilterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.enableFilterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.enableFilterToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.enableFilterToolStripMenuItem.Text = "Enable Filter";
             this.enableFilterToolStripMenuItem.Click += new System.EventHandler(this.enableFilterToolStripMenuItem_Click);
             // 
@@ -292,7 +304,8 @@
             this.enableTrimToolStripMenuItem.CheckOnClick = true;
             this.enableTrimToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.enableTrimToolStripMenuItem.Name = "enableTrimToolStripMenuItem";
-            this.enableTrimToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.enableTrimToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.enableTrimToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.enableTrimToolStripMenuItem.Text = "Enable Trim";
             this.enableTrimToolStripMenuItem.Click += new System.EventHandler(this.enableTrimToolStripMenuItem_Click);
             // 

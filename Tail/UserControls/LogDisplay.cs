@@ -32,8 +32,8 @@
             scintilla.ExtraAscent = 1;
             scintilla.ExtraDescent = 1;
 
-            scintilla.Styles[Style.Default].Font = "Courier";
-            scintilla.Styles[Style.Default].Size = 9;
+            scintilla.Styles[Style.Default].Font = "Courier New";
+            scintilla.Styles[Style.Default].Size = 10;
         }
         
         public bool WordWrap
@@ -142,13 +142,13 @@
 
                 if (initialLoad || (tailStatistics.LastRead > 0))
                 {
-                    scintilla.Refresh();
-                    
                     if (AutoScroll && scintilla.Enabled)
                     {
                         scintilla.SelectionStart = scintilla.Text.Length;
                         scintilla.ScrollCaret();
                     }
+
+                    scintilla.Refresh();
 
                     var now = DateTime.Now;
                     toolStripStatusLabelRead.Text = string.Format("Updated: {0} (Read {1})", now.ToString("G"), tailStatistics.LastRead);
