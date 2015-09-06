@@ -14,3 +14,6 @@
 /Tail/bin/Release/demo.log
 /.vs/config/applicationhost.config
 /Tail/Tail.csproj.user
+/packages
+/Tail/bin/Release/ScintillaNET.xml
+/Tail/bin/Release/ScintillaNET.dll

@@ -153,7 +153,7 @@
                 {
                     if (IsMatchFilter(ref line))
                     {
-                        lineList.Add(new TailLine { Line = line + Environment.NewLine, LineNumber = lineCount });
+                        lineList.Add(new TailLine { Line = line, LineNumber = lineCount });
                         statistics.Displayed++;                        
                     }
                     else

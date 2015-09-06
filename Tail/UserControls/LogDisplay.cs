@@ -6,35 +6,64 @@
     using System.Collections.Generic;
     using System.Text;
     using System.Windows.Forms;
+    using ScintillaNET;
+    using System.Drawing;
 
     /// <summary>
     /// Wrapper control for displaying the file contents.
     /// </summary>
     public partial class LogDisplay : UserControl
     {
-        //[DllImport("user32.dll")]
-        //public static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
-        //private const int WM_SETREDRAW = 11;
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
+        private const int WM_SETREDRAW = 11;
 
         public event Action FilterToggle;
         public event Action TrimToggle;
 
+        private const int LineNumberMarginIndex = 1;
+
         public LogDisplay()
         {
             InitializeComponent();
-        }
 
+            scintilla.Margins[LineNumberMarginIndex].Type = MarginType.Text;
+            scintilla.TextChanged += Scintilla_TextChanged;
+            scintilla.ExtraAscent = 1;
+            scintilla.ExtraDescent = 1;
+
+            scintilla.Styles[Style.Default].Font = "Courier";
+            scintilla.Styles[Style.Default].Size = 9;
+        }
+        
         public bool WordWrap
         {
-            get { return richTextBoxLog.WordWrap; }
-            set { richTextBoxLog.WordWrap = value;  }
+            get { return scintilla.WrapMode != ScintillaNET.WrapMode.None; }
+            set { scintilla.WrapMode = value ? ScintillaNET.WrapMode.Word : ScintillaNET.WrapMode.None;  }
         }
 
-        public bool ShowLineNumbers { get; set; }
+        private bool showLineNumbers = false;
+        public bool ShowLineNumbers
+        {
+            get { return showLineNumbers; }
+            set
+            {
+                showLineNumbers = value;
+                if (showLineNumbers)
+                {
+                    scintilla.Margins[LineNumberMarginIndex].Width = 16;
+                    UpdateLineNumberMarginSize();
+                }
+                else
+                {
+                    scintilla.Margins[LineNumberMarginIndex].Width = 0;
+                }
+            }
+        }
 
         public void Clear()
         {
-            richTextBoxLog.Clear();
+            scintilla.ClearAll();
         }
 
         public void SetState(bool running)
@@ -56,13 +85,7 @@
         {
             if (!string.IsNullOrEmpty(searchText))
             {
-                var startPosition = 0;
-                if (richTextBoxLog.SelectionLength > 0)
-                {
-                    startPosition = richTextBoxLog.SelectionStart + richTextBoxLog.SelectionLength;
-                }
-
-                var location = richTextBoxLog.Find(searchText, startPosition, RichTextBoxFinds.None);
+                var location = scintilla.SearchInTarget(searchText);
                 if (location == -1)
                 {
                     MessageBox.Show("Not Found - searched passed end of document", "Search");
@@ -72,65 +95,59 @@
 
         public void StartWrite(bool initialLoad)
         {
-            richTextBoxLog.Invoke(new Action(() =>
+            this.Invoke(new Action(() =>
             {
                 if (initialLoad)
                 {
-                    richTextBoxLog.Enabled = false;
-                    richTextBoxLog.Refresh();
+                    scintilla.Enabled = false;
+                    scintilla.Refresh();
                 }
-
-                //SendMessage(richTextBoxLog.Handle, WM_SETREDRAW, false, 0);
+                SendMessage(scintilla.Handle, WM_SETREDRAW, false, 0);
             }));
         }
 
         public void Write(IList<TailLine> lines, bool clearAll)
         {
-            richTextBoxLog.Invoke(new Action(() =>
+            if (clearAll)
             {
-                if (clearAll)
-                {
-                    richTextBoxLog.Clear();
-                }
+                scintilla.ClearAll();
+            }
 
-                if (lines.Count > 0)
+            if (lines.Count > 0)
+            {
+                foreach (var tailLine in lines)
                 {
-                    var stringBuilder = new StringBuilder();
-                    foreach (var tailLine in lines)
+                    this.Invoke(new Action(() =>
                     {
-                        var formattedLine = tailLine.Line;
-                        if (ShowLineNumbers)
-                        {
-                            formattedLine = "[" + tailLine.LineNumber.ToString().PadLeft(6) + "] " + formattedLine;
-                        }
-
-                        stringBuilder.Append(formattedLine);
-                    }
-                    
-                    richTextBoxLog.AppendText(stringBuilder.ToString());
+                        scintilla.AppendText(tailLine.Line + Environment.NewLine);
+                        
+                        scintilla.Lines[scintilla.Lines.Count - 2].MarginStyle = Style.LineNumber;
+                        scintilla.Lines[scintilla.Lines.Count - 2].MarginText = tailLine.LineNumber.ToString();
+                    }));
                 }
-            }));
+            }
         }
-
+        
         public void EndWrite(bool initialLoad, TailStatistics tailStatistics)
         {
-            richTextBoxLog.Invoke(new Action(() =>
+            this.Invoke(new Action(() =>
             {
                 if (initialLoad)
                 {
-                    richTextBoxLog.Enabled = true;
+                    scintilla.Enabled = true;
                     toolStripStatusLabelStatus.Text = "Following";
                 }
 
-                //SendMessage(richTextBoxLog.Handle, WM_SETREDRAW, true, 0);
+                SendMessage(scintilla.Handle, WM_SETREDRAW, true, 0);
 
                 if (initialLoad || (tailStatistics.LastRead > 0))
                 {
-                    //richTextBoxLog.Refresh();
-                    if (AutoScroll && richTextBoxLog.Enabled && richTextBoxLog.SelectionStart < richTextBoxLog.Text.Length)
+                    scintilla.Refresh();
+                    
+                    if (AutoScroll && scintilla.Enabled)
                     {
-                        richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
-                        richTextBoxLog.ScrollToCaret();
+                        scintilla.SelectionStart = scintilla.Text.Length;
+                        scintilla.ScrollCaret();
                     }
 
                     var now = DateTime.Now;
@@ -150,6 +167,32 @@
         private void toolStripStatusLabelTrim_Click(object sender, EventArgs e)
         {
             TrimToggle?.Invoke();
+        }
+
+        private int maxLineNumberCharLength;
+        private void Scintilla_TextChanged(object sender, EventArgs e)
+        {
+            if (!ShowLineNumbers)
+            {
+                return;
+            }
+
+            // Did the number of characters in the line number display change?
+            // i.e. nnn VS nn, or nnnn VS nn, etc...
+            var maxLineNumberCharLength = scintilla.Lines.Count.ToString().Length;
+            if (maxLineNumberCharLength == this.maxLineNumberCharLength)
+                return;
+
+            this.maxLineNumberCharLength = maxLineNumberCharLength;
+            UpdateLineNumberMarginSize();
+        }
+
+        private void UpdateLineNumberMarginSize()
+        {
+            // Calculate the width required to display the last line number
+            // and include some padding for good measure.
+            const int padding = 2;
+            scintilla.Margins[LineNumberMarginIndex].Width = scintilla.TextWidth(Style.LineNumber, new string('9', maxLineNumberCharLength + 2)) + padding;
         }
     }
 }

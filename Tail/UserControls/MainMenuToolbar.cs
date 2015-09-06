@@ -95,6 +95,7 @@
             enableTrimToolStripMenuItem.Checked = fileSettings.EnableTrim;
             LoadLastNLines = fileSettings.LoadLastLines;
             autoScrollToolStripMenuItem.Checked = fileSettings.AutoScroll;
+            showLineNumbersToolStripMenuItem.Checked = fileSettings.ShowLineNumbers;
         }
 
         public void SetState(bool running, bool allowSave)

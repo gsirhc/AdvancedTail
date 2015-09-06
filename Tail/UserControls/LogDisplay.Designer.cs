@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelFilter = new System.Windows.Forms.ToolStripStatusLabel();
@@ -37,22 +36,9 @@
             this.toolStripStatusLabelTotalLines = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelLinesDisplayed = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelLinesIgnored = new System.Windows.Forms.ToolStripStatusLabel();
+            this.scintilla = new ScintillaNET.Scintilla();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // richTextBoxLog
-            // 
-            this.richTextBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBoxLog.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBoxLog.HideSelection = false;
-            this.richTextBoxLog.Location = new System.Drawing.Point(0, 0);
-            this.richTextBoxLog.Name = "richTextBoxLog";
-            this.richTextBoxLog.Size = new System.Drawing.Size(622, 407);
-            this.richTextBoxLog.TabIndex = 0;
-            this.richTextBoxLog.Text = "";
-            this.richTextBoxLog.WordWrap = false;
             // 
             // statusStrip1
             // 
@@ -91,7 +77,7 @@
             // 
             this.toolStripStatusLabelTrim.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.toolStripStatusLabelTrim.Name = "toolStripStatusLabelTrim";
-            this.toolStripStatusLabelTrim.Size = new System.Drawing.Size(84, 19);
+            this.toolStripStatusLabelTrim.Size = new System.Drawing.Size(83, 19);
             this.toolStripStatusLabelTrim.Text = "Trim: Enabled";
             this.toolStripStatusLabelTrim.Click += new System.EventHandler(this.toolStripStatusLabelTrim_Click);
             // 
@@ -106,7 +92,7 @@
             // 
             this.toolStripStatusLabelTotalLines.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.toolStripStatusLabelTotalLines.Name = "toolStripStatusLabelTotalLines";
-            this.toolStripStatusLabelTotalLines.Size = new System.Drawing.Size(41, 19);
+            this.toolStripStatusLabelTotalLines.Size = new System.Drawing.Size(40, 19);
             this.toolStripStatusLabelTotalLines.Text = "Total:";
             // 
             // toolStripStatusLabelLinesDisplayed
@@ -122,12 +108,23 @@
             this.toolStripStatusLabelLinesIgnored.Size = new System.Drawing.Size(51, 19);
             this.toolStripStatusLabelLinesIgnored.Text = "Ignored:";
             // 
+            // scintilla
+            // 
+            this.scintilla.AutomaticFold = ((ScintillaNET.AutomaticFold)(((ScintillaNET.AutomaticFold.Show | ScintillaNET.AutomaticFold.Click) 
+            | ScintillaNET.AutomaticFold.Change)));
+            this.scintilla.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scintilla.Location = new System.Drawing.Point(0, 0);
+            this.scintilla.Name = "scintilla";
+            this.scintilla.Size = new System.Drawing.Size(622, 410);
+            this.scintilla.TabIndex = 30;
+            this.scintilla.UseTabs = false;
+            // 
             // LogDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.scintilla);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.richTextBoxLog);
             this.Name = "LogDisplay";
             this.Size = new System.Drawing.Size(622, 434);
             this.statusStrip1.ResumeLayout(false);
@@ -138,8 +135,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.RichTextBox richTextBoxLog;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelStatus;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelFilter;
@@ -148,5 +143,6 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelTotalLines;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelLinesDisplayed;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelLinesIgnored;
+        private ScintillaNET.Scintilla scintilla;
     }
 }

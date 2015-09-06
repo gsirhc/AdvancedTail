@@ -18,6 +18,11 @@ A lightweight .NET Windows program to follow changing text files and provides ad
 1. Download the release executable from the [/AdvancedTail/Tail/bin/Release Folder](https://github.com/gsirhc/AdvancedTail/tree/master/Tail/bin/Release)
 2. Place anywhere on your system and run.
 
+### Downloading Source
+You are of course welcome to download the source.  AdvancedTail source was written using 
+Visual Studio 2015 Community Edition.  With Visual Studio installed, simply open the Tail.sln file.
+There are a few Nuget packages to download which Visual Studio should do automatically.
+
 ### Features in Detail
 
 ![Main Form](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/main2.png)
@@ -96,9 +101,13 @@ saving the filters/trim expressions per file.  These settings are stored
 in your users appdata folders ("%appdata%") allowing for multiple user
 settings on servers or other shared systems.
 
+#### 3rd Party Mentions
+* [ScintillaNET](https://github.com/jacobslusser/ScintillaNET) to display the log.  This is the same control used by [Notepad++](https://notepad-plus-plus.org/).
+* [Fody](https://github.com/Fody/Fody) used to embed DLLs in the EXE to make AdvancedTail simple to install and run.
+* [Silk Icons](http://www.famfamfam.com/) for the toolbar.
+
+
 #### Known Issues and Limitations
-* Line numbers are embedded in the file display as regular text
-   * Future release will display line numbers outside of the text area.
 * Cannot type into "File:" path textbox.
    * Work around is to use the "Open File..." menu item or button
    * Future release will allow the user to type in the file path
