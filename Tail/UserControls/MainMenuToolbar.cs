@@ -241,7 +241,7 @@
 
         private void enableTrimToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CurrentFileSettings.EnableTrim = enableFilterToolStripMenuItem.Checked;
+            CurrentFileSettings.EnableTrim = enableTrimToolStripMenuItem.Checked;
             SettingsUpdated?.Invoke();
         }
 

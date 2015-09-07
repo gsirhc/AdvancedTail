@@ -18,6 +18,10 @@
         public static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
         private const int WM_SETREDRAW = 11;
 
+        // Indicators 0-7 could be in use by a lexer
+        // so we'll use indicator 8 to highlight words.
+        const int INDICATOR_NUM = 8;
+
         public event Action FilterToggle;
         public event Action TrimToggle;
 
@@ -34,6 +38,13 @@
 
             scintilla.Styles[Style.Default].Font = "Courier New";
             scintilla.Styles[Style.Default].Size = 10;
+            
+            // Update indicator appearance
+            scintilla.Indicators[INDICATOR_NUM].Style = IndicatorStyle.StraightBox;
+            scintilla.Indicators[INDICATOR_NUM].Under = true;
+            scintilla.Indicators[INDICATOR_NUM].ForeColor = Color.Black;
+            scintilla.Indicators[INDICATOR_NUM].OutlineAlpha = 90;
+            scintilla.Indicators[INDICATOR_NUM].Alpha = 70;
         }
         
         public bool WordWrap
@@ -85,10 +96,24 @@
         {
             if (!string.IsNullOrEmpty(searchText))
             {
+                // Remove all uses of our indicator
+                scintilla.IndicatorCurrent = INDICATOR_NUM;
+                scintilla.IndicatorClearRange(0, scintilla.TextLength);
+                scintilla.TargetEnd = scintilla.TextLength;
+
                 var location = scintilla.SearchInTarget(searchText);
-                if (location == -1)
+                if (location != -1)
+                {
+                    scintilla.IndicatorFillRange(scintilla.TargetStart, scintilla.TargetEnd - scintilla.TargetStart);
+                    scintilla.GotoPosition(scintilla.TargetStart);
+                    scintilla.ScrollCaret();
+
+                    scintilla.TargetStart = scintilla.TargetEnd;
+                }
+                else
                 {
                     MessageBox.Show("Not Found - searched passed end of document", "Search");
+                    scintilla.TargetStart = 0;
                 }
             }
         }
