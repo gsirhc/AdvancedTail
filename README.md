@@ -25,7 +25,7 @@ There are a few Nuget packages to download which Visual Studio should do automat
 
 ### Features in Detail
 
-![Main Form](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/main2.png)
+![Main Form](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/main3.png)
 
 #### Filtering
 AdvancedTail provides a filtering engine to remove lines from the displayed text using regular expressions.

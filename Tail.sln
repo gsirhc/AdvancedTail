@@ -9,14 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		screenshots\filter.png = screenshots\filter.png
 		LICENSE.txt = LICENSE.txt
-		screenshots\main2.png = screenshots\main2.png
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "screenshots", "screenshots", "{FB8D04C1-390D-4776-8844-3B275A1A7CF8}"
 	ProjectSection(SolutionItems) = preProject
 		screenshots\filter.png = screenshots\filter.png
-		screenshots\main2.png = screenshots\main2.png
+		screenshots\main3.png = screenshots\main3.png
 	EndProjectSection
 EndProject
 Global
