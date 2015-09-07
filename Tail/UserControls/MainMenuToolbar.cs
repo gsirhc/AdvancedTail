@@ -19,6 +19,9 @@
         public MainMenuToolbar()
         {
             InitializeComponent();
+
+            increaseFontSizeToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl++";
+            decreaseFontSizeToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+-";
         }
 
         public event Action StartTail;
@@ -31,6 +34,10 @@
         public event Action SettingsUpdated;
 
         public event Action EditFilter;
+
+        public event Action IncreaseFont;
+        public event Action DecreaseFont;
+        public event Action ResetFont;
 
         public event Action<string> SearchNext;
 
@@ -260,6 +267,21 @@
             RefreshFile?.Invoke();
         }
 
+        private void toolStripButtonFontUp_Click(object sender, EventArgs e)
+        {
+            IncreaseFont?.Invoke();
+        }
+
+        private void toolStripButtonFontDown_Click(object sender, EventArgs e)
+        {
+            DecreaseFont?.Invoke();
+        }
+
+        private void resetFontSizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ResetFont?.Invoke();
+        }
+
         private void wordWrapToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CurrentFileSettings.WordWrap = wordWrapToolStripMenuItem.Checked;
@@ -305,9 +327,7 @@
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var message = string.Format("Advanced Tail \n GitHub: {0} \n (see GitHub url above for licensing) ",
-                "https://github.com/gsirhc/AdvancedTail");
-            MessageBox.Show(message, "About Tail");
+            (new AboutForm()).ShowDialog();
         }
 
         private void demoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -317,6 +337,11 @@
             {
                 textBoxFile.Text = file;
             }
-        }        
+        }
+
+        private void helpDocumentationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/gsirhc/AdvancedTail");
+        }
     }
 }

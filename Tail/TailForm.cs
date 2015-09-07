@@ -38,6 +38,9 @@
             mainMenuToolbar.SelectedFile += InitializeNewFile;
             mainMenuToolbar.SettingsUpdated += SettingsUpdated;
             mainMenuToolbar.ClearLog += logDisplay.Clear;
+            mainMenuToolbar.IncreaseFont += logDisplay.IncreaseFont;
+            mainMenuToolbar.DecreaseFont += logDisplay.DecreaseFont;
+            mainMenuToolbar.ResetFont += logDisplay.ResetDefaultFont;
 
             mainMenuToolbar.SearchNext += logDisplay.Search;
             mainMenuToolbar.StartDemo += StartDemo;
@@ -46,7 +49,7 @@
             logDisplay.FilterToggle += FilterToggle;
             logDisplay.TrimToggle += TrimToggle;
         }
-
+        
         private FileSettings CurrentFileSettings => !string.IsNullOrEmpty(mainMenuToolbar.FilePath) ?  settingsManager.GetFileSettings(mainMenuToolbar.FilePath) : FileSettings.Default;
 
         protected override void OnShown(EventArgs e)
@@ -203,7 +206,7 @@
             tailManager.StopTail();
             tailManager.StartTail();
         }
-
+        
         private bool IsDemo
         {
             get { return tailManager is DemoTailManager; }

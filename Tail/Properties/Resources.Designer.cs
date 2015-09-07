@@ -163,6 +163,16 @@ namespace Tail.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icon_96x96 {
+            get {
+                object obj = ResourceManager.GetObject("icon_96x96", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap page_white {
             get {
                 object obj = ResourceManager.GetObject("page_white", resourceCulture);
@@ -206,6 +216,26 @@ namespace Tail.Properties {
         internal static System.Drawing.Bitmap table_row_delete {
             get {
                 object obj = ResourceManager.GetObject("table_row_delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap zoom_in {
+            get {
+                object obj = ResourceManager.GetObject("zoom_in", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap zoom_out {
+            get {
+                object obj = ResourceManager.GetObject("zoom_out", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

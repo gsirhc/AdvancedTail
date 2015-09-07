@@ -77,6 +77,27 @@
             scintilla.ClearAll();
         }
 
+        public void IncreaseFont()
+        {
+            if (scintilla.Styles[Style.Default].Size <= 24)
+            {
+                scintilla.Styles[Style.Default].Size++;
+            }
+        }
+
+        public void DecreaseFont()
+        {
+            if (scintilla.Styles[Style.Default].Size >= 6)
+            {
+                scintilla.Styles[Style.Default].Size--;
+            }
+        }
+
+        public void ResetDefaultFont()
+        {
+            scintilla.Styles[Style.Default].Size = 10;
+        }
+
         public void SetState(bool running)
         {
             toolStripStatusLabelStatus.Text = running ? "Following" : "Paused";
