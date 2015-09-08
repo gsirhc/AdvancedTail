@@ -108,17 +108,17 @@ as debug, trace, error, etc:
 
 * **Starts with Log Level**: Use this if each line starts with the level text.  Note that the expressions are case insensitive:
 
-''' 
+``` 
 INFO   [9/1/15] This is an information line 
 DEBUG  [9/1/15] This is a debug line 
-'''
+```
 
 * **Contains Log Level**: Use this if each line contains the log level but it is not at the start of the line:
 
-''' 
+``` 
 [9/1/15] INFO This is an information line 
 [9/1/15] DEBUG This is a debug line 
-'''
+```
 
 Note, these expressions can provide a false-positive because it searches the entire string.
 
