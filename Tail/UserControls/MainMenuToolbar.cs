@@ -22,6 +22,7 @@
 
             increaseFontSizeToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl++";
             decreaseFontSizeToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+-";
+            resetFontSizeToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift++";
         }
 
         public event Action StartTail;
