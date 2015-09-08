@@ -31,6 +31,7 @@
         public event Action<string> SelectedFile;
         public event Action RefreshFile;
         public event Action ClearLog;
+        public event Action<string> EditFile;
 
         public event Action SettingsUpdated;
 
@@ -38,7 +39,7 @@
 
         public event Action IncreaseFont;
         public event Action DecreaseFont;
-        public event Action ResetFont;
+        public event Action ResetDefaultFont;
 
         public event Action<string> SearchNext;
 
@@ -87,6 +88,12 @@
             set { enableTrimToolStripMenuItem.Checked = value; }
         }
 
+        public bool HighlightEnabled
+        {
+            get { return enableHighlightingToolStripMenuItem.Checked; }
+            set { enableHighlightingToolStripMenuItem.Checked = value; }
+        }
+
         private FileSettings CurrentFileSettings => !string.IsNullOrEmpty(FilePath) ? settingsManager.GetFileSettings(FilePath) : FileSettings.Default;
 
         public void Initialize(SettingsManager settingsManager)
@@ -101,6 +108,7 @@
         {
             enableFilterToolStripMenuItem.Checked = fileSettings.EnableFilter;
             enableTrimToolStripMenuItem.Checked = fileSettings.EnableTrim;
+            enableHighlightingToolStripMenuItem.Checked = fileSettings.EnableHighlight;
             LoadLastNLines = fileSettings.LoadLastLines;
             autoScrollToolStripMenuItem.Checked = fileSettings.AutoScroll;
             showLineNumbersToolStripMenuItem.Checked = fileSettings.ShowLineNumbers;
@@ -119,14 +127,17 @@
                 toolStripButtonFilter.Enabled = filterToolStripMenuItem.Enabled = false;
                 enableFilterToolStripMenuItem.Enabled = false;
                 enableTrimToolStripMenuItem.Enabled = false;
+                enableHighlightingToolStripMenuItem.Enabled = false;
                 toolStripButtonSearch.Enabled = toolStripTextBoxSearch.Enabled = false;
                 return;
             }
 
             toolStripButtonFilter.Enabled = filterToolStripMenuItem.Enabled = true;
             enableFilterToolStripMenuItem.Enabled = true;
+            enableHighlightingToolStripMenuItem.Enabled = true;
             enableTrimToolStripMenuItem.Enabled = true;
             toolStripButtonSearch.Enabled = toolStripTextBoxSearch.Enabled = true;
+            openFileInEditorToolStripMenuItem.Enabled = !string.IsNullOrEmpty(FilePath);
             
             if (running && !allowSave && !string.IsNullOrEmpty(textFile))
             {
@@ -253,6 +264,12 @@
             SettingsUpdated?.Invoke();
         }
 
+        private void enableHighlightingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CurrentFileSettings.EnableHighlight = enableHighlightingToolStripMenuItem.Checked;
+            SettingsUpdated?.Invoke();
+        }
+
         private void toolStripButtonStart_Click(object sender, EventArgs e)
         {
             StartTail?.Invoke();
@@ -280,7 +297,7 @@
 
         private void resetFontSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ResetFont?.Invoke();
+            ResetDefaultFont?.Invoke();
         }
 
         private void wordWrapToolStripMenuItem_Click(object sender, EventArgs e)
@@ -321,6 +338,11 @@
             settingsManager.Save();
         }
 
+        private void openFileInEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditFile?.Invoke(FilePath);
+        }
+
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Exit?.Invoke();
@@ -343,6 +365,6 @@
         private void helpDocumentationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/gsirhc/AdvancedTail");
-        }
+        }        
     }
 }

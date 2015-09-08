@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.IO;
     using System.Threading;
     using Filter;
@@ -100,6 +101,7 @@
                     StartCallback?.Invoke(initialLoad);
                     var totalLineCount = 0;
                     var minLineCount = 0;
+                    var clear = false;
                     if (initialLoad && LoadLastLines >= 0 && lastPositionDict[next] == 0)
                     {
                         totalLineCount = File.ReadLines(next).Count();
@@ -112,23 +114,19 @@
 
                         if (lastPosition > fs.Length)
                         {
-                            lastPositionDict[next] = 0L;
-                            lastPositionDict[next] = 0L;
+                            lastPositionDict[next] = lastPosition = 0L;
+                            fileStatistics[next].Reset();
                             initialLoad = true;
-                            UpdateCallback(new TailLine[0], true);
+                            StartCallback?.Invoke(initialLoad);
+                            clear = true;
                         }
 
-                        fs.Seek(lastPosition, SeekOrigin.Begin);
-
-                        var reader = new StreamReader(fs);
-
-                        ReadLines(reader, next, minLineCount);
-
+                        fs.Seek(lastPosition, SeekOrigin.Begin);                        
+                        ReadLines(new StreamReader(fs), next, minLineCount, clear);
                         lastPositionDict[next] = fs.Position;
                     }
 
                     FinishCallback?.Invoke(initialLoad, fileStatistics[next]);
-
                     initialLoad = false;
                 }
                 catch (Exception ex)
@@ -138,7 +136,7 @@
             }
         }
 
-        private void ReadLines(StreamReader reader, string fileKey, int minLineCount)
+        private void ReadLines(StreamReader reader, string fileKey, int minLineCount, bool clear)
         {
             var statistics = fileStatistics[fileKey];
             var lineList = new List<TailLine>();
@@ -151,9 +149,10 @@
 
                 if (lineCount > minLineCount)
                 {
-                    if (IsMatchFilter(ref line))
+                    HighlightColor.ColorIndex highlightColor;
+                    if (IsMatchFilter(ref line, out highlightColor))
                     {
-                        lineList.Add(new TailLine { Line = line, LineNumber = lineCount });
+                        lineList.Add(new TailLine { Line = line, LineNumber = lineCount, ColorIndex = highlightColor });
                         statistics.Displayed++;                        
                     }
                     else
@@ -165,17 +164,19 @@
                 linesRead++;
             }
 
-            UpdateCallback(lineList, false);
+            UpdateCallback(lineList, clear);
 
             statistics.LastRead = linesRead;
         }
 
-        private bool IsMatchFilter(ref string line)
+        private bool IsMatchFilter(ref string line, out HighlightColor.ColorIndex highlightColor)
         {
+            highlightColor = HighlightColor.ColorIndex.None;
             if (Filter != null)
             {
                 var result = Filter.IsMatch(line);
                 line = result.Result;
+                highlightColor = result.HighlightColor;
                 return result.IsMatch;
             }
 

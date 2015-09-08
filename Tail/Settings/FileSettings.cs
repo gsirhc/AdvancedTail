@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Tail.Settings
 {
+    using System.Drawing;
+    using Filter;
+
     public class FileSettings
     {
         public static FileSettings Default => new FileSettings
@@ -25,6 +28,8 @@ namespace Tail.Settings
         public bool AutoScroll { get; set; }
         public bool EnableFilter { get; set; }
         public bool EnableTrim { get; set; }
+        public bool EnableHighlight { get; set; }
         public int LoadLastLines { get; set; }
+        public IDictionary<string, string> HighlightRegexMap { get; set; }
     }
 }

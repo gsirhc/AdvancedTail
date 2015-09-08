@@ -37,6 +37,7 @@
             this.toolStripStatusLabelLinesDisplayed = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelLinesIgnored = new System.Windows.Forms.ToolStripStatusLabel();
             this.scintilla = new ScintillaNET.Scintilla();
+            this.toolStripStatusLabelHighlight = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,6 +48,7 @@
             this.toolStripStatusLabelStatus,
             this.toolStripStatusLabelFilter,
             this.toolStripStatusLabelTrim,
+            this.toolStripStatusLabelHighlight,
             this.toolStripStatusLabelRead,
             this.toolStripStatusLabelTotalLines,
             this.toolStripStatusLabelLinesDisplayed,
@@ -77,7 +79,7 @@
             // 
             this.toolStripStatusLabelTrim.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.toolStripStatusLabelTrim.Name = "toolStripStatusLabelTrim";
-            this.toolStripStatusLabelTrim.Size = new System.Drawing.Size(83, 19);
+            this.toolStripStatusLabelTrim.Size = new System.Drawing.Size(84, 19);
             this.toolStripStatusLabelTrim.Text = "Trim: Enabled";
             this.toolStripStatusLabelTrim.Click += new System.EventHandler(this.toolStripStatusLabelTrim_Click);
             // 
@@ -92,7 +94,7 @@
             // 
             this.toolStripStatusLabelTotalLines.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.toolStripStatusLabelTotalLines.Name = "toolStripStatusLabelTotalLines";
-            this.toolStripStatusLabelTotalLines.Size = new System.Drawing.Size(40, 19);
+            this.toolStripStatusLabelTotalLines.Size = new System.Drawing.Size(41, 19);
             this.toolStripStatusLabelTotalLines.Text = "Total:";
             // 
             // toolStripStatusLabelLinesDisplayed
@@ -119,6 +121,14 @@
             this.scintilla.TabIndex = 30;
             this.scintilla.UseTabs = false;
             // 
+            // toolStripStatusLabelHighlight
+            // 
+            this.toolStripStatusLabelHighlight.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.toolStripStatusLabelHighlight.Name = "toolStripStatusLabelHighlight";
+            this.toolStripStatusLabelHighlight.Size = new System.Drawing.Size(109, 19);
+            this.toolStripStatusLabelHighlight.Text = "Highlight: Enabled";
+            this.toolStripStatusLabelHighlight.Click += new System.EventHandler(this.toolStripStatusLabelHighlight_Click);
+            // 
             // LogDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -144,5 +154,6 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelLinesDisplayed;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelLinesIgnored;
         private ScintillaNET.Scintilla scintilla;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelHighlight;
     }
 }

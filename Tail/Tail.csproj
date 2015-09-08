@@ -63,6 +63,9 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Filter\HighlightColor.cs" />
+    <Compile Include="Filter\HighlightProcessor.cs" />
     <Compile Include="Process\TailLine.cs" />
     <Compile Include="UserControls\LogDisplay.cs">
       <SubType>UserControl</SubType>

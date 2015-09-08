@@ -8,6 +8,7 @@
     using System.Windows.Forms;
     using ScintillaNET;
     using System.Drawing;
+    using Filter;
 
     /// <summary>
     /// Wrapper control for displaying the file contents.
@@ -21,9 +22,11 @@
         // Indicators 0-7 could be in use by a lexer
         // so we'll use indicator 8 to highlight words.
         const int INDICATOR_NUM = 8;
+        const int HIGHLIGHT_INDEX = 1;
 
         public event Action FilterToggle;
         public event Action TrimToggle;
+        public event Action HighlightToggle;
 
         private const int LineNumberMarginIndex = 1;
 
@@ -32,13 +35,17 @@
             InitializeComponent();
 
             scintilla.Margins[LineNumberMarginIndex].Type = MarginType.Text;
+            scintilla.Styles[Style.LineNumber].ForeColor = Color.Gray;
+
             scintilla.TextChanged += Scintilla_TextChanged;
             scintilla.ExtraAscent = 1;
             scintilla.ExtraDescent = 1;
-
+            
             scintilla.Styles[Style.Default].Font = "Courier New";
             scintilla.Styles[Style.Default].Size = 10;
-            
+
+            SetHighlightColors();
+
             // Update indicator appearance
             scintilla.Indicators[INDICATOR_NUM].Style = IndicatorStyle.StraightBox;
             scintilla.Indicators[INDICATOR_NUM].Under = true;
@@ -113,6 +120,12 @@
             toolStripStatusLabelTrim.Text = "Trim: " + (enabled ? "Enabled" : "Disabled");
         }
 
+        public void SetHighlighState(bool enabled)
+        {
+            toolStripStatusLabelHighlight.Text = "Highlight: " + (enabled ? "Enabled" : "Disabled");
+            SetHighlightColors(!enabled);
+        }
+
         public void Search(string searchText)
         {
             if (!string.IsNullOrEmpty(searchText))
@@ -156,7 +169,10 @@
         {
             if (clearAll)
             {
-                scintilla.ClearAll();
+                this.Invoke(new Action(() =>
+                {
+                    scintilla.ClearAll();
+                }));
             }
 
             if (lines.Count > 0)
@@ -166,9 +182,16 @@
                     this.Invoke(new Action(() =>
                     {
                         scintilla.AppendText(tailLine.Line + Environment.NewLine);
-                        
-                        scintilla.Lines[scintilla.Lines.Count - 2].MarginStyle = Style.LineNumber;
-                        scintilla.Lines[scintilla.Lines.Count - 2].MarginText = tailLine.LineNumber.ToString();
+                        var lastLineIndex = scintilla.Lines.Count - 2;
+
+                        if (tailLine.ColorIndex != HighlightColor.ColorIndex.None)
+                        {
+                            scintilla.StartStyling(scintilla.Lines[lastLineIndex].Position);
+                            scintilla.SetStyling(scintilla.Lines[lastLineIndex].EndPosition - scintilla.Lines[lastLineIndex].Position, (int)tailLine.ColorIndex);
+                        }
+
+                        scintilla.Lines[lastLineIndex].MarginStyle = Style.LineNumber;
+                        scintilla.Lines[lastLineIndex].MarginText = tailLine.LineNumber.ToString();
                     }));
                 }
             }
@@ -215,14 +238,14 @@
             TrimToggle?.Invoke();
         }
 
+        private void toolStripStatusLabelHighlight_Click(object sender, EventArgs e)
+        {
+            HighlightToggle?.Invoke();
+        }
+
         private int maxLineNumberCharLength;
         private void Scintilla_TextChanged(object sender, EventArgs e)
         {
-            if (!ShowLineNumbers)
-            {
-                return;
-            }
-
             // Did the number of characters in the line number display change?
             // i.e. nnn VS nn, or nnnn VS nn, etc...
             var maxLineNumberCharLength = scintilla.Lines.Count.ToString().Length;
@@ -230,7 +253,11 @@
                 return;
 
             this.maxLineNumberCharLength = maxLineNumberCharLength;
-            UpdateLineNumberMarginSize();
+
+            if (ShowLineNumbers)
+            {
+                UpdateLineNumberMarginSize();
+            }            
         }
 
         private void UpdateLineNumberMarginSize()
@@ -238,7 +265,16 @@
             // Calculate the width required to display the last line number
             // and include some padding for good measure.
             const int padding = 2;
-            scintilla.Margins[LineNumberMarginIndex].Width = scintilla.TextWidth(Style.LineNumber, new string('9', maxLineNumberCharLength + 2)) + padding;
+            scintilla.Margins[LineNumberMarginIndex].Width = scintilla.TextWidth(Style.LineNumber, new string('9', maxLineNumberCharLength + 3)) + padding;
+        }
+
+        private void SetHighlightColors(bool removeColors = false)
+        {
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Red].BackColor = removeColors ? HighlightColor.Default : HighlightColor.Red;
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Yellow].BackColor = removeColors ? HighlightColor.Default : HighlightColor.Yellow;
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Green].BackColor = removeColors ? HighlightColor.Default : HighlightColor.Green;
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Blue].BackColor = removeColors ? HighlightColor.Default : HighlightColor.Blue;
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Gray].BackColor = removeColors ? HighlightColor.Default : HighlightColor.Gray;
         }
     }
 }

@@ -4,6 +4,7 @@ A lightweight .NET Windows program to follow changing text files and provides ad
 * Tail any text-based file in a user-friendly GUI
 * Advanced Filtering using regular expressions
 * Advanced line trimming using regular expressions to enhance readability
+* Line highlighting
 * Lightweight/small footprint
 * Demo mode to show how it works
 * Simple text search
@@ -95,6 +96,34 @@ it rules
 
 Or you can be more specific with the "To":  ```trim to: "it rules|it rocks"```
 
+#### Line Highlighting
+AdvanvedTail provides separate regular expressions to define how lines are
+highlighted in the display.  You can define up to 5 color
+expressions red, yellow, green, blue and gray.  Additionally, highlighting can be toggled on and off
+in real time.
+
+The Filter Configuration form also contains 3 predefined highlighting
+setups for use with traditional log files that output log levels such
+as debug, trace, error, etc:
+
+* **Starts with Log Level**: Use this if each line starts with the level text.  Note that the expressions are case insensitive:
+
+''' 
+INFO   [9/1/15] This is an information line 
+DEBUG  [9/1/15] This is a debug line 
+'''
+
+* **Contains Log Level**: Use this if each line contains the log level but it is not at the start of the line:
+
+''' 
+[9/1/15] INFO This is an information line 
+[9/1/15] DEBUG This is a debug line 
+'''
+
+Note, these expressions can provide a false-positive because it searches the entire string.
+
+* **None**: Turns off highlighting by clearing the color expressions.
+
 #### File History
 AdvancedTail saves a history of all files you have tailed.  This includes
 saving the filters/trim expressions per file.  These settings are stored
@@ -103,9 +132,8 @@ settings on servers or other shared systems.
 
 #### 3rd Party Mentions
 * [ScintillaNET](https://github.com/jacobslusser/ScintillaNET) to display the log.  This is the same control used by [Notepad++](https://notepad-plus-plus.org/).
-* [Fody](https://github.com/Fody/Fody) used to embed DLLs in the EXE to make AdvancedTail simple to install and run.
-* [Silk Icons](http://www.famfamfam.com/) for the toolbar.
-
+* [Fody](https://github.com/Fody/Fody) used to embed DLLs in the EXE to make AdvancedTail a single executable file with no dependencies.
+* [Silk Icons](http://www.famfamfam.com/) icons for the toolbar.
 
 #### Known Issues and Limitations
 * Cannot type into "File:" path textbox.

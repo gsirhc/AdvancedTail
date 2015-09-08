@@ -10,6 +10,7 @@
     using System.Threading;
     using System.Windows.Forms;
     using Demo;
+    using Extensions;
     using Manager;
     using Settings;
 
@@ -40,7 +41,8 @@
             mainMenuToolbar.ClearLog += logDisplay.Clear;
             mainMenuToolbar.IncreaseFont += logDisplay.IncreaseFont;
             mainMenuToolbar.DecreaseFont += logDisplay.DecreaseFont;
-            mainMenuToolbar.ResetFont += logDisplay.ResetDefaultFont;
+            mainMenuToolbar.ResetDefaultFont += logDisplay.ResetDefaultFont;
+            mainMenuToolbar.EditFile += EditFile;
 
             mainMenuToolbar.SearchNext += logDisplay.Search;
             mainMenuToolbar.StartDemo += StartDemo;
@@ -48,6 +50,7 @@
 
             logDisplay.FilterToggle += FilterToggle;
             logDisplay.TrimToggle += TrimToggle;
+            logDisplay.HighlightToggle += HighlightToggle;
         }
         
         private FileSettings CurrentFileSettings => !string.IsNullOrEmpty(mainMenuToolbar.FilePath) ?  settingsManager.GetFileSettings(mainMenuToolbar.FilePath) : FileSettings.Default;
@@ -82,19 +85,29 @@
 
             var fileSettings = CurrentFileSettings;
 
-            filterConfigForm.FilterText = fileSettings.FilterRegex;
-            filterConfigForm.TrimToText = fileSettings.ToTrimRegex;
-            filterConfigForm.TrimFromText = fileSettings.FromTrimRegex;
+            SetupFilterConfigForm();
 
-            EnableFilter(fileSettings.EnableFilter);
-            EnableTrim(fileSettings.EnableTrim);
-            
             mainMenuToolbar.InitialFileSettings(fileSettings);
 
             logDisplay.AutoScroll = fileSettings.AutoScroll;
             logDisplay.ShowLineNumbers = fileSettings.ShowLineNumbers;
 
             SetState(false);
+        }
+
+        private void SetupFilterConfigForm()
+        {
+            var fileSettings = CurrentFileSettings;
+
+            filterConfigForm.FilterText = fileSettings.FilterRegex;
+            filterConfigForm.TrimToText = fileSettings.ToTrimRegex;
+            filterConfigForm.TrimFromText = fileSettings.FromTrimRegex;
+            filterConfigForm.HighlightColorMap =
+                fileSettings.HighlightRegexMap.StringKeyToEnum<HighlightColor.ColorIndex, string>();
+
+            EnableFilter(fileSettings.EnableFilter);
+            EnableTrim(fileSettings.EnableTrim);
+            EnableHighlight(fileSettings.EnableHighlight);
         }
 
         private void InitializeTailManager()
@@ -151,11 +164,18 @@
                 settingsManager.GetFileSettings(mainMenuToolbar.FilePath).FilterRegex = filterConfigForm.FilterText;
                 settingsManager.GetFileSettings(mainMenuToolbar.FilePath).ToTrimRegex = filterConfigForm.TrimToText;
                 settingsManager.GetFileSettings(mainMenuToolbar.FilePath).FromTrimRegex = filterConfigForm.TrimFromText;
+                settingsManager.GetFileSettings(mainMenuToolbar.FilePath).HighlightRegexMap = filterConfigForm.HighlightColorMap.EnumKeyToString();
                 settingsManager.Save();
 
                 tailManager.SerialFileReader.Filter = filterConfigForm.Filter;
+
                 EnableFilter(mainMenuToolbar.FilterEnabled);
                 EnableTrim(mainMenuToolbar.TrimEnabled);
+                EnableHighlight(mainMenuToolbar.HighlightEnabled);
+            }
+            else
+            {
+                SetupFilterConfigForm();
             }
         }
         
@@ -171,18 +191,39 @@
             EnableTrim(mainMenuToolbar.TrimEnabled);
         }
 
+        private void HighlightToggle()
+        {
+            mainMenuToolbar.HighlightEnabled = !mainMenuToolbar.HighlightEnabled;
+            EnableHighlight(mainMenuToolbar.HighlightEnabled);
+        }
+
         private void EnableFilter(bool enable)
         {
             filterConfigForm.Filter?.SetEnabled(enable, false);
             logDisplay.SetFilterState(enable);
             CurrentFileSettings.EnableFilter = enable;
         }
-
+        
         private void EnableTrim(bool enable)
         {
-            filterConfigForm.Filter?.DownstreamMember?.SetEnabled(enable);
+            filterConfigForm.Filter?.DownstreamMember?.DownstreamMember?.SetEnabled(enable);
             logDisplay.SetTrimState(enable);
             CurrentFileSettings.EnableTrim = enable;
+        }
+
+        private void EnableHighlight(bool enable)
+        {
+            filterConfigForm.Filter?.DownstreamMember?.SetEnabled(true, false); // always enabled so display can be toggled anytime
+            logDisplay.SetHighlighState(enable);
+            CurrentFileSettings.EnableHighlight = enable;
+        }
+
+        private void EditFile(string filePath)
+        {
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                System.Diagnostics.Process.Start(filePath);
+            }
         }
 
         private void SettingsUpdated()
@@ -196,6 +237,7 @@
 
             EnableFilter(fileSettings.EnableFilter);
             EnableTrim(fileSettings.EnableTrim);
+            EnableHighlight(fileSettings.EnableHighlight);
 
             settingsManager.Save();
         }
