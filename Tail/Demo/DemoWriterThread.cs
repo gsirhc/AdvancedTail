@@ -19,7 +19,7 @@
             demoThread = new Thread(WriteFileLoop);
             demoThread.Start();
         }
-        
+
         public void Stop()
         {
             demoThread?.Abort();
@@ -37,24 +37,26 @@
             while ((randomLine = stringReader.ReadLine()) != null)
                 randomTextList.Add(randomLine);
 
-            var randomLineGenerator = new Random();
-            var randomDelayGenerator = new Random();
+            var randomGenerator = new Random();
             
             while (true)
             {
-                var linesToPrint = randomDelayGenerator.Next(1, 10);
+                var linesToPrint = randomGenerator.Next(1, 10);
 
                 for (int i = 0; i < linesToPrint; i++)
                 {
-                    var text = randomTextList[randomLineGenerator.Next(0, randomTextList.Count - 1)];
-                    var line = string.Format("[{0}] {1}\r\n", DateTime.Now.ToLongTimeString(), text);
+                    var text = randomTextList[randomGenerator.Next(0, randomTextList.Count - 1)];
+                    var logLevelIndex = randomGenerator.Next(0, 6);
+                    var line = string.Format("{0,-5} [{1}] {2}\r\n", logLevels[logLevelIndex], DateTime.Now.ToLongTimeString(), text);
                     File.AppendAllText(file, line);
                 }
 
-                var wait = randomDelayGenerator.Next(50, 3000);
+                var wait = randomGenerator.Next(50, 3000);
                 Thread.Sleep(wait);
             }
         }
+
+        private static string[] logLevels = { "Fatal", "Error", "Warn", "Info", "Debug", "Trace" };
 
         private const string randomText = "Loquar ut nescio in negari si noluit.\r\nHaec nam ipso suo sine hoc est.\r\nBonus de aequo is utile me datur docti du reges.\r\nTales vix menti verum pro age ullis ullos mei novum.\r\nRemovendo assentiar desumptae mea hoc.\r\nEquidem putarim sum mox quamvis usitata ibi.\r\nViris ubi age ceram fides recta tango.\r\nSolius at nequit du ii simili patere ingens de.\r\nAt se impetus me partium suppono si externo quinque scripta.\r\nMei dissimilem occasionem constanter jam corrigatur tur occurreret communibus.\r\n" +
 "Qua vel hae student suppono tacitus corpore hominem.\r\nSi ei at ginabor ultimam invenit scripti minimum ob.\r\nDatur in atque de illam.\r\nMe si aliisque putantur revocare ii scriptum defectus.\r\nPosita ingens etenim dubias hae animae iis cum.\r\nMecum porro video ideas co re ipsos ac ut somno.\r\nCo ea quantitas id geometras intelligo praesenti profundum.\r\nLicet ideas im satis ex athei capax caput.\r\n" +

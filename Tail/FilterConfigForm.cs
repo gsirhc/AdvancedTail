@@ -94,20 +94,20 @@ namespace Tail
 
         private void buttonLevelStarts_Click(object sender, EventArgs e)
         {
-            textBoxRedRegex.Text = "^(ERROR)";
-            textBoxYellowRegex.Text = "^(WARN|WARNING)";
-            textBoxGreenRegex.Text = "^(INFO)";
-            textBoxBlueRegex.Text = "^(DEBUG)";
-            textBoxGrayRegex.Text = "^(TRACE)";
+            textBoxRedRegex.Text = "(?i)^(FATAL|ERROR)";
+            textBoxYellowRegex.Text = "(?i)^(WARN|WARNING)";
+            textBoxGreenRegex.Text = "(?i)^(INFO)";
+            textBoxBlueRegex.Text = "(?i)^(DEBUG)";
+            textBoxGrayRegex.Text = "(?i)^(TRACE)";
         }
 
         private void buttonLevelContains_Click(object sender, EventArgs e)
         {
-            textBoxRedRegex.Text = "ERROR";
-            textBoxYellowRegex.Text = "WARN|WARNING";
-            textBoxGreenRegex.Text = "INFO";
-            textBoxBlueRegex.Text = "DEBUG";
-            textBoxGrayRegex.Text = "TRACE";
+            textBoxRedRegex.Text = "(?i)FATAL|ERROR";
+            textBoxYellowRegex.Text = "(?i)WARN|WARNING";
+            textBoxGreenRegex.Text = "(?i)INFO";
+            textBoxBlueRegex.Text = "(?i)DEBUG";
+            textBoxGrayRegex.Text = "(?i)TRACE";
         }
 
         private void buttonNoHighlighting_Click(object sender, EventArgs e)
@@ -127,6 +127,11 @@ namespace Tail
             };
 
             Filter.DownstreamMember.DownstreamMember = TrimProcessorFactory.CreateProcessor(textBoxTrimTo.Text, textBoxTrimFrom.Text);
-        }        
+        }
+
+        private void comboBoxPredefined_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

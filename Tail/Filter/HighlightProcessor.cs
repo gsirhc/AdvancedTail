@@ -22,7 +22,7 @@ namespace Tail.Filter
             {
                 if (!string.IsNullOrEmpty(HighlightColorMap[key]))
                 {
-                    colorRegex.Add(key, new Regex(HighlightColorMap[key], RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase));
+                    colorRegex.Add(key, new Regex(HighlightColorMap[key], RegexOptions.Compiled | RegexOptions.Singleline));
                 }
             }
         }

@@ -39,6 +39,7 @@
             this.buttonClear = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.textBoxGrayExample = new System.Windows.Forms.TextBox();
             this.textBoxBlueExample = new System.Windows.Forms.TextBox();
             this.textBoxGreenExample = new System.Windows.Forms.TextBox();
@@ -54,11 +55,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.buttonLevelStarts = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.buttonLevelContains = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
-            this.buttonNoHighlighting = new System.Windows.Forms.Button();
+            this.comboBoxPredefined = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -113,7 +111,7 @@
             // buttonOk
             // 
             this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOk.Location = new System.Drawing.Point(397, 313);
+            this.buttonOk.Location = new System.Drawing.Point(397, 319);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 30;
@@ -123,7 +121,7 @@
             // 
             // buttonClear
             // 
-            this.buttonClear.Location = new System.Drawing.Point(12, 313);
+            this.buttonClear.Location = new System.Drawing.Point(12, 319);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(75, 23);
             this.buttonClear.TabIndex = 31;
@@ -134,7 +132,7 @@
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(312, 313);
+            this.buttonCancel.Location = new System.Drawing.Point(312, 319);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 32;
@@ -143,10 +141,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.buttonNoHighlighting);
-            this.groupBox1.Controls.Add(this.buttonLevelContains);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.buttonLevelStarts);
             this.groupBox1.Controls.Add(this.textBoxGrayExample);
             this.groupBox1.Controls.Add(this.textBoxBlueExample);
             this.groupBox1.Controls.Add(this.textBoxGreenExample);
@@ -164,10 +158,19 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 90);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(460, 189);
+            this.groupBox1.Size = new System.Drawing.Size(460, 166);
             this.groupBox1.TabIndex = 33;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Highlighting ";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(16, 290);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(61, 13);
+            this.label9.TabIndex = 17;
+            this.label9.Text = "Predefined:";
             // 
             // textBoxGrayExample
             // 
@@ -294,59 +297,38 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Red:";
             // 
-            // buttonLevelStarts
-            // 
-            this.buttonLevelStarts.Location = new System.Drawing.Point(86, 158);
-            this.buttonLevelStarts.Name = "buttonLevelStarts";
-            this.buttonLevelStarts.Size = new System.Drawing.Size(123, 23);
-            this.buttonLevelStarts.TabIndex = 16;
-            this.buttonLevelStarts.Text = "Starts with Log Level ";
-            this.buttonLevelStarts.UseVisualStyleBackColor = true;
-            this.buttonLevelStarts.Click += new System.EventHandler(this.buttonLevelStarts_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 163);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(76, 13);
-            this.label9.TabIndex = 17;
-            this.label9.Text = "Preconfigured:";
-            // 
-            // buttonLevelContains
-            // 
-            this.buttonLevelContains.Location = new System.Drawing.Point(215, 158);
-            this.buttonLevelContains.Name = "buttonLevelContains";
-            this.buttonLevelContains.Size = new System.Drawing.Size(123, 23);
-            this.buttonLevelContains.TabIndex = 18;
-            this.buttonLevelContains.Text = "Contains Log Level ";
-            this.buttonLevelContains.UseVisualStyleBackColor = true;
-            this.buttonLevelContains.Click += new System.EventHandler(this.buttonLevelContains_Click);
-            // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(241, 289);
+            this.label10.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label10.Location = new System.Drawing.Point(12, 262);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(231, 13);
             this.label10.TabIndex = 34;
             this.label10.Text = "All fields accept plain text or regular expressions";
             // 
-            // buttonNoHighlighting
+            // comboBoxPredefined
             // 
-            this.buttonNoHighlighting.Location = new System.Drawing.Point(344, 158);
-            this.buttonNoHighlighting.Name = "buttonNoHighlighting";
-            this.buttonNoHighlighting.Size = new System.Drawing.Size(70, 23);
-            this.buttonNoHighlighting.TabIndex = 19;
-            this.buttonNoHighlighting.Text = "None";
-            this.buttonNoHighlighting.UseVisualStyleBackColor = true;
-            this.buttonNoHighlighting.Click += new System.EventHandler(this.buttonNoHighlighting_Click);
+            this.comboBoxPredefined.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxPredefined.FormattingEnabled = true;
+            this.comboBoxPredefined.Items.AddRange(new object[] {
+            "Highlight Only - Log Level (Starts With)",
+            "Highlight Only - Log Level (Contains)",
+            "Remove Trace",
+            "Remove Trace and Debug"});
+            this.comboBoxPredefined.Location = new System.Drawing.Point(83, 287);
+            this.comboBoxPredefined.Name = "comboBoxPredefined";
+            this.comboBoxPredefined.Size = new System.Drawing.Size(383, 21);
+            this.comboBoxPredefined.TabIndex = 18;
+            this.comboBoxPredefined.SelectedIndexChanged += new System.EventHandler(this.comboBoxPredefined_SelectedIndexChanged);
             // 
             // FilterConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(495, 348);
+            this.ClientSize = new System.Drawing.Size(495, 351);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.comboBoxPredefined);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonCancel);
@@ -397,10 +379,8 @@
         private System.Windows.Forms.TextBox textBoxBlueExample;
         private System.Windows.Forms.TextBox textBoxGreenExample;
         private System.Windows.Forms.TextBox textBoxYellowExample;
-        private System.Windows.Forms.Button buttonLevelContains;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button buttonLevelStarts;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Button buttonNoHighlighting;
+        private System.Windows.Forms.ComboBox comboBoxPredefined;
     }
 }
