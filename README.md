@@ -26,14 +26,15 @@ There are a few Nuget packages to download which Visual Studio should do automat
 
 ### Features in Detail
 
-![Main Form](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/main3.png)
+![Main Form](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/main4.png)
+![Filter Configuration Form](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/filter2.png)
 
 #### Filtering
 AdvancedTail provides a filtering engine to remove lines from the displayed text using regular expressions.
 Though regex is a scary/complex search language, it easily provides all the filtering capabilties
 you'd expect and the expressions can be simple (see below for an example).
 
-![Filter Form Screenshot](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/filter.png)
+![Filter Form Screenshot](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/filter_filter_trim.png)
 
 ##### How does filtering work?
 AdvancedTail uses a given regular expression and tests it against each line of the file.  If the line is a match
@@ -101,6 +102,8 @@ AdvanvedTail provides separate regular expressions to define how lines are
 highlighted in the display.  You can define up to 5 color
 expressions red, yellow, green, blue and gray.  Additionally, highlighting can be toggled on and off
 in real time.
+
+![Filter Highlight Screenshot](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/filter_highlight.png)
 
 The Filter Configuration form also contains 3 predefined highlighting
 setups for use with traditional log files that output log levels such
