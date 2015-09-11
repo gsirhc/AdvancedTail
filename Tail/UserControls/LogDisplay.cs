@@ -22,7 +22,6 @@
         // Indicators 0-7 could be in use by a lexer
         // so we'll use indicator 8 to highlight words.
         const int INDICATOR_NUM = 8;
-        const int HIGHLIGHT_INDEX = 1;
 
         public event Action FilterToggle;
         public event Action TrimToggle;
@@ -139,7 +138,7 @@
                 if (location != -1)
                 {
                     scintilla.IndicatorFillRange(scintilla.TargetStart, scintilla.TargetEnd - scintilla.TargetStart);
-                    scintilla.GotoPosition(scintilla.TargetStart);
+                    scintilla.GotoPosition(scintilla.TargetEnd);
                     scintilla.ScrollCaret();
 
                     scintilla.TargetStart = scintilla.TargetEnd;
@@ -161,6 +160,7 @@
                     scintilla.Enabled = false;
                     scintilla.Refresh();
                 }
+                this.UseWaitCursor = true;
                 SendMessage(scintilla.Handle, WM_SETREDRAW, false, 0);
             }));
         }
@@ -208,7 +208,7 @@
                 }
 
                 SendMessage(scintilla.Handle, WM_SETREDRAW, true, 0);
-
+                
                 if (initialLoad || (tailStatistics.LastRead > 0))
                 {
                     if (AutoScroll && scintilla.Enabled)
@@ -224,7 +224,9 @@
                     toolStripStatusLabelTotalLines.Text = "Total: " + tailStatistics.Total;
                     toolStripStatusLabelLinesDisplayed.Text = "Displayed: " + tailStatistics.Displayed;
                     toolStripStatusLabelLinesIgnored.Text = "Ignored: " + tailStatistics.Ignored;
-                }                
+                }
+
+                this.UseWaitCursor = false;
             }));
         }
 
@@ -270,11 +272,23 @@
 
         private void SetHighlightColors(bool removeColors = false)
         {
-            scintilla.Styles[(int)HighlightColor.ColorIndex.Red].BackColor = removeColors ? HighlightColor.Default : HighlightColor.Red;
-            scintilla.Styles[(int)HighlightColor.ColorIndex.Yellow].BackColor = removeColors ? HighlightColor.Default : HighlightColor.Yellow;
-            scintilla.Styles[(int)HighlightColor.ColorIndex.Green].BackColor = removeColors ? HighlightColor.Default : HighlightColor.Green;
-            scintilla.Styles[(int)HighlightColor.ColorIndex.Blue].BackColor = removeColors ? HighlightColor.Default : HighlightColor.Blue;
-            scintilla.Styles[(int)HighlightColor.ColorIndex.Gray].BackColor = removeColors ? HighlightColor.Default : HighlightColor.Gray;
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Red].BackColor = removeColors ? HighlightColor.DefaultBackground : HighlightColor.RedBackground;
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Red].ForeColor = removeColors ? HighlightColor.DefaultForeGround : HighlightColor.RedForeground;
+
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Yellow].BackColor = removeColors ? HighlightColor.DefaultBackground : HighlightColor.YellowBackground;
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Yellow].ForeColor = removeColors ? HighlightColor.DefaultForeGround : HighlightColor.YellowForeground;
+
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Green].BackColor = removeColors ? HighlightColor.DefaultBackground : HighlightColor.GreenBackground;
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Green].ForeColor = removeColors ? HighlightColor.DefaultForeGround : HighlightColor.GreenForeground;
+
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Blue].BackColor = removeColors ? HighlightColor.DefaultBackground : HighlightColor.BlueBackground;
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Blue].ForeColor = removeColors ? HighlightColor.DefaultForeGround : HighlightColor.BlueForeground;
+
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Gray].BackColor = removeColors ? HighlightColor.DefaultBackground : HighlightColor.GrayBackground;
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Gray].ForeColor = removeColors ? HighlightColor.DefaultForeGround : HighlightColor.GrayForeground;
+
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Subtle].BackColor = removeColors ? HighlightColor.DefaultBackground : HighlightColor.SubtleBackground;
+            scintilla.Styles[(int)HighlightColor.ColorIndex.Subtle].ForeColor = removeColors ? HighlightColor.DefaultForeGround : HighlightColor.SubtleForeground;
         }
     }
 }

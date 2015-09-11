@@ -7,6 +7,7 @@
     using System.Windows.Forms;
 
     using Manager;
+    using Predefined;
     using Settings;
 
     /// <summary>
@@ -14,8 +15,6 @@
     /// </summary>
     public partial class MainMenuToolbar : UserControl
     {
-        private SettingsManager settingsManager;
-
         public MainMenuToolbar()
         {
             InitializeComponent();
@@ -23,8 +22,10 @@
             increaseFontSizeToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl++";
             decreaseFontSizeToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+-";
             resetFontSizeToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift++";
-        }
 
+            SetupPredefinedMenu();
+        }
+        
         public event Action StartTail;
         public event Action StopTail;
 
@@ -35,7 +36,7 @@
 
         public event Action SettingsUpdated;
 
-        public event Action EditFilter;
+        public event Action<PredefinedItem> EditFilter;
 
         public event Action IncreaseFont;
         public event Action DecreaseFont;
@@ -94,13 +95,23 @@
             set { enableHighlightingToolStripMenuItem.Checked = value; }
         }
 
-        private FileSettings CurrentFileSettings => !string.IsNullOrEmpty(FilePath) ? settingsManager.GetFileSettings(FilePath) : FileSettings.Default;
-
-        public void Initialize(SettingsManager settingsManager)
+        public bool PreviewPredefinedFilter
         {
-            this.settingsManager = settingsManager;
+            get { return previewPredefinedFilterToolStripMenuItem.Checked; }
+            set { previewPredefinedFilterToolStripMenuItem.Checked = value; }
+        }
 
-            runAtStartupToolStripMenuItem.Checked = settingsManager.RunAtStartup;
+        public bool PromptRefreshOnFilterChange
+        {
+            get { return promptForRefreshToolStripMenuItem.Checked; }
+            set { promptForRefreshToolStripMenuItem.Checked = value; }
+        }
+
+        private FileSettings CurrentFileSettings => !string.IsNullOrEmpty(FilePath) ? SettingsManager.Instance.GetFileSettings(FilePath) : FileSettings.Default;
+
+        public void Initialize()
+        {
+            runAtStartupToolStripMenuItem.Checked = SettingsManager.Instance.RunAtStartup;
             wordWrapToolStripMenuItem.Checked = CurrentFileSettings.WordWrap;
         }
 
@@ -114,6 +125,24 @@
             showLineNumbersToolStripMenuItem.Checked = fileSettings.ShowLineNumbers;
         }
 
+        private void SetupPredefinedMenu()
+        {
+            foreach (var folder in FilterConfiguration.AllDefaultFolders)
+            {
+                var folderItem = new ToolStripMenuItem(folder.Name);
+
+                foreach (var predefinedItem in folder.Items)
+                {
+                    var item = new ToolStripMenuItem(predefinedItem.Name);
+                    item.ToolTipText = predefinedItem.Description;
+                    item.Click += (o, e) => { PredefinedItemClick(predefinedItem); };
+                    folderItem.DropDownItems.Add(item);
+                }
+
+                predefinedFiltersHighlightToolStripMenuItem.DropDownItems.Add(folderItem);
+            }
+        }
+        
         public void SetState(bool running, bool allowSave)
         {
             var textFile = textBoxFile.Text;
@@ -141,10 +170,10 @@
             
             if (running && !allowSave && !string.IsNullOrEmpty(textFile))
             {
-                settingsManager.LastFile = textFile;
+                SettingsManager.Instance.LastFile = textFile;
                 CurrentFileSettings.LastUsed = DateTime.Now;
                 CurrentFileSettings.LoadLastLines = LoadLastNLines;
-                settingsManager.Save();
+                SettingsManager.Instance.Save();
             }
 
             toolStripButtonStart.Enabled = startToolStripMenuItem.Enabled = !running;
@@ -249,7 +278,12 @@
 
         private void toolStripButtonFilter_Click(object sender, EventArgs e)
         {
-            EditFilter?.Invoke();
+            EditFilter?.Invoke(null);
+        }
+
+        private void PredefinedItemClick(PredefinedItem predefinedItem)
+        {
+            EditFilter?.Invoke(predefinedItem);
         }
 
         private void enableFilterToolStripMenuItem_Click(object sender, EventArgs e)
@@ -314,7 +348,7 @@
         private void recentFilesToolStripMenuItem_MouseHover(object sender, EventArgs e)
         {
             recentFilesToolStripMenuItem.DropDownItems.Clear();
-            foreach (var last in settingsManager.GetLastUsedList(20))
+            foreach (var last in SettingsManager.Instance.GetLastUsedList(20))
             {
                 if (!string.IsNullOrWhiteSpace(last))
                 {
@@ -334,8 +368,8 @@
 
         private void runAtStartupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            settingsManager.RunAtStartup = runAtStartupToolStripMenuItem.Checked;
-            settingsManager.Save();
+            SettingsManager.Instance.RunAtStartup = runAtStartupToolStripMenuItem.Checked;
+            SettingsManager.Instance.Save();
         }
 
         private void openFileInEditorToolStripMenuItem_Click(object sender, EventArgs e)

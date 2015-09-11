@@ -57,8 +57,11 @@
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.predefinedFiltersHighlightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.enableFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enableTrimToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enableHighlightingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpDocumentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -77,7 +80,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxFile = new System.Windows.Forms.TextBox();
             this.comboBoxLoadLast = new System.Windows.Forms.ComboBox();
-            this.enableHighlightingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.previewPredefinedFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.promptForRefreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -287,6 +291,10 @@
             this.refreshToolStripMenuItem,
             this.toolStripSeparator5,
             this.filterToolStripMenuItem,
+            this.predefinedFiltersHighlightToolStripMenuItem,
+            this.previewPredefinedFilterToolStripMenuItem,
+            this.promptForRefreshToolStripMenuItem,
+            this.toolStripSeparator10,
             this.enableFilterToolStripMenuItem,
             this.enableTrimToolStripMenuItem,
             this.enableHighlightingToolStripMenuItem});
@@ -339,6 +347,17 @@
             this.filterToolStripMenuItem.Text = "Filter...";
             this.filterToolStripMenuItem.Click += new System.EventHandler(this.toolStripButtonFilter_Click);
             // 
+            // predefinedFiltersHighlightToolStripMenuItem
+            // 
+            this.predefinedFiltersHighlightToolStripMenuItem.Name = "predefinedFiltersHighlightToolStripMenuItem";
+            this.predefinedFiltersHighlightToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.predefinedFiltersHighlightToolStripMenuItem.Text = "Predefined Filters";
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(218, 6);
+            // 
             // enableFilterToolStripMenuItem
             // 
             this.enableFilterToolStripMenuItem.Checked = true;
@@ -360,6 +379,17 @@
             this.enableTrimToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this.enableTrimToolStripMenuItem.Text = "Enable Trim";
             this.enableTrimToolStripMenuItem.Click += new System.EventHandler(this.enableTrimToolStripMenuItem_Click);
+            // 
+            // enableHighlightingToolStripMenuItem
+            // 
+            this.enableHighlightingToolStripMenuItem.Checked = true;
+            this.enableHighlightingToolStripMenuItem.CheckOnClick = true;
+            this.enableHighlightingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.enableHighlightingToolStripMenuItem.Name = "enableHighlightingToolStripMenuItem";
+            this.enableHighlightingToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+            this.enableHighlightingToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.enableHighlightingToolStripMenuItem.Text = "Enable Highlighting";
+            this.enableHighlightingToolStripMenuItem.Click += new System.EventHandler(this.enableHighlightingToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -541,16 +571,26 @@
             this.comboBoxLoadLast.TabIndex = 35;
             this.comboBoxLoadLast.SelectedIndexChanged += new System.EventHandler(this.comboBoxLoadLast_SelectedIndexChanged);
             // 
-            // enableHighlightingToolStripMenuItem
+            // previewPredefinedFilterToolStripMenuItem
             // 
-            this.enableHighlightingToolStripMenuItem.Checked = true;
-            this.enableHighlightingToolStripMenuItem.CheckOnClick = true;
-            this.enableHighlightingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.enableHighlightingToolStripMenuItem.Name = "enableHighlightingToolStripMenuItem";
-            this.enableHighlightingToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
-            this.enableHighlightingToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
-            this.enableHighlightingToolStripMenuItem.Text = "Enable Highlighting";
-            this.enableHighlightingToolStripMenuItem.Click += new System.EventHandler(this.enableHighlightingToolStripMenuItem_Click);
+            this.previewPredefinedFilterToolStripMenuItem.Checked = true;
+            this.previewPredefinedFilterToolStripMenuItem.CheckOnClick = true;
+            this.previewPredefinedFilterToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.previewPredefinedFilterToolStripMenuItem.Name = "previewPredefinedFilterToolStripMenuItem";
+            this.previewPredefinedFilterToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.previewPredefinedFilterToolStripMenuItem.Text = "Preview Predefined Filter";
+            this.previewPredefinedFilterToolStripMenuItem.ToolTipText = "If checked, displays the Filter Configuration Form when a predefined filter is se" +
+    "lected.";
+            // 
+            // promptForRefreshToolStripMenuItem
+            // 
+            this.promptForRefreshToolStripMenuItem.Checked = true;
+            this.promptForRefreshToolStripMenuItem.CheckOnClick = true;
+            this.promptForRefreshToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.promptForRefreshToolStripMenuItem.Name = "promptForRefreshToolStripMenuItem";
+            this.promptForRefreshToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.promptForRefreshToolStripMenuItem.Text = "Prompt for Refresh";
+            this.promptForRefreshToolStripMenuItem.ToolTipText = "If checked, will prompt to refresh the file if the Filter Configuration changes.";
             // 
             // MainMenuToolbar
             // 
@@ -624,5 +664,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem openFileInEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem enableHighlightingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem predefinedFiltersHighlightToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+        private System.Windows.Forms.ToolStripMenuItem previewPredefinedFilterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem promptForRefreshToolStripMenuItem;
     }
 }

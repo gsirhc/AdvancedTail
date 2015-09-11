@@ -54,6 +54,8 @@
             set { throw new NotImplementedException(); }
         }
 
+        public bool IsRunning { get { return fileTailManager.IsRunning; } }
+
         public void StartTail(bool save = true, bool stop = true)
         {
             demoThread.Start();

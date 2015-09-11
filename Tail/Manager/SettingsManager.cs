@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Script.Serialization;
+    using Predefined;
     using Settings;
 
     /// <summary>
@@ -10,9 +11,24 @@
     /// </summary>
     public class SettingsManager
     {
-        FileSettingsMap fileSettingsMap = new FileSettingsMap();   
+        FileSettingsMap fileSettingsMap = new FileSettingsMap();
+        PredefinedFolder userFilterConfigs;
 
-        public SettingsManager()
+        private static SettingsManager instance = null;
+        public static SettingsManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new SettingsManager();
+                }
+
+                return instance;
+            }
+        }
+
+        private SettingsManager()
         {
             if (Properties.Settings.Default.UpgradeRequired)
             {
@@ -68,6 +84,27 @@
             }
         }
         
+        public PredefinedFolder UserFilterConfigs
+        {
+            get
+            {
+                if (userFilterConfigs == null)
+                {
+                    if (!string.IsNullOrEmpty(Properties.Settings.Default.UserFilterConfigs))
+                    {
+                        var serializer = new JavaScriptSerializer();
+                        userFilterConfigs = serializer.Deserialize<PredefinedFolder>(Properties.Settings.Default.UserFilterConfigs);
+                    }
+                    else
+                    {
+                        userFilterConfigs = FilterConfiguration.CreateUserDefinedFolder();
+                    }
+                }
+
+                return userFilterConfigs;
+            }
+        }
+
         /// <summary>
         /// Saves settings.
         /// </summary>
@@ -83,6 +120,16 @@
             }
 
             Properties.Settings.Default.Files2 = filesJson;
+
+            var userFilterConfigsJson = "";
+            if (this.userFilterConfigs != null && this.userFilterConfigs.Items.Count > 0)
+            {
+                var serializer = new JavaScriptSerializer();
+                userFilterConfigsJson = serializer.Serialize(this.userFilterConfigs);
+            }
+
+            Properties.Settings.Default.UserFilterConfigs = userFilterConfigsJson;
+
             Properties.Settings.Default.Save();
         }
     }

@@ -12,6 +12,7 @@
     using Demo;
     using Extensions;
     using Manager;
+    using Predefined;
     using Settings;
 
     /// <summary>
@@ -20,7 +21,6 @@
     public partial class TailForm : Form
     {
         private string initialFile = "";        
-        private SettingsManager settingsManager = new SettingsManager();
         private FilterConfigForm filterConfigForm = new FilterConfigForm();
 
         private ITailManager tailManager;
@@ -53,25 +53,25 @@
             logDisplay.HighlightToggle += HighlightToggle;
         }
         
-        private FileSettings CurrentFileSettings => !string.IsNullOrEmpty(mainMenuToolbar.FilePath) ?  settingsManager.GetFileSettings(mainMenuToolbar.FilePath) : FileSettings.Default;
+        private FileSettings CurrentFileSettings => !string.IsNullOrEmpty(mainMenuToolbar.FilePath) ?  SettingsManager.Instance.GetFileSettings(mainMenuToolbar.FilePath) : FileSettings.Default;
 
         protected override void OnShown(EventArgs e)
         {
             SetState(false);
             base.OnShown(e);
 
-            mainMenuToolbar.Initialize(settingsManager);
+            mainMenuToolbar.Initialize();
             
             InitializeTailManager();
 
             bool hasArgFile = !string.IsNullOrEmpty(initialFile);
-            this.initialFile = hasArgFile ? initialFile : settingsManager.LastFile;
+            this.initialFile = hasArgFile ? initialFile : SettingsManager.Instance.LastFile;
 
             if (!string.IsNullOrEmpty(this.initialFile))
             {
                 InitializeNewFile(this.initialFile);
 
-                if (settingsManager.RunAtStartup)
+                if (SettingsManager.Instance.RunAtStartup)
                 {
                     this.tailManager.StartTail();
                 }
@@ -151,15 +151,24 @@
             if (IsDemo)
             {
                 InitializeTailManager();
-                InitializeNewFile(settingsManager.LastFile);
+                InitializeNewFile(SettingsManager.Instance.LastFile);
             }
         }
 
-        private void EditFilter()
+        private void EditFilter(PredefinedItem predefinedItem)
         {
-            if (filterConfigForm.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(mainMenuToolbar.FilePath))
+            var preview = true;
+
+            if (predefinedItem != null)
+            {
+                filterConfigForm.SetupPredefined(predefinedItem, !mainMenuToolbar.PreviewPredefinedFilter);
+                preview = mainMenuToolbar.PreviewPredefinedFilter;
+            }
+
+            if (!preview || (filterConfigForm.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(mainMenuToolbar.FilePath)))
             {
                 tailManager.SerialFileReader.Filter = filterConfigForm.Filter;
+                var settingsManager = SettingsManager.Instance;
 
                 settingsManager.GetFileSettings(mainMenuToolbar.FilePath).FilterRegex = filterConfigForm.FilterText;
                 settingsManager.GetFileSettings(mainMenuToolbar.FilePath).ToTrimRegex = filterConfigForm.TrimToText;
@@ -172,6 +181,15 @@
                 EnableFilter(mainMenuToolbar.FilterEnabled);
                 EnableTrim(mainMenuToolbar.TrimEnabled);
                 EnableHighlight(mainMenuToolbar.HighlightEnabled);
+
+                if (tailManager.IsRunning && mainMenuToolbar.PromptRefreshOnFilterChange)
+                {
+                    var message = "Refresh the file?\r\n\r\nAny filter or highlighting changes will not apply to existing lines, only new lines.";
+                    if (MessageBox.Show(message, "Filter Changed", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        RefreshFile();
+                    }
+                }
             }
             else
             {
@@ -239,7 +257,7 @@
             EnableTrim(fileSettings.EnableTrim);
             EnableHighlight(fileSettings.EnableHighlight);
 
-            settingsManager.Save();
+            SettingsManager.Instance.Save();
         }
 
         private void RefreshFile()

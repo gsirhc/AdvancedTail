@@ -16,6 +16,8 @@ namespace Tail.Process
     public class TailThread
     {
         Thread tailThread = null;
+        private FileSystemWatcher fileSystemWatcher;
+
         private ISerialFileReader serialFileReader;
         private string fileToTail;
         private Action<Exception> exceptionHandler;
@@ -30,7 +32,7 @@ namespace Tail.Process
             this.exceptionHandler = exceptionHandler;
         }
 
-        //public ILineFilter Filter { get; set; }
+        public bool IsRunning { get { return tailThread != null && tailThread.IsAlive; } }
 
         /// <summary>
         /// Starts the tail of a given file.
@@ -52,6 +54,7 @@ namespace Tail.Process
         public void Stop()
         {
             tailThread?.Abort();
+            tailThread = null;
             serialFileReader.EnableQueue(false);
             serialFileReader.ClearQueue();
         }
@@ -66,21 +69,29 @@ namespace Tail.Process
                 }
 
                 var directory = Path.GetDirectoryName(fileToTail);
-                var fsw = new FileSystemWatcher(directory) { Filter = fileToTail };
-                fsw.Filter = "*.*";
 
-                fsw.NotifyFilter = NotifyFilters.LastWrite;
+                // Dispose previous instance to reduce memory usage
+                if (fileSystemWatcher != null)
+                {
+                    fileSystemWatcher.Dispose();
+                    fileSystemWatcher = null;
+                }
 
-                fsw.Changed += Fsw_Changed;
-                fsw.EnableRaisingEvents = true;
+                fileSystemWatcher = new FileSystemWatcher(directory) { Filter = fileToTail };
+                fileSystemWatcher.Filter = "*.*";
 
-                fsw.InternalBufferSize = 1024 * 1024 * 2;
+                fileSystemWatcher.NotifyFilter = NotifyFilters.LastWrite;
+
+                fileSystemWatcher.Changed += Fsw_Changed;
+                fileSystemWatcher.EnableRaisingEvents = true;
+
+                fileSystemWatcher.InternalBufferSize = 1024 * 1024 * 2;
 
                 serialFileReader.Enqueue(fileToTail);
 
                 while (true)
                 {
-                    fsw.WaitForChanged(WatcherChangeTypes.Changed);
+                    fileSystemWatcher.WaitForChanged(WatcherChangeTypes.Changed);
                 }
             }
             catch (Exception ex)

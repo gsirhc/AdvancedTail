@@ -14,42 +14,32 @@ namespace Tail.Manager
         /// <summary>
         /// Gets or sets the clear display callback.
         /// </summary>
-        /// <value>
-        /// The clear display callback.
-        /// </value>
         Action ClearDisplayCallback { get; set; }
 
         /// <summary>
         /// Gets or sets the set state callback.
         /// </summary>
-        /// <value>
-        /// The set state callback.
-        /// </value>
         Action<bool> SetStateCallback { get; set; }
 
         /// <summary>
         /// Gets or sets the exception callback.
         /// </summary>
-        /// <value>
-        /// The exception callback.
-        /// </value>
         Action<Exception> ExceptionCallback { get; set; }
 
         /// <summary>
         /// Gets or sets the get file name callback.
         /// </summary>
-        /// <value>
-        /// The get file name callback.
-        /// </value>
         Func<string> GetFileNameCallback { get; set; }
 
         /// <summary>
         /// Gets or sets the get filter callback.
         /// </summary>
-        /// <value>
-        /// The get filter callback.
-        /// </value>
         Func<ILineFilter> GetFilterCallback { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether tailing a file or not.
+        /// </summary>
+        bool IsRunning { get; }
 
         /// <summary>
         /// Starts the tail.

@@ -32,12 +32,12 @@
             this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelFilter = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelTrim = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelHighlight = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelRead = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelTotalLines = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelLinesDisplayed = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelLinesIgnored = new System.Windows.Forms.ToolStripStatusLabel();
             this.scintilla = new ScintillaNET.Scintilla();
-            this.toolStripStatusLabelHighlight = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,6 +83,14 @@
             this.toolStripStatusLabelTrim.Text = "Trim: Enabled";
             this.toolStripStatusLabelTrim.Click += new System.EventHandler(this.toolStripStatusLabelTrim_Click);
             // 
+            // toolStripStatusLabelHighlight
+            // 
+            this.toolStripStatusLabelHighlight.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.toolStripStatusLabelHighlight.Name = "toolStripStatusLabelHighlight";
+            this.toolStripStatusLabelHighlight.Size = new System.Drawing.Size(109, 19);
+            this.toolStripStatusLabelHighlight.Text = "Highlight: Enabled";
+            this.toolStripStatusLabelHighlight.Click += new System.EventHandler(this.toolStripStatusLabelHighlight_Click);
+            // 
             // toolStripStatusLabelRead
             // 
             this.toolStripStatusLabelRead.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
@@ -120,14 +128,6 @@
             this.scintilla.Size = new System.Drawing.Size(622, 410);
             this.scintilla.TabIndex = 30;
             this.scintilla.UseTabs = false;
-            // 
-            // toolStripStatusLabelHighlight
-            // 
-            this.toolStripStatusLabelHighlight.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.toolStripStatusLabelHighlight.Name = "toolStripStatusLabelHighlight";
-            this.toolStripStatusLabelHighlight.Size = new System.Drawing.Size(109, 19);
-            this.toolStripStatusLabelHighlight.Text = "Highlight: Enabled";
-            this.toolStripStatusLabelHighlight.Click += new System.EventHandler(this.toolStripStatusLabelHighlight_Click);
             // 
             // LogDisplay
             // 

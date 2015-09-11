@@ -18,6 +18,8 @@
         public Func<string> GetFileNameCallback { get; set; }
         public Func<ILineFilter> GetFilterCallback { get; set; }
         
+        public bool IsRunning { get { return tailThread != null && tailThread.IsRunning; } }
+
         public virtual void StartTail(bool save = true, bool stop = true)
         {
             if (save)

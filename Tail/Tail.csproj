@@ -66,7 +66,18 @@
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Filter\HighlightColor.cs" />
     <Compile Include="Filter\HighlightProcessor.cs" />
+    <Compile Include="Predefined\FilterConfiguration.cs" />
+    <Compile Include="Predefined\FormField.cs" />
+    <Compile Include="Predefined\PredefinedFolder.cs" />
+    <Compile Include="Predefined\PredefinedItem.cs" />
+    <Compile Include="Predefined\PredefinedFolderType.cs" />
     <Compile Include="Process\TailLine.cs" />
+    <Compile Include="SaveFilterPromptForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SaveFilterPromptForm.Designer.cs">
+      <DependentUpon>SaveFilterPromptForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\LogDisplay.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -116,6 +127,9 @@
     <Compile Include="Manager\FileTailManager.cs" />
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaveFilterPromptForm.resx">
+      <DependentUpon>SaveFilterPromptForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\LogDisplay.resx">
       <DependentUpon>LogDisplay.cs</DependentUpon>
