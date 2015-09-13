@@ -5,8 +5,7 @@
     /// </summary>
     public enum PredefinedFolderType
     {
-        Highlight,
-        Filter,
+        System,
         User
     }
 }

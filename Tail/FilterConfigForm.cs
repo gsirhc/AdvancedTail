@@ -15,7 +15,7 @@ namespace Tail
     using Manager;
     using Predefined;
 
-    public partial class FilterConfigForm : Form
+    public partial class FilterConfigForm : BaseForm
     {       
         public FilterConfigForm()
         {
@@ -46,6 +46,9 @@ namespace Tail
 
         private void PopulatePredefinedControls()
         {
+            buttonEditFilter.Enabled = false;
+            buttonDeleteFilter.Enabled = false;
+
             listBoxFilterFolders.Items.Clear();
             listBoxFilterItems.Items.Clear();
             labelFilterDescription.Text = "";
@@ -109,6 +112,8 @@ namespace Tail
 
         private void listBoxFilterFolders_SelectedIndexChanged(object sender, EventArgs e)
         {
+            buttonEditFilter.Enabled = false;
+            buttonDeleteFilter.Enabled = false;
             ChangePredefinedFolder(listBoxFilterFolders, listBoxFilterItems, labelFilterDescription);
         }
         
@@ -136,6 +141,10 @@ namespace Tail
         {
             var item = (PredefinedItem)itemsListBox.SelectedItem;
             var folder = (PredefinedFolder)folderListBox.SelectedItem;
+
+            buttonEditFilter.Enabled = folder.FolderType == PredefinedFolderType.User;
+            buttonDeleteFilter.Enabled = folder.FolderType == PredefinedFolderType.User;
+
             if (item != null)
             {
                 if (!string.IsNullOrEmpty(item.Description))
@@ -205,24 +214,54 @@ namespace Tail
 
         private void buttonSaveFilter_Click(object sender, EventArgs e)
         {
-            var predefinedItem = new PredefinedItem
+            var predefinedItem = SetPrefedinedItemValues(new PredefinedItem());
+            OpenSaveFilterForm(predefinedItem);
+        }
+
+        private void buttonEditFilter_Click(object sender, EventArgs e)
+        {
+            var item = listBoxFilterItems.SelectedItem as PredefinedItem;
+            if (item != null)
             {
-                ClearFilter = true,
-                ClearHighlight = true,
-                Fields = new Dictionary<FormField, string>
-                {
-                    { FormField.Filter, textBoxFilter.Text },
-                    { FormField.TrimTo, textBoxTrimTo.Text },
-                    { FormField.TrimFrom, textBoxTrimFrom.Text },
-                    { FormField.Red, textBoxRedRegex.Text },
-                    { FormField.Yellow, textBoxRedRegex.Text },
-                    { FormField.Green, textBoxGreenRegex.Text },
-                    { FormField.Blue, textBoxBlueRegex.Text },
-                    { FormField.Gray, textBoxGrayRegex.Text },
-                    { FormField.Subtle, textBoxSubtleRegex.Text },
-                }
+                OpenSaveFilterForm(SetPrefedinedItemValues(item));
+            }
+        }
+
+        private PredefinedItem SetPrefedinedItemValues(PredefinedItem item)
+        {
+            item.ClearFilter = true;
+            item.ClearHighlight = true;
+            item.Fields = new Dictionary<FormField, string>
+            {
+                { FormField.Filter, textBoxFilter.Text },
+                { FormField.TrimTo, textBoxTrimTo.Text },
+                { FormField.TrimFrom, textBoxTrimFrom.Text },
+                { FormField.Red, textBoxRedRegex.Text },
+                { FormField.Yellow, textBoxYellowRegex.Text },
+                { FormField.Green, textBoxGreenRegex.Text },
+                { FormField.Blue, textBoxBlueRegex.Text },
+                { FormField.Gray, textBoxGrayRegex.Text },
+                { FormField.Subtle, textBoxSubtleRegex.Text },
             };
 
+            return item;
+        }
+
+        private void buttonDeleteFilter_Click(object sender, EventArgs e)
+        {
+            var item = listBoxFilterItems.SelectedItem as PredefinedItem;
+            if (item != null)
+            {
+                if (Confirmation("Confirm Delete", "Delete '{0}'?", item.Name))
+                {
+                    SettingsManager.Instance.UserFilterConfigs.Items.Remove(item);
+                    PopulatePredefinedControls();
+                }
+            }
+        }
+
+        private void OpenSaveFilterForm(PredefinedItem predefinedItem)
+        {
             var promptForm = new SaveFilterPromptForm(predefinedItem);
             if (promptForm.ShowDialog() == DialogResult.OK)
             {
@@ -274,6 +313,6 @@ namespace Tail
             }
 
             SetFilter();
-        }        
+        }
     }
 }

@@ -19,7 +19,6 @@
             new PredefinedFolder
             {
                 Name = "Log Level",
-                FolderType = PredefinedFolderType.Highlight,
                 Items = new List<PredefinedItem>
                 {
                     new PredefinedItem
@@ -50,7 +49,7 @@
                     },
                     new PredefinedItem
                     {
-                        Name = "Error Only Highlighting",
+                        Name = "Hightlight Error Only",
                         Description = "Fatal/Error: Red, all other levels are not highlighted",
                         ClearFilter = false,
                         ClearHighlight = true,
@@ -58,18 +57,10 @@
                         {
                             { FormField.Red, "(?i)^(FATAL|ERROR)" }
                         }
-                    }
-                }
-            },
-            new PredefinedFolder
-            {
-                Name = "Remove - Log Levels",
-                FolderType = PredefinedFolderType.Filter,
-                Items = new List<PredefinedItem>
-                {
+                    },
                     new PredefinedItem
                     {
-                        Name = "Trace",
+                        Name = "Hide Trace",
                         Description = "Hides all Trace lines",
                         ClearFilter = true,
                         ClearHighlight = false,
@@ -80,7 +71,7 @@
                     },
                     new PredefinedItem
                     {
-                        Name = "Trace and Debug",
+                        Name = "Hide Trace and Debug",
                         Description = "Hides all Trace and Debug lines",
                         ClearFilter = true,
                         ClearHighlight = false,
@@ -91,7 +82,7 @@
                     },
                     new PredefinedItem
                     {
-                        Name = "Info",
+                        Name = "Hide Info",
                         Description = "Hides all Info lines",
                         ClearFilter = true,
                         ClearHighlight = false,
@@ -102,7 +93,7 @@
                     },
                     new PredefinedItem
                     {
-                        Name = "Errors and Warnings",
+                        Name = "Hide Errors and Warnings",
                         Description = "Hides all Error and Warning lines",
                         ClearFilter = true,
                         ClearHighlight = false,
