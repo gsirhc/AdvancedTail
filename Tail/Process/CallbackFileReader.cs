@@ -7,6 +7,7 @@
     using System.Threading;
     using Filter;
     using System.Linq;
+    using Reader;
 
     /// <summary>
     /// Implementation of <see cref="ISerialFileReader" /> that uses callbacks to inform a parent of certain actions.
@@ -20,12 +21,14 @@
         private readonly Queue<string> queue = new Queue<string>();
 
         private Thread updateFileThread = null;
-        
+        private IReaderFactory readerFactory;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CallbackFileReader"/> class.
         /// </summary>
-        public CallbackFileReader()
+        public CallbackFileReader(IReaderFactory readerFactory)
         {
+            this.readerFactory = readerFactory;
             LoadLastLines = 10;
         }
 
@@ -102,17 +105,17 @@
                     var totalLineCount = 0;
                     var minLineCount = 0;
                     var clear = false;
-                    if (initialLoad && LoadLastLines >= 0 && lastPositionDict[next] == 0)
+                    using (var reader = readerFactory.CreateReader(next))
                     {
-                        totalLineCount = File.ReadLines(next).Count();
-                        minLineCount = totalLineCount > LoadLastLines ? totalLineCount - LoadLastLines : 0;
-                    }                    
+                        if (initialLoad && LoadLastLines >= 0 && lastPositionDict[next] == 0)
+                        {
+                            totalLineCount = reader.CountLines();
+                            minLineCount = totalLineCount > LoadLastLines ? totalLineCount - LoadLastLines : 0;
+                        }
 
-                    using (FileStream fs = File.Open(next, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                    {
                         var lastPosition = lastPositionDict[next];
 
-                        if (lastPosition > fs.Length)
+                        if (lastPosition > reader.Length)
                         {
                             lastPositionDict[next] = lastPosition = 0L;
                             fileStatistics[next].Reset();
@@ -121,9 +124,9 @@
                             clear = true;
                         }
 
-                        fs.Seek(lastPosition, SeekOrigin.Begin);                        
-                        ReadLines(new StreamReader(fs), next, minLineCount, clear);
-                        lastPositionDict[next] = fs.Position;
+                        reader.Seek(lastPosition);                        
+                        ReadLines(reader, next, minLineCount, clear);
+                        lastPositionDict[next] = reader.Position;
                     }
 
                     FinishCallback?.Invoke(initialLoad, fileStatistics[next]);
@@ -136,7 +139,7 @@
             }
         }
 
-        private void ReadLines(StreamReader reader, string fileKey, int minLineCount, bool clear)
+        private void ReadLines(IReader reader, string fileKey, int minLineCount, bool clear)
         {
             var statistics = fileStatistics[fileKey];
             var lineList = new List<TailLine>();

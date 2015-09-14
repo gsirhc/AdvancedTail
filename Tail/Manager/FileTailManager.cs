@@ -12,6 +12,7 @@
         private TailThread tailThread;
 
         public ISerialFileReader SerialFileReader { get; set; }
+        public ITailWatcher TailWatcher { get; set; }
         public Action ClearDisplayCallback { get; set; }
         public Action<bool> SetStateCallback { get; set; }
         public Action<Exception> ExceptionCallback { get; set; }
@@ -29,7 +30,7 @@
 
             if (tailThread == null)
             {
-                tailThread = new TailThread(SerialFileReader, ExceptionCallback);
+                tailThread = new TailThread(TailWatcher);
             }
 
             ClearDisplayCallback();

@@ -16,20 +16,16 @@ namespace Tail.Process
     public class TailThread
     {
         Thread tailThread = null;
-        private FileSystemWatcher fileSystemWatcher;
-
-        private ISerialFileReader serialFileReader;
+        private ITailWatcher tailWatcher;
         private string fileToTail;
-        private Action<Exception> exceptionHandler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TailThread" /> class.
         /// </summary>
         /// <param name="serialFileReader">The line file reader.</param>
-        public TailThread(ISerialFileReader serialFileReader, Action<Exception> exceptionHandler)
+        public TailThread(ITailWatcher tailWatcher)
         {
-            this.serialFileReader = serialFileReader;
-            this.exceptionHandler = exceptionHandler;
+            this.tailWatcher = tailWatcher;
         }
 
         public bool IsRunning { get { return tailThread != null && tailThread.IsAlive; } }
@@ -41,8 +37,7 @@ namespace Tail.Process
         public void Start(string file)
         {
             this.fileToTail = file;
-
-            serialFileReader.EnableQueue(true);
+            tailWatcher.Initialize();
 
             tailThread = new Thread(TailFile);
             tailThread.Start();                    
@@ -55,57 +50,12 @@ namespace Tail.Process
         {
             tailThread?.Abort();
             tailThread = null;
-            serialFileReader.EnableQueue(false);
-            serialFileReader.ClearQueue();
+            tailWatcher.Dispose();
         }
 
         private void TailFile()
         {
-            try
-            {
-                if (!File.Exists(fileToTail))
-                {
-                    throw new FileNotFoundException("Could not find the file", fileToTail);
-                }
-
-                var directory = Path.GetDirectoryName(fileToTail);
-
-                // Dispose previous instance to reduce memory usage
-                if (fileSystemWatcher != null)
-                {
-                    fileSystemWatcher.Dispose();
-                    fileSystemWatcher = null;
-                }
-
-                fileSystemWatcher = new FileSystemWatcher(directory) { Filter = fileToTail };
-                fileSystemWatcher.Filter = "*.*";
-
-                fileSystemWatcher.NotifyFilter = NotifyFilters.LastWrite;
-
-                fileSystemWatcher.Changed += Fsw_Changed;
-                fileSystemWatcher.EnableRaisingEvents = true;
-
-                fileSystemWatcher.InternalBufferSize = 1024 * 1024 * 2;
-
-                serialFileReader.Enqueue(fileToTail);
-
-                while (true)
-                {
-                    fileSystemWatcher.WaitForChanged(WatcherChangeTypes.Changed);
-                }
-            }
-            catch (Exception ex)
-            {
-                exceptionHandler(ex);
-            }
-        }
-
-        private void Fsw_Changed(object sender, FileSystemEventArgs e)
-        {
-            if (e.FullPath == fileToTail)
-            {
-                serialFileReader.Enqueue(e.FullPath);
-            }
+            tailWatcher.Watch(fileToTail);
         }        
     }
 }

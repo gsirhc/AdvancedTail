@@ -93,7 +93,16 @@
     <Compile Include="Predefined\PredefinedFolder.cs" />
     <Compile Include="Predefined\PredefinedItem.cs" />
     <Compile Include="Predefined\PredefinedFolderType.cs" />
+    <Compile Include="Process\CallbackFileReader.cs" />
+    <Compile Include="Process\ITailWatcher.cs" />
+    <Compile Include="Process\TailEventLogWatcher.cs" />
+    <Compile Include="Process\TailFileWatcher.cs" />
     <Compile Include="Process\TailLine.cs" />
+    <Compile Include="Reader\EventLogReader.cs" />
+    <Compile Include="Reader\ReaderFactory.cs" />
+    <Compile Include="Reader\FileReaderWrapper.cs" />
+    <Compile Include="Reader\IReader.cs" />
+    <Compile Include="Reader\IReaderFactory.cs" />
     <Compile Include="SaveFilterPromptForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,7 +140,6 @@
     <Compile Include="Manager\DemoTailManager.cs" />
     <Compile Include="Manager\ITailManager.cs" />
     <Compile Include="Process\ISerialFileReader.cs" />
-    <Compile Include="Process\CallbackFileReader.cs" />
     <Compile Include="Process\TailStatistics.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Settings\FileSettings.cs" />

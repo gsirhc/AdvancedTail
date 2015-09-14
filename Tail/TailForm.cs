@@ -14,6 +14,7 @@
     using Manager;
     using Predefined;
     using Settings;
+    using Reader;
 
     /// <summary>
     /// Main for displayed to the user.
@@ -62,7 +63,7 @@
 
             mainMenuToolbar.Initialize();
             
-            InitializeTailManager();
+            InitializeTailManager((IReaderFactory)new ReaderFactory());
 
             bool hasArgFile = !string.IsNullOrEmpty(initialFile);
             this.initialFile = hasArgFile ? initialFile : SettingsManager.Instance.LastFile;
@@ -110,9 +111,9 @@
             EnableHighlight(fileSettings.EnableHighlight);
         }
 
-        private void InitializeTailManager()
+        private void InitializeTailManager(IReaderFactory readerFactory)
         {
-            var serialFileReader = new CallbackFileReader()
+            var serialFileReader = new CallbackFileReader(readerFactory)
             {
                 StartCallback = logDisplay.StartWrite,
                 UpdateCallback = logDisplay.Write,
@@ -125,6 +126,7 @@
             this.tailManager = new FileTailManager()
             {
                 SerialFileReader = serialFileReader,
+                TailWatcher = readerFactory.CreateWatcher(mainMenuToolbar.FilePath, serialFileReader, ExceptionHandler),
                 ClearDisplayCallback = logDisplay.Clear,
                 ExceptionCallback = ExceptionHandler,
                 GetFileNameCallback = () => mainMenuToolbar.FilePath,
@@ -150,7 +152,7 @@
 
             if (IsDemo)
             {
-                InitializeTailManager();
+                InitializeTailManager((IReaderFactory)new ReaderFactory());
                 InitializeNewFile(SettingsManager.Instance.LastFile);
             }
         }
@@ -311,6 +313,8 @@
             }
 
             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            StopTail();
         }
         
         private void SetState(bool running)
