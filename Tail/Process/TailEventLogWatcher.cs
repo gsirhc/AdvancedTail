@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using System.Threading;
+    using Reader;
 
     public class TailEventLogWatcher : ITailWatcher
     {
@@ -11,6 +12,7 @@
 
         private ISerialFileReader serialFileReader;
         private Action<Exception> exceptionHandler;
+        private string LogToTail = "";
 
         public TailEventLogWatcher(ISerialFileReader serialFileReader, Action<Exception> exceptionHandler)
         {
@@ -25,19 +27,27 @@
 
         public void Watch(string fileToTail)
         {
-            signal = new AutoResetEvent(false);
-            var myNewLog = new EventLog("Application", ".", "testEventLogEvent");
+            try
+            {
+                LogToTail = fileToTail;
+                signal = new AutoResetEvent(false);
+                var myNewLog = new EventLog(ReaderFactory.GetEventLogName(LogToTail), ".", "testEventLogEvent");
 
-            serialFileReader.Enqueue(fileToTail);
+                serialFileReader.Enqueue(fileToTail);
 
-            myNewLog.EntryWritten += new EntryWrittenEventHandler(MyOnEntryWritten);
-            myNewLog.EnableRaisingEvents = true;
-            signal.WaitOne();
+                myNewLog.EntryWritten += new EntryWrittenEventHandler(MyOnEntryWritten);
+                myNewLog.EnableRaisingEvents = true;
+                signal.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                exceptionHandler(ex);
+            }
         }
 
         public void MyOnEntryWritten(object source, EntryWrittenEventArgs e)
         {
-            serialFileReader.Enqueue(source.ToString());
+            serialFileReader.Enqueue(LogToTail);
             signal.Set();
         }
 

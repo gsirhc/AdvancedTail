@@ -16,44 +16,16 @@
         public DemoTailManager(ITailManager fileTailManager)
         {
             this.fileTailManager = fileTailManager;
+
+            FormInterface = fileTailManager.FormInterface;
+
+            FormInterface.GetFileNameCallback = () => demoThread.DemoFile;
+            FormInterface.GetFilterCallback = () => new FileLineRegexFilter("");
         }
 
-        public ISerialFileReader SerialFileReader
-        {
-            get { return fileTailManager.SerialFileReader; }
-            set { fileTailManager.SerialFileReader = value; }
-        }
+        public FormInterface FormInterface { get; set; }
 
-        public Action ClearDisplayCallback
-        {
-            get { return fileTailManager.ClearDisplayCallback; }
-            set { fileTailManager.ClearDisplayCallback = value; }
-        }
-
-        public Action<bool> SetStateCallback
-        {
-            get { return fileTailManager.SetStateCallback; }
-            set { fileTailManager.SetStateCallback = value; }
-        }
-
-        public Action<Exception> ExceptionCallback
-        {
-            get { return fileTailManager.ExceptionCallback; }
-            set { fileTailManager.ExceptionCallback = value; }
-        }
         
-        public Func<string> GetFileNameCallback
-        {
-            get { return () => demoThread.DemoFile; }
-            set { throw new NotImplementedException(); }
-        }
-
-        public Func<ILineFilter> GetFilterCallback
-        {
-            get { return () => new FileLineRegexFilter(""); }
-            set { throw new NotImplementedException(); }
-        }
-
         public bool IsRunning { get { return fileTailManager.IsRunning; } }
 
         public void StartTail(bool save = true, bool stop = true)

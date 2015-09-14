@@ -9,32 +9,10 @@ namespace Tail.Manager
     /// </summary>
     public interface ITailManager
     {
-        ISerialFileReader SerialFileReader { get; set; }
-
         /// <summary>
-        /// Gets or sets the clear display callback.
+        /// Gets or sets the form interface callbacks.
         /// </summary>
-        Action ClearDisplayCallback { get; set; }
-
-        /// <summary>
-        /// Gets or sets the set state callback.
-        /// </summary>
-        Action<bool> SetStateCallback { get; set; }
-
-        /// <summary>
-        /// Gets or sets the exception callback.
-        /// </summary>
-        Action<Exception> ExceptionCallback { get; set; }
-
-        /// <summary>
-        /// Gets or sets the get file name callback.
-        /// </summary>
-        Func<string> GetFileNameCallback { get; set; }
-
-        /// <summary>
-        /// Gets or sets the get filter callback.
-        /// </summary>
-        Func<ILineFilter> GetFilterCallback { get; set; }
+        FormInterface FormInterface { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether tailing a file or not.

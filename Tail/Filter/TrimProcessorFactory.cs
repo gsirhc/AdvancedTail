@@ -11,12 +11,15 @@ namespace Tail.Filter
     /// </summary>
     public static class TrimProcessorFactory
     {
-        public static IFilterProcessor CreateProcessor(string toRegex, string fromRegex)
+        public static IFilterProcessor CreateProcessor(string toRegex, string fromRegex, string trimMiddle)
         {
             // For now, trim the to, then the from
             IFilterProcessor trimTo = new TrimToProcessor(toRegex)
             {
                 DownstreamMember = new TrimFromProcessor(fromRegex)
+                {
+                    DownstreamMember = new TrimMiddleProcessor(trimMiddle)
+                }
             };
 
             return trimTo;

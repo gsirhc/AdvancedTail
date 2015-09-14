@@ -1,5 +1,6 @@
 ﻿namespace Tail.Process
 {
+    using System;
     using Filter;
 
     /// <summary>
@@ -8,22 +9,6 @@
     /// </summary>
     public interface ISerialFileReader
     {
-        /// <summary>
-        /// Gets or sets the filter to apply to the file contexts.
-        /// </summary>
-        /// <value>
-        /// The filter.
-        /// </value>
-        ILineFilter Filter { get; set; }
-
-        /// <summary>
-        /// Gets or sets the number of lines to load initially.  Set to -1 to load all.
-        /// </summary>
-        /// <value>
-        /// The load last line count.
-        /// </value>
-        int LoadLastLines { get; set; }
-
         /// <summary>
         /// Enables the queue.  If false, will stop reading
         /// </summary>

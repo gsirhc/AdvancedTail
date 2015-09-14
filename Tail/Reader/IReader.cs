@@ -6,7 +6,6 @@
     {
         long Length { get; }
         long Position { get; }
-
         void Seek(long position);
         int CountLines();
         string ReadLine();

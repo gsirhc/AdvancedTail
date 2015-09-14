@@ -5,6 +5,7 @@
         Filter,
         TrimTo,
         TrimFrom,
+        TrimMiddle,
 
         Red,
         Yellow,

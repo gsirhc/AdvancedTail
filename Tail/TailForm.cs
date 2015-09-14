@@ -103,6 +103,8 @@
             filterConfigForm.FilterText = fileSettings.FilterRegex;
             filterConfigForm.TrimToText = fileSettings.ToTrimRegex;
             filterConfigForm.TrimFromText = fileSettings.FromTrimRegex;
+            filterConfigForm.TrimFromText = fileSettings.MiddleTrimRegex;
+
             filterConfigForm.HighlightColorMap =
                 fileSettings.HighlightRegexMap.StringKeyToEnum<HighlightColor.ColorIndex, string>();
 
@@ -113,25 +115,20 @@
 
         private void InitializeTailManager(IReaderFactory readerFactory)
         {
-            var serialFileReader = new CallbackFileReader(readerFactory)
-            {
-                StartCallback = logDisplay.StartWrite,
-                UpdateCallback = logDisplay.Write,
-                FinishCallback = logDisplay.EndWrite,
-                ExceptionCallback = ExceptionHandler,
-                LoadLastLines = mainMenuToolbar.LoadLastNLines,
-                Filter = filterConfigForm.Filter
-            };
-
             this.tailManager = new FileTailManager()
             {
-                SerialFileReader = serialFileReader,
-                TailWatcher = readerFactory.CreateWatcher(mainMenuToolbar.FilePath, serialFileReader, ExceptionHandler),
-                ClearDisplayCallback = logDisplay.Clear,
-                ExceptionCallback = ExceptionHandler,
-                GetFileNameCallback = () => mainMenuToolbar.FilePath,
-                GetFilterCallback = () => filterConfigForm.Filter,
-                SetStateCallback = SetState
+                FormInterface = new FormInterface
+                {
+                    StartCallback = logDisplay.StartWrite,
+                    UpdateCallback = logDisplay.Write,
+                    FinishCallback = logDisplay.EndWrite,
+                    LoadLastLinesCallback = () => mainMenuToolbar.LoadLastNLines,
+                    ClearDisplayCallback = logDisplay.Clear,
+                    ExceptionCallback = ExceptionHandler,
+                    GetFileNameCallback = () => mainMenuToolbar.FilePath,
+                    GetFilterCallback = () => filterConfigForm.Filter,
+                    SetStateCallback = SetState
+                }
             };
         }
 
@@ -169,16 +166,15 @@
 
             if (!preview || (filterConfigForm.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(mainMenuToolbar.FilePath)))
             {
-                tailManager.SerialFileReader.Filter = filterConfigForm.Filter;
                 var settingsManager = SettingsManager.Instance;
+                var fileSettings = settingsManager.GetFileSettings(mainMenuToolbar.FilePath);
 
-                settingsManager.GetFileSettings(mainMenuToolbar.FilePath).FilterRegex = filterConfigForm.FilterText;
-                settingsManager.GetFileSettings(mainMenuToolbar.FilePath).ToTrimRegex = filterConfigForm.TrimToText;
-                settingsManager.GetFileSettings(mainMenuToolbar.FilePath).FromTrimRegex = filterConfigForm.TrimFromText;
-                settingsManager.GetFileSettings(mainMenuToolbar.FilePath).HighlightRegexMap = filterConfigForm.HighlightColorMap.EnumKeyToString();
+                fileSettings.FilterRegex = filterConfigForm.FilterText;
+                fileSettings.ToTrimRegex = filterConfigForm.TrimToText;
+                fileSettings.FromTrimRegex = filterConfigForm.TrimFromText;
+                fileSettings.MiddleTrimRegex = filterConfigForm.TrimMiddleText;
+                fileSettings.HighlightRegexMap = filterConfigForm.HighlightColorMap.EnumKeyToString();
                 settingsManager.Save();
-
-                tailManager.SerialFileReader.Filter = filterConfigForm.Filter;
 
                 EnableFilter(mainMenuToolbar.FilterEnabled);
                 EnableTrim(mainMenuToolbar.TrimEnabled);
@@ -252,9 +248,7 @@
             logDisplay.WordWrap = fileSettings.WordWrap;
             logDisplay.AutoScroll = fileSettings.AutoScroll;
             logDisplay.ShowLineNumbers = fileSettings.ShowLineNumbers;
-
-            tailManager.SerialFileReader.LoadLastLines = fileSettings.LoadLastLines;
-
+            
             EnableFilter(fileSettings.EnableFilter);
             EnableTrim(fileSettings.EnableTrim);
             EnableHighlight(fileSettings.EnableHighlight);
@@ -288,13 +282,13 @@
             }
 
             tailManager.StopTail();
-            tailManager.SerialFileReader.LoadLastLines = -1;
+            tailManager.FormInterface.LoadLastLinesCallback = () => -1;
             tailManager = new DemoTailManager(tailManager);
 
-            InitializeNewFile(tailManager.GetFileNameCallback());
+            InitializeNewFile(tailManager.FormInterface.GetFileNameCallback());
             tailManager.StartTail(false, false);
 
-            return tailManager.GetFileNameCallback();
+            return tailManager.FormInterface.GetFileNameCallback();
         }
 
         private void ExceptionHandler(Exception ex)

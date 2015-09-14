@@ -53,18 +53,24 @@
         {
             get
             {
-                if (comboBoxLoadLast.SelectedItem == null)
+                var lastLines = FileSettings.Default.LoadLastLines;
+                this.Invoke(new Action(() =>
                 {
-                    return FileSettings.Default.LoadLastLines;
-                }
+                    if (comboBoxLoadLast.SelectedItem != null)
+                    {
+                        switch (comboBoxLoadLast.SelectedItem.ToString())
+                        {
+                            case "ALL":
+                                lastLines = -1;
+                                break;
+                            default:
+                                lastLines = int.Parse(comboBoxLoadLast.SelectedItem.ToString());
+                                break;
+                        }
+                    }
+                }));
 
-                switch (comboBoxLoadLast.SelectedItem.ToString())
-                {
-                    case "ALL":
-                        return -1;
-                    default:
-                        return int.Parse(comboBoxLoadLast.SelectedItem.ToString());
-                }
+                return lastLines;
             }
             set
             {

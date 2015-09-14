@@ -69,19 +69,25 @@ namespace Tail
         public string FilterText
         {
             get { return textBoxFilter.Text; }
-            set { textBoxFilter.Text = value; SetFilter(); }
+            set { textBoxFilter.Text = value; }
         }
 
         public string TrimToText
         {
             get { return textBoxTrimTo.Text; }
-            set { textBoxTrimTo.Text = value; SetFilter(); }
+            set { textBoxTrimTo.Text = value; }
         }
 
         public string TrimFromText
         {
             get { return textBoxTrimFrom.Text; }
-            set { textBoxTrimFrom.Text = value; SetFilter(); }
+            set { textBoxTrimFrom.Text = value; }
+        }
+
+        public string TrimMiddleText
+        {
+            get { return textBoxTrimMiddle.Text; }
+            set { textBoxTrimMiddle.Text = value; }
         }
 
         public IDictionary<HighlightColor.ColorIndex, string> HighlightColorMap
@@ -176,6 +182,9 @@ namespace Tail
                     case FormField.TrimFrom:
                         textBoxTrimFrom.Text = field.Value;
                         break;
+                    case FormField.TrimMiddle:
+                        textBoxTrimMiddle.Text = field.Value;
+                        break;
                     case FormField.Red:
                         textBoxRedRegex.Text = field.Value;
                         break;
@@ -236,6 +245,7 @@ namespace Tail
                 { FormField.Filter, textBoxFilter.Text },
                 { FormField.TrimTo, textBoxTrimTo.Text },
                 { FormField.TrimFrom, textBoxTrimFrom.Text },
+                { FormField.TrimMiddle, textBoxTrimMiddle.Text },
                 { FormField.Red, textBoxRedRegex.Text },
                 { FormField.Yellow, textBoxYellowRegex.Text },
                 { FormField.Green, textBoxGreenRegex.Text },
@@ -276,6 +286,7 @@ namespace Tail
         
         private bool SetFilter()
         {
+            var previous = Filter;
             try
             {
                 Filter = new FileLineRegexFilter(textBoxFilter.Text)
@@ -283,12 +294,14 @@ namespace Tail
                     DownstreamMember = new HighlightProcessor(HighlightColorMap)
                 };
 
-                Filter.DownstreamMember.DownstreamMember = TrimProcessorFactory.CreateProcessor(textBoxTrimTo.Text, textBoxTrimFrom.Text);
+                Filter.DownstreamMember.DownstreamMember = TrimProcessorFactory.CreateProcessor(textBoxTrimTo.Text, textBoxTrimFrom.Text, textBoxTrimMiddle.Text);
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Filter Error");
+                Filter = previous;
+
+                MessageBox.Show(ex.Message, "Filter Error");                
                 return false;
             }
         }
@@ -300,6 +313,7 @@ namespace Tail
                 textBoxFilter.Text = "";
                 textBoxTrimTo.Text = "";
                 textBoxTrimFrom.Text = "";
+                textBoxTrimMiddle.Text = "";
             }
 
             if (highlight)
@@ -311,8 +325,6 @@ namespace Tail
                 textBoxGrayRegex.Text = "";
                 textBoxSubtleRegex.Text = "";
             }
-
-            SetFilter();
         }
     }
 }

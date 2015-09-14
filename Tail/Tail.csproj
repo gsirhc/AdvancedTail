@@ -88,6 +88,8 @@
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Filter\HighlightColor.cs" />
     <Compile Include="Filter\HighlightProcessor.cs" />
+    <Compile Include="Filter\TrimMiddleProcessor.cs" />
+    <Compile Include="Manager\FormInterface.cs" />
     <Compile Include="Predefined\FilterConfiguration.cs" />
     <Compile Include="Predefined\FormField.cs" />
     <Compile Include="Predefined\PredefinedFolder.cs" />
@@ -98,11 +100,13 @@
     <Compile Include="Process\TailEventLogWatcher.cs" />
     <Compile Include="Process\TailFileWatcher.cs" />
     <Compile Include="Process\TailLine.cs" />
-    <Compile Include="Reader\EventLogReader.cs" />
-    <Compile Include="Reader\ReaderFactory.cs" />
+    <Compile Include="Process\TailWatcherFactory.cs" />
+    <Compile Include="Reader\EventLogFileReader.cs" />
     <Compile Include="Reader\FileReaderWrapper.cs" />
     <Compile Include="Reader\IReader.cs" />
     <Compile Include="Reader\IReaderFactory.cs" />
+    <Compile Include="Reader\ReaderFactory.cs" />
+    <Compile Include="Reader\ReaderType.cs" />
     <Compile Include="SaveFilterPromptForm.cs">
       <SubType>Form</SubType>
     </Compile>

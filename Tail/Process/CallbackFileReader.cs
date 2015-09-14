@@ -29,14 +29,14 @@
         public CallbackFileReader(IReaderFactory readerFactory)
         {
             this.readerFactory = readerFactory;
-            LoadLastLines = 10;
         }
 
         public Action<bool> StartCallback { get; set; }
         public Action<bool, TailStatistics> FinishCallback { get; set; }
         public Action<IList<TailLine>, bool> UpdateCallback { get; set; }
         public Action<Exception> ExceptionCallback { get; set; }
-        public int LoadLastLines { get; set; }
+        public Func<int> LoadLastLines { get; set; }
+        public Func<ILineFilter> Filter { get; set; }
 
         public void ClearQueue()
         {
@@ -62,9 +62,7 @@
                 initialLoad = true;
             }
         }
-
-        public ILineFilter Filter { get; set; }
-
+        
         public void Enqueue(string filePath)
         {
             lock (queue)
@@ -107,10 +105,11 @@
                     var clear = false;
                     using (var reader = readerFactory.CreateReader(next))
                     {
-                        if (initialLoad && LoadLastLines >= 0 && lastPositionDict[next] == 0)
+                        var loadLastLines = LoadLastLines();
+                        if (initialLoad && loadLastLines >= 0 && lastPositionDict[next] == 0)
                         {
                             totalLineCount = reader.CountLines();
-                            minLineCount = totalLineCount > LoadLastLines ? totalLineCount - LoadLastLines : 0;
+                            minLineCount = totalLineCount > loadLastLines ? totalLineCount - loadLastLines : 0;
                         }
 
                         var lastPosition = lastPositionDict[next];
@@ -177,7 +176,7 @@
             highlightColor = HighlightColor.ColorIndex.None;
             if (Filter != null)
             {
-                var result = Filter.IsMatch(line);
+                var result = Filter().IsMatch(line);
                 line = result.Result;
                 highlightColor = result.HighlightColor;
                 return result.IsMatch;

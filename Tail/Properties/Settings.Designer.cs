@@ -68,10 +68,10 @@ namespace Tail.Properties {
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public int LoadLastLines {
             get {
-                return ((int)(this["LoadLastLines"]));
+                return ((int)(this["LoadLastLinesCallback"]));
             }
             set {
-                this["LoadLastLines"] = value;
+                this["LoadLastLinesCallback"] = value;
             }
         }
         

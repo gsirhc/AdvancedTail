@@ -3,14 +3,14 @@ using System.Diagnostics;
 
 namespace Tail.Reader
 {
-    public class EventLogReader : IReader
+    public class EventLogFileReader : IReader
     {
         private EventLog eventLog;
         private int lastIndex = 0;
 
-        public EventLogReader(string longName)
+        public EventLogFileReader(string logName)
         {
-            this.eventLog = new EventLog(longName);
+            this.eventLog = new EventLog(logName);
         }
 
         public long Length { get { return this.eventLog.Entries.Count; } }
@@ -35,9 +35,12 @@ namespace Tail.Reader
             }
 
             var entry = eventLog.Entries[lastIndex++];
-            return string.Format("{0} [{1}] Source={2} User={3}: {4} ",
-                entry.EntryType.ToString().PadRight(11),
-                entry.TimeWritten.ToString("g").PadRight(20),
+
+            var type = entry.EntryType.ToString();
+
+            return string.Format("{0} [{1}] Source={2} User={3} Message={4} ",
+                (type != "0" ? type : "Information").PadRight(11),
+                entry.TimeWritten.ToString("G").PadRight(23),
                 entry.Source,
                 entry.UserName,
                 entry.Message.Replace("\r", "").Replace("\n", ""));

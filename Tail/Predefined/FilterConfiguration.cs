@@ -103,6 +103,46 @@
                         }
                     }
                 }
+            },
+            new PredefinedFolder
+            {
+                Name = "Windows Event Log",
+                Items = new List<PredefinedItem>
+                {
+                    new PredefinedItem
+                    {
+                        Name = "Show Errors Only",
+                        Description = "Shows error entries, hides all others",
+                        ClearFilter = false,
+                        ClearHighlight = true,
+                        Fields = new Dictionary<FormField, string>
+                        {
+                            { FormField.Filter, "(?i)^(Error)" }
+                        }
+                    },
+                    new PredefinedItem
+                    {
+                        Name = "Highlight Errors",
+                        Description = "Errors are highlighted red",
+                        ClearFilter = false,
+                        ClearHighlight = true,
+                        Fields = new Dictionary<FormField, string>
+                        {
+                            { FormField.Red, "(?i)^(Error)" }
+                        }
+                    },
+                    new PredefinedItem
+                    {
+                        Name = "Subdued",
+                        Description = "Errors are default font, all others are subdued",
+                        ClearFilter = false,
+                        ClearHighlight = true,
+                        Fields = new Dictionary<FormField, string>
+                        {
+                            { FormField.Subtle, "(?i)^(?!Error).*$" }
+                        }
+                    }
+                }
             }
         };        
     }

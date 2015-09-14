@@ -38,7 +38,6 @@
             this.mainMenuToolbar.Dock = System.Windows.Forms.DockStyle.Top;
             this.mainMenuToolbar.FilePath = "";
             this.mainMenuToolbar.FilterEnabled = true;
-            this.mainMenuToolbar.LoadLastNLines = 10;
             this.mainMenuToolbar.Location = new System.Drawing.Point(0, 0);
             this.mainMenuToolbar.Name = "mainMenuToolbar";
             this.mainMenuToolbar.Size = new System.Drawing.Size(806, 77);
