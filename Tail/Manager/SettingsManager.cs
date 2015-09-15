@@ -1,6 +1,7 @@
 ﻿namespace Tail.Manager
 {
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
     using System.Web.Script.Serialization;
     using Predefined;
@@ -52,6 +53,24 @@
             list.Sort((firstPair, nextPair) => -1 * firstPair.Value.LastUsed.CompareTo(nextPair.Value.LastUsed));
 
             return list.Take(lastUsedCount).Select(kvp => kvp.Key);
+        }
+
+        /// <summary>
+        /// Gets or sets the last window location.
+        /// </summary>
+        public Point LastWindowLocation
+        {
+            get { return Properties.Settings.Default.WindowLocation; }
+            set { Properties.Settings.Default.WindowLocation = value; Save(); }
+        }
+
+        /// <summary>
+        /// Gets or sets the last size of the window.
+        /// </summary>
+        public Size LastWindowSize
+        {
+            get { return Properties.Settings.Default.WindowSize; }
+            set { Properties.Settings.Default.WindowSize = value; Save(); }
         }
 
         /// <summary>

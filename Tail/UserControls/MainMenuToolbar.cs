@@ -256,6 +256,21 @@
             SelectedFile?.Invoke(ReaderFactory.EventLogToFilePath("Application"));
         }
 
+        private void systemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SelectedFile?.Invoke(ReaderFactory.EventLogToFilePath("System"));
+        }
+
+        private void securityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SelectedFile?.Invoke(ReaderFactory.EventLogToFilePath("Security"));
+        }
+
+        private void setupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SelectedFile?.Invoke(ReaderFactory.EventLogToFilePath("Setup"));
+        }
+
         private void autoScrollToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CurrentFileSettings.AutoScroll = autoScrollToolStripMenuItem.Checked;
@@ -411,6 +426,6 @@
         private void helpDocumentationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/gsirhc/AdvancedTail");
-        }
+        }        
     }
 }

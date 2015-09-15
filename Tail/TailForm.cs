@@ -5,6 +5,7 @@
     using Filter;
     using System;
     using System.Diagnostics;
+    using System.Drawing;
     using System.IO;
     using System.Reflection;
     using System.Threading;
@@ -56,6 +57,22 @@
         
         private FileSettings CurrentFileSettings => !string.IsNullOrEmpty(mainMenuToolbar.FilePath) ?  SettingsManager.Instance.GetFileSettings(mainMenuToolbar.FilePath) : FileSettings.Default;
 
+        protected override void OnLoad(EventArgs e)
+        {
+            if (!SettingsManager.Instance.LastWindowLocation.IsEmpty)
+            {
+                this.Location = SettingsManager.Instance.LastWindowLocation;
+            }
+
+            // Set window size
+            if (!SettingsManager.Instance.LastWindowSize.IsEmpty)
+            {
+                this.Size = SettingsManager.Instance.LastWindowSize;
+            }
+
+            base.OnLoad(e);
+        }
+
         protected override void OnShown(EventArgs e)
         {
             SetState(false);
@@ -103,7 +120,7 @@
             filterConfigForm.FilterText = fileSettings.FilterRegex;
             filterConfigForm.TrimToText = fileSettings.ToTrimRegex;
             filterConfigForm.TrimFromText = fileSettings.FromTrimRegex;
-            filterConfigForm.TrimFromText = fileSettings.MiddleTrimRegex;
+            filterConfigForm.TrimMiddleText = fileSettings.MiddleTrimRegex;
 
             filterConfigForm.HighlightColorMap =
                 fileSettings.HighlightRegexMap.StringKeyToEnum<HighlightColor.ColorIndex, string>();
@@ -135,6 +152,17 @@
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             this.tailManager?.StopTail();
+            SettingsManager.Instance.LastWindowLocation = this.Location;
+
+            if (this.WindowState == FormWindowState.Normal)
+            {
+                SettingsManager.Instance.LastWindowSize = this.Size;                
+            }
+            else
+            {
+                SettingsManager.Instance.LastWindowSize = new Size();
+            }
+
             base.OnFormClosing(e);
         }
 

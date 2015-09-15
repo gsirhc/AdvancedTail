@@ -113,11 +113,22 @@
                     {
                         Name = "Show Errors Only",
                         Description = "Shows error entries, hides all others",
-                        ClearFilter = false,
-                        ClearHighlight = true,
+                        ClearFilter = true,
+                        ClearHighlight = false,
                         Fields = new Dictionary<FormField, string>
                         {
                             { FormField.Filter, "(?i)^(Error)" }
+                        }
+                    },
+                    new PredefinedItem
+                    {
+                        Name = "Show Message Only",
+                        Description = "Trims all but the severity, time and message.",
+                        ClearFilter = false,
+                        ClearHighlight = false,
+                        Fields = new Dictionary<FormField, string>
+                        {
+                            { FormField.TrimMiddle, @"(\]).*(Message=)" }
                         }
                     },
                     new PredefinedItem
