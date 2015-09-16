@@ -54,6 +54,8 @@
                     return;
                 }
 
+                filterItem.Description = textBoxDescription.Text;
+
                 SettingsManager.Instance.UserFilterConfigs.Items[index] = this.filterItem;
             }
             

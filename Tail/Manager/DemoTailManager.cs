@@ -20,7 +20,6 @@
             FormInterface = fileTailManager.FormInterface;
 
             FormInterface.GetFileNameCallback = () => demoThread.DemoFile;
-            FormInterface.GetFilterCallback = () => new FileLineRegexFilter("");
         }
 
         public FormInterface FormInterface { get; set; }
