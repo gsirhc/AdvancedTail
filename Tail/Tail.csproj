@@ -88,6 +88,7 @@
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Filter\HighlightColor.cs" />
     <Compile Include="Filter\HighlightProcessor.cs" />
+    <Compile Include="Predefined\TestResult.cs" />
     <Compile Include="Filter\TrimMiddleProcessor.cs" />
     <Compile Include="Manager\FormInterface.cs" />
     <Compile Include="Predefined\FilterConfiguration.cs" />

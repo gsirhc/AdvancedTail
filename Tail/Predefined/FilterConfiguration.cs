@@ -1,6 +1,7 @@
 ﻿namespace Tail.Predefined
 {
     using System.Collections.Generic;
+    using Filter;
 
     public class FilterConfiguration
     {
@@ -34,6 +35,16 @@
                             { FormField.Green, "(?i)^(INFO)" },
                             { FormField.Blue, "(?i)^(DEBUG)" },
                             { FormField.Gray, "(?i)^(TRACE)" }
+                        },
+                        TestSuccessStrings = new [] {
+                            new TestResult { TestString = "Fatal line",  ExpectedFilterResult = new FilterResult { HighlightColor = HighlightColor.ColorIndex.Red, IsMatch = true } },
+                            new TestResult { TestString = "WARN line", ExpectedFilterResult = new FilterResult { HighlightColor = HighlightColor.ColorIndex.Yellow, IsMatch = true } },
+                            new TestResult { TestString = "info line", ExpectedFilterResult = new FilterResult { HighlightColor = HighlightColor.ColorIndex.Green, IsMatch = true } },
+                            new TestResult { TestString = "DEbug line", ExpectedFilterResult = new FilterResult { HighlightColor = HighlightColor.ColorIndex.Blue, IsMatch = true } },
+                            new TestResult { TestString = "TRacE line", ExpectedFilterResult = new FilterResult { HighlightColor = HighlightColor.ColorIndex.Gray, IsMatch = true } },
+                        },
+                        TestFailStrings = new [] {
+                            new TestResult { TestString = "Not this line with tall, or, inf, bug, ace", ExpectedFilterResult = new FilterResult { IsMatch = true, HighlightColor = HighlightColor.ColorIndex.None } }
                         }
                     },
                     new PredefinedItem
@@ -45,6 +56,13 @@
                         Fields = new Dictionary<FormField, string>
                         {
                             { FormField.Subtle, "(?i)^(TRACE|DEBUG)" }
+                        },
+                        TestSuccessStrings = new [] {
+                            new TestResult { TestString = "trace line", ExpectedFilterResult = new FilterResult { HighlightColor = HighlightColor.ColorIndex.Subtle, IsMatch = true } },
+                            new TestResult { TestString = "DEbug line", ExpectedFilterResult = new FilterResult { HighlightColor = HighlightColor.ColorIndex.Subtle, IsMatch = true } }
+                        },
+                        TestFailStrings = new [] {
+                            new TestResult { TestString = "Not this line with tall, bug", ExpectedFilterResult = new FilterResult { IsMatch = true, HighlightColor = HighlightColor.ColorIndex.None } }
                         }
                     },
                     new PredefinedItem
@@ -56,6 +74,13 @@
                         Fields = new Dictionary<FormField, string>
                         {
                             { FormField.Red, "(?i)^(FATAL|ERROR)" }
+                        },
+                        TestSuccessStrings = new [] {
+                            new TestResult { TestString = "Fatal line", ExpectedFilterResult = new FilterResult { HighlightColor = HighlightColor.ColorIndex.Red, IsMatch = true } },
+                            new TestResult { TestString = "error line", ExpectedFilterResult = new FilterResult { HighlightColor = HighlightColor.ColorIndex.Red, IsMatch = true } }
+                        },
+                        TestFailStrings = new [] {
+                            new TestResult { TestString = "Not this line with tall, bug", ExpectedFilterResult = new FilterResult { IsMatch = true, HighlightColor = HighlightColor.ColorIndex.None } }
                         }
                     },
                     new PredefinedItem
@@ -67,6 +92,12 @@
                         Fields = new Dictionary<FormField, string>
                         {
                             { FormField.Filter, "(?i)^((?!TRACE).)*$" }
+                        },
+                        TestSuccessStrings = new [] {
+                            new TestResult { TestString = "Line with ace and track", ExpectedFilterResult = new FilterResult { IsMatch = true } }
+                        },
+                        TestFailStrings = new [] {
+                            new TestResult { TestString = "TraCE line", ExpectedFilterResult = new FilterResult { IsMatch = false } }
                         }
                     },
                     new PredefinedItem
@@ -78,6 +109,13 @@
                         Fields = new Dictionary<FormField, string>
                         {
                             { FormField.Filter, "(?i)^((?!TRACE|DEBUG).)*$" }
+                        },
+                        TestSuccessStrings = new [] {
+                            new TestResult { TestString = "Info this line", ExpectedFilterResult = new FilterResult { IsMatch = true } }
+                        },
+                        TestFailStrings = new [] {
+                            new TestResult { TestString = "TraCE line", ExpectedFilterResult = new FilterResult { IsMatch = false } },
+                            new TestResult { TestString = "debug line", ExpectedFilterResult = new FilterResult { IsMatch = false } }
                         }
                     },
                     new PredefinedItem
@@ -89,6 +127,12 @@
                         Fields = new Dictionary<FormField, string>
                         {
                             { FormField.Filter, "(?i)^((?!INFO).)*$" }
+                        },
+                        TestSuccessStrings = new [] {
+                            new TestResult { TestString = "Trace this line", ExpectedFilterResult = new FilterResult { IsMatch = true } }
+                        },
+                        TestFailStrings = new [] {
+                            new TestResult { TestString = "inFO line", ExpectedFilterResult = new FilterResult { IsMatch = false } }
                         }
                     },
                     new PredefinedItem
@@ -100,6 +144,13 @@
                         Fields = new Dictionary<FormField, string>
                         {
                             { FormField.Filter, "(?i)^((?!ERROR|WARN).)*$" }
+                        },
+                        TestSuccessStrings = new [] {
+                            new TestResult { TestString = "debug this line", ExpectedFilterResult = new FilterResult { IsMatch = true } }
+                        },
+                        TestFailStrings = new [] {
+                            new TestResult { TestString = "ERROR line", ExpectedFilterResult = new FilterResult { IsMatch = false } },
+                            new TestResult { TestString = "warn line", ExpectedFilterResult = new FilterResult { IsMatch = false } }
                         }
                     }
                 }
@@ -118,6 +169,12 @@
                         Fields = new Dictionary<FormField, string>
                         {
                             { FormField.Filter, "(?i)^(Error)" }
+                        },
+                        TestSuccessStrings = new [] {
+                            new TestResult { TestString = "Error [1/2/3 4:5:6] test", ExpectedFilterResult = new FilterResult { IsMatch = true } }
+                        },
+                        TestFailStrings = new [] {
+                            new TestResult { TestString = "Information [1/2/3 4:5:6] test", ExpectedFilterResult = new FilterResult { IsMatch = false } }
                         }
                     },
                     new PredefinedItem
@@ -129,6 +186,12 @@
                         Fields = new Dictionary<FormField, string>
                         {
                             { FormField.TrimMiddle, @"(\]).*(Message=)" }
+                        },
+                        TestSuccessStrings = new [] {
+                            new TestResult { TestString = "Error [1/2/3 4:5:6] Source=some source Message= test this message", ExpectedFilterResult = new FilterResult { IsMatch = true, Result = "Error [1/2/3 4:5:6 test this message" } }
+                        },
+                        TestFailStrings = new [] {
+                            new TestResult { TestString = "Information [1/2/3 4:5:6] test", ExpectedFilterResult = new FilterResult { IsMatch = true, Result = "Information [1/2/3 4:5:6] test" } }
                         }
                     },
                     new PredefinedItem
@@ -140,6 +203,12 @@
                         Fields = new Dictionary<FormField, string>
                         {
                             { FormField.Red, "(?i)^(Error)" }
+                        },
+                        TestSuccessStrings = new [] {
+                            new TestResult { TestString = "Error [1/2/3 4:5:6] Source=some source Message= test this message", ExpectedFilterResult = new FilterResult { HighlightColor = HighlightColor.ColorIndex.Red, IsMatch = true } }
+                        },
+                        TestFailStrings = new [] {
+                            new TestResult { TestString = "Information [1/2/3 4:5:6] Source=some source Message= test this message", ExpectedFilterResult = new FilterResult { IsMatch = true, HighlightColor = HighlightColor.ColorIndex.None } }
                         }
                     },
                     new PredefinedItem
@@ -151,6 +220,13 @@
                         Fields = new Dictionary<FormField, string>
                         {
                             { FormField.Subtle, "(?i)^(?!Error).*$" }
+                        },
+                        TestSuccessStrings = new [] {
+                            new TestResult { TestString = "Information [1/2/3 4:5:6] Source=some source Message= test this message", ExpectedFilterResult = new FilterResult { HighlightColor = HighlightColor.ColorIndex.Subtle, IsMatch = true } },
+                            new TestResult { TestString = "Warning [1/2/3 4:5:6] Source=some source Message= test this message", ExpectedFilterResult = new FilterResult { HighlightColor = HighlightColor.ColorIndex.Subtle, IsMatch = true } }
+                        },
+                        TestFailStrings = new [] {
+                            new TestResult { TestString = "Error [1/2/3 4:5:6] Source=some source Message= test this message", ExpectedFilterResult = new FilterResult { IsMatch = true, HighlightColor = HighlightColor.ColorIndex.None } }
                         }
                     }
                 }

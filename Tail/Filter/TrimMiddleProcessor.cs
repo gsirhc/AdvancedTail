@@ -44,7 +44,7 @@ namespace Tail.Filter
                 if (match.Groups.Count >= 2)
                 {
                     var start = match.Groups[0].Index;
-                    var end = match.Groups[match.Groups.Count - 1].Index;
+                    var end = match.Groups[match.Groups.Count - 1].Index + match.Groups[match.Groups.Count - 1].Length;
                     
                     filterResult.Result = line.Remove(start, end - start);
                 }

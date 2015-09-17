@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Script.Serialization;
+    using Filter;
 
     /// <summary>
     /// Predefined filter configuration item contains all the field values for the form.
@@ -47,6 +48,18 @@
             get { return Fields?.ToDictionary(item => item.Key.ToString(), item => item.Value); }
             set { Fields = value?.ToDictionary(item => (FormField)Enum.Parse(typeof(FormField), item.Key.ToString()), item => item.Value); }
         }
+
+        /// <summary>
+        /// Set of strings that should pass the predefined item (for unit testing).
+        /// </summary>
+        [ScriptIgnore]
+        public IEnumerable<TestResult> TestSuccessStrings { get; set; }
+
+        /// <summary>
+        /// Set of strings that should fail the predefined item (for unit testing).
+        /// </summary>
+        [ScriptIgnore]
+        public IEnumerable<TestResult> TestFailStrings { get; set; }
 
         public override string ToString()
         {

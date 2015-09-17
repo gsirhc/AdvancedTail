@@ -1,19 +1,18 @@
 # AdvancedTail
 A lightweight .NET Windows program to follow changing text files and provides advanced filtering and formatting.
 
-* Tail any text-based file in a user-friendly GUI
-* Advanced Filtering using regular expressions
+* Tail text-based files or Windows Event Logs in a user-friendly GUI
+* Advanced filtering using regular expressions
 * Advanced line trimming using regular expressions to enhance readability
 * Line highlighting
 * Lightweight/small footprint
 * Demo mode to show how it works
 * Simple text search
-* Saves a file history in the users appdata folder, including filters per file
 * Can run multiple instances to tail several logs at once
 
 ### System Requirements
 * Windows 7 SP1 or higher
-* .NET 4.5 or higher
+* .NET 4.6 or higher
 
 ### Install
 1. Download the release executable from the [/AdvancedTail/Tail/bin/Release Folder](https://github.com/gsirhc/AdvancedTail/raw/master/Tail/bin/Release/Tail.exe)
@@ -27,14 +26,12 @@ There are a few Nuget packages to download which Visual Studio should do automat
 ### Features in Detail
 
 ![Main Form](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/main4.png)
-![Filter Configuration Form](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/filter2.png)
 
 #### Filtering
 AdvancedTail provides a filtering engine to remove lines from the displayed text using regular expressions.
 Though regex is a scary/complex search language, it easily provides all the filtering capabilties
 you'd expect and the expressions can be simple (see below for an example).
 
-![Filter Form Screenshot](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/filter_filter_trim.png)
 
 ##### How does filtering work?
 AdvancedTail uses a given regular expression and tests it against each line of the file.  If the line is a match
@@ -62,6 +59,14 @@ AdvancedTail will display:
 
 You can also OR filters like ```rules|rocks``` to display the same lines.
 
+##### Predefined Filters
+Predefined filters are available in the Filter Configuration form.  There you can find many options
+for filtering, trimming and highlighting tailed files.  Simple click the Configuration to populate
+the applicable fields, adjust as needed and click Ok.
+
+You can also save configurations to apply to other files by clicking the Save button.  Your saved
+configuration will be displayed in the "Saved Filters" group.
+
 #### Trimming
 AdvancedTail also provides a mechanism to trim lines based on regular expressions.  This is useful
 if you want to remove common text from the lines to make them easier to read.
@@ -71,6 +76,7 @@ if you want to remove common text from the lines to make them easier to read.
 The trimming feature provides two types of trims:
 * Trim To: Trims from the beginning of the line to the first character of the match
 * Trim From: Trims from the first character of the match to the end.
+* Trim Middle: Requires the regular expression to yield at least 2 groups on a match.  Trims from the start of the first group to the end of the last group.
 
 NOTE: If using "To" and "From" together, trims the "To" first, then applies the "From" to the remaining text.
 
@@ -97,41 +103,39 @@ it rules
 
 Or you can be more specific with the "To":  ```trim to: "it rules|it rocks"```
 
+Now lets say you want to remove the "like this line because" portion of the lines but keep the time:
+
+```
+[7:10:02pm] We like this line because it rocks and rolls
+[7:10:04pm] And we like this line because it rules and rolls
+```
+
+Here you'd use Trim Middle (note the case-insensite modifier to capture 'We' and 'we'):
+
+``` 
+trim middle: "(?i)((We).*(because+\s))"
+```
+
+AdvancedTail will display:
+
+```
+[7:10:02pm] it rocks and rolls
+[7:10:04pm] And it rules and rolls
+```
+
 #### Line Highlighting
 AdvanvedTail provides separate regular expressions to define how lines are
-highlighted in the display.  You can define up to 5 color
-expressions red, yellow, green, blue and gray.  Additionally, highlighting can be toggled on and off
+highlighted in the display.  You can define up to 6 color
+expressions red, yellow, green, blue, gray and subtle (grayed text).  Additionally, highlighting can be toggled on and off
 in real time.
 
-![Filter Highlight Screenshot](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/filter_highlight.png)
+#### Windows Event Logs
+AdvancedTail allows you to tail the most commonly used Windows Event Logs by converting them to
+text and displaying as though the log was a file.  This allows you to apply filters, trimming and
+highlighting.  The logs will update in real time as events are added.
 
-The Filter Configuration form also contains 3 predefined highlighting
-setups for use with traditional log files that output log levels such
-as debug, trace, error, etc:
-
-* **Starts with Log Level**: Use this if each line starts with the level text.  Note that the expressions are case insensitive:
-
-``` 
-INFO   [9/1/15] This is an information line 
-DEBUG  [9/1/15] This is a debug line 
-```
-
-* **Contains Log Level**: Use this if each line contains the log level but it is not at the start of the line:
-
-``` 
-[9/1/15] INFO This is an information line 
-[9/1/15] DEBUG This is a debug line 
-```
-
-Note, these expressions can provide a false-positive because it searches the entire string.
-
-* **None**: Turns off highlighting by clearing the color expressions.
-
-#### File History
-AdvancedTail saves a history of all files you have tailed.  This includes
-saving the filters/trim expressions per file.  These settings are stored
-in your users appdata folders ("%appdata%") allowing for multiple user
-settings on servers or other shared systems.
+Since AdvancedTail formats the event logs, predefined filter configurations are provided to
+help you filter, trim and highlight the events.
 
 #### 3rd Party Mentions
 * [ScintillaNET](https://github.com/jacobslusser/ScintillaNET) to display the log.  This is the same control used by [Notepad++](https://notepad-plus-plus.org/).
