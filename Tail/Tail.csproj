@@ -85,6 +85,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Filter\FilterFactory.cs" />
     <Compile Include="Filter\HighlightColor.cs" />
     <Compile Include="Filter\HighlightProcessor.cs" />
     <Compile Include="Predefined\TestResult.cs" />
@@ -139,7 +140,6 @@
     <Compile Include="Filter\PipelineMember.cs" />
     <Compile Include="Filter\IPipelineMember.cs" />
     <Compile Include="Filter\TrimFromProcessor.cs" />
-    <Compile Include="Filter\TrimProcessorFactory.cs" />
     <Compile Include="Filter\TrimToProcessor.cs" />
     <Compile Include="Manager\DemoTailManager.cs" />
     <Compile Include="Manager\ITailManager.cs" />

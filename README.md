@@ -110,10 +110,10 @@ Now lets say you want to remove the "We like this line because" portion of the l
 [7:10:04pm] And we like this line because it rules and rolls
 ```
 
-Here you'd use Trim Middle (note the case-insensitive modifier ```(?i)``` to capture 'We' and 'we'):
+Here you'd use Trim Middle (note the case-insensitive modifier ```(?i)``` to capture 'We' and 'we' and the space after because):
 
 ``` 
-trim middle: "(?i)((We).*(because+\s))"
+trim middle: "(?i)(We like this line because )"
 ```
 
 AdvancedTail will display:

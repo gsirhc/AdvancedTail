@@ -61,6 +61,7 @@
     <Compile Include="Filter\FileLineRegexFilterTest.cs" />
     <Compile Include="Predefined\FilterConfigurationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FilterConfigFormTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tail\Tail.csproj">

@@ -289,12 +289,8 @@ namespace Tail
             var previous = Filter;
             try
             {
-                Filter = new FileLineRegexFilter(textBoxFilter.Text)
-                {
-                    DownstreamMember = new HighlightProcessor(HighlightColorMap)
-                };
-
-                Filter.DownstreamMember.DownstreamMember = TrimProcessorFactory.CreateProcessor(textBoxTrimTo.Text, textBoxTrimFrom.Text, textBoxTrimMiddle.Text);
+                Filter = FilterFactory.CreateFilter(textBoxFilter.Text, HighlightColorMap, 
+                    textBoxTrimTo.Text, textBoxTrimFrom.Text, textBoxTrimMiddle.Text);
                 return true;
             }
             catch (Exception ex)

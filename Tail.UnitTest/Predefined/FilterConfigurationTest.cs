@@ -20,11 +20,7 @@ namespace Tail.UnitTest.Predefined
                 {
                     ValidatePredfinedItemTestStrings(folder, item);
 
-                    // Use the form to convert the predefined filters configurations to actual filters
-                    var filterConfigForm = new FilterConfigForm();
-                    filterConfigForm.SetupPredefined(item, true);
-
-                    var filter = filterConfigForm.Filter;
+                    var filter = FilterFactory.CreateFilter(item);
                     filter.SetEnabled(true);
 
                     foreach (var successTest in item.TestSuccessStrings)

@@ -28,7 +28,7 @@ namespace Tail.Filter
 
                 if (trimMiddle.GetGroupNumbers().Length < 2)
                 {
-                    throw new Exception("Regex must have at least two groups, exmaple: (group1)(group2)");
+                    throw new ArgumentException("Regex must have at least two groups, exmaple: (group1)(group2)");
                 }
             }
         }
