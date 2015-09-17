@@ -17,3 +17,6 @@
 /packages
 /Tail/bin/Release/ScintillaNET.xml
 /Tail/bin/Release/ScintillaNET.dll
+/Tail.UnitTest/obj
+/Tail.UnitTest/bin/Debug
+/Tail.UnitTest/bin/Release

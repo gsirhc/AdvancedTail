@@ -1,21 +1,21 @@
 # AdvancedTail
-A lightweight .NET Windows program to follow changing text files and provides advanced filtering and formatting.
+A lightweight .NET Windows program to follow changing text files with advanced filtering and formatting.
 
 * Tail text-based files or Windows Event Logs in a user-friendly GUI
 * Advanced filtering using regular expressions
 * Advanced line trimming using regular expressions to enhance readability
 * Line highlighting
 * Lightweight/small footprint
-* Demo mode to show how it works
 * Simple text search
 * Can run multiple instances to tail several logs at once
+* Demo mode to show how it works
 
 ### System Requirements
 * Windows 7 SP1 or higher
 * .NET 4.6 or higher
 
 ### Install
-1. Download the release executable from the [/AdvancedTail/Tail/bin/Release Folder](https://github.com/gsirhc/AdvancedTail/raw/master/Tail/bin/Release/Tail.exe)
+1. Download the release executable from the [/AdvancedTail/Tail/bin/Release](https://github.com/gsirhc/AdvancedTail/raw/master/Tail/bin/Release/Tail.exe) Folder
 2. Place anywhere on your system and run.
 
 ### Downloading Source
@@ -73,12 +73,12 @@ if you want to remove common text from the lines to make them easier to read.
 
 ##### How does trimming work?
 
-The trimming feature provides two types of trims:
+The trimming feature provides 3 types of trims:
 * Trim To: Trims from the beginning of the line to the first character of the match
-* Trim From: Trims from the first character of the match to the end.
-* Trim Middle: Requires the regular expression to yield at least 2 groups on a match.  Trims from the start of the first group to the end of the last group.
+* Trim From: Trims from the first character of the match to the end on the line.
+* Trim Middle: Trims from the start of the first regex group to the end of the last regex group.  Note that the regular expression must yield at least 2 groups on a match.  
 
-NOTE: If using "To" and "From" together, trims the "To" first, then applies the "From" to the remaining text.
+NOTE: If using more then 1 trim type, the order of operations starts with the To, then applies the From, followed by the Middle trim.
 
 Lets say you this log file:
 
@@ -125,9 +125,9 @@ AdvancedTail will display:
 
 #### Line Highlighting
 AdvanvedTail provides separate regular expressions to define how lines are
-highlighted in the display.  You can define up to 6 color
-expressions red, yellow, green, blue, gray and subtle (grayed text).  Additionally, highlighting can be toggled on and off
-in real time.
+highlighted in the display.  You can define up to 6 color expressions red, yellow, green, blue, gray and subtle (grayed text).  
+The highlighting works by testing each color regular expressions on a given line.  The first match determines the color the line is displayed in.
+Additionally, highlighting can be toggled on and off in real time.
 
 #### Windows Event Logs
 AdvancedTail allows you to tail the most commonly used Windows Event Logs by converting them to
@@ -140,7 +140,7 @@ help you filter, trim and highlight the events.
 #### 3rd Party Mentions
 * [ScintillaNET](https://github.com/jacobslusser/ScintillaNET) to display the log.  This is the same control used by [Notepad++](https://notepad-plus-plus.org/).
 * [Fody](https://github.com/Fody/Fody) used to embed DLLs in the EXE to make AdvancedTail a single executable file with no dependencies.
-* [Silk Icons](http://www.famfamfam.com/) icons for the toolbar.
+* [Silk Icons](http://www.famfamfam.com/) for the toolbar.
 
 #### Known Issues and Limitations
 * Cannot type into "File:" path textbox.
