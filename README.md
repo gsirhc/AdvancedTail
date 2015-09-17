@@ -80,6 +80,8 @@ The trimming feature provides 3 types of trims:
 
 NOTE: If using more then 1 trim type, the order of operations starts with the To, then applies the From, followed by the Middle trim.
 
+###### Trim To/Trim From
+
 Lets say you this log file:
 
 ```
@@ -103,7 +105,9 @@ it rules
 
 Or you can be more specific with the "To":  ```trim to: "it rules|it rocks"```
 
-Now lets say you want to remove the "We like this line because" portion of the lines but keep the time:
+###### Trim Middle
+
+Now lets say you want to remove the "We like this line because " portion of the lines but keep the time:
 
 ```
 [7:10:02pm] We like this line because it rocks and rolls
