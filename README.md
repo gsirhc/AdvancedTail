@@ -48,7 +48,7 @@ Lets say you have the following log file:
 
 To filter out the lines you don't want to see, create a filter like this:
 
-``` "to see" ```
+``` to see ```
 
 AdvancedTail will display:
 
@@ -92,8 +92,8 @@ Lets say you this log file:
 To trim off the common parts of the lines:
 
 ``` 
-trim to: "it"
-trim from: "and rolls"
+trim to: it
+trim from: and rolls
 ```
 
 AdvancedTail will display:
@@ -117,7 +117,7 @@ Now lets say you want to remove the "We like this line because " portion of the 
 Here you'd use Trim Middle (note the case-insensitive modifier ```(?i)``` to capture 'We' and 'we' and the space after because):
 
 ``` 
-trim middle: "(?i)(We like this line because )"
+trim middle: (?i)(We like this line because )
 ```
 
 AdvancedTail will display:
@@ -125,6 +125,12 @@ AdvancedTail will display:
 ```
 [7:10:02pm] it rocks and rolls
 [7:10:04pm] And it rules and rolls
+```
+
+NOTE: Even though Trim Middle requires regex grouping, you can trim specific text by simply wrapping the text in parenthesis:
+
+``` 
+trim middle: (any text here)
 ```
 
 #### Line Highlighting
