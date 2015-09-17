@@ -103,14 +103,14 @@ it rules
 
 Or you can be more specific with the "To":  ```trim to: "it rules|it rocks"```
 
-Now lets say you want to remove the "like this line because" portion of the lines but keep the time:
+Now lets say you want to remove the "We like this line because" portion of the lines but keep the time:
 
 ```
 [7:10:02pm] We like this line because it rocks and rolls
 [7:10:04pm] And we like this line because it rules and rolls
 ```
 
-Here you'd use Trim Middle (note the case-insensite modifier to capture 'We' and 'we'):
+Here you'd use Trim Middle (note the case-insensitive modifier ```(?i)``` to capture 'We' and 'we'):
 
 ``` 
 trim middle: "(?i)((We).*(because+\s))"
@@ -131,7 +131,7 @@ in real time.
 
 #### Windows Event Logs
 AdvancedTail allows you to tail the most commonly used Windows Event Logs by converting them to
-text and displaying as though the log was a file.  This allows you to apply filters, trimming and
+text and displaying the logs like a file.  This allows you to apply filters, trimming and
 highlighting.  The logs will update in real time as events are added.
 
 Since AdvancedTail formats the event logs, predefined filter configurations are provided to
