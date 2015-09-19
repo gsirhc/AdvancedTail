@@ -32,6 +32,7 @@ AdvancedTail provides a filtering engine to remove lines from the displayed text
 Though regex is a scary/complex search language, it easily provides all the filtering capabilties
 you'd expect and the expressions can be simple (see below for an example).
 
+![Filter Configuration Form](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/filter3.png)
 
 ##### How does filtering work?
 AdvancedTail uses a given regular expression and tests it against each line of the file.  If the line is a match
@@ -64,8 +65,12 @@ Predefined filters are available in the Filter Configuration form.  There you ca
 for filtering, trimming and highlighting tailed files.  Simple click the Configuration to populate
 the applicable fields, adjust as needed and click Ok.
 
+![Predefined Configuration](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/predefined.png)
+
 You can also save configurations to apply to other files by clicking the Save button.  Your saved
 configuration will be displayed in the "Saved Filters" group.
+
+![User Saved Filters](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/userDefined.png)
 
 #### Trimming
 AdvancedTail also provides a mechanism to trim lines based on regular expressions.  This is useful
@@ -139,10 +144,14 @@ highlighted in the display.  You can define up to 6 color expressions red, yello
 The highlighting works by testing each color regular expressions on a given line.  The first match determines the color the line is displayed in.
 Additionally, highlighting can be toggled on and off in real time.
 
+![Highlight Configuration](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/highlight.png)
+
 #### Windows Event Logs
 AdvancedTail allows you to tail the most commonly used Windows Event Logs by converting them to
 text and displaying the logs like a file.  This allows you to apply filters, trimming and
 highlighting.  The logs will update in real time as events are added.
+
+![Windows Logs Menu](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/windowslogs.png)
 
 Since AdvancedTail formats the event logs, predefined filter configurations are provided to
 help you filter, trim and highlight the events.
