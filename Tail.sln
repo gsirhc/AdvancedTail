@@ -18,8 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "screenshots", "screenshots"
 		screenshots\highlight.png = screenshots\highlight.png
 		screenshots\predefined.png = screenshots\predefined.png
 		screenshots\userDefined.png = screenshots\userDefined.png
+		screenshots\windowslogconfig.png = screenshots\windowslogconfig.png
 		screenshots\windowslogs.png = screenshots\windowslogs.png
-		screenshots\windwslogconfig.png = screenshots\windwslogconfig.png
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tail.UnitTest", "Tail.UnitTest\Tail.UnitTest.csproj", "{9ECFBE22-4D49-4599-A1B6-587E36CA1122}"
