@@ -156,6 +156,8 @@ highlighting.  The logs will update in real time as events are added.
 Since AdvancedTail formats the event logs, predefined filter configurations are provided to
 help you filter, trim and highlight the events.
 
+![Windows Logs Filter Configurations](https://raw.githubusercontent.com/gsirhc/AdvancedTail/master/screenshots/windowslogconfig.png)
+
 #### 3rd Party Mentions
 * [ScintillaNET](https://github.com/jacobslusser/ScintillaNET) to display the log.  This is the same control used by [Notepad++](https://notepad-plus-plus.org/).
 * [Fody](https://github.com/Fody/Fody) used to embed DLLs in the EXE to make AdvancedTail a single executable file with no dependencies.
