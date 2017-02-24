@@ -15,8 +15,8 @@ A lightweight .NET Windows program to follow changing text files with advanced f
 * .NET 4.6 or higher
 
 ### Install
-1. Download the release executable from the [/AdvancedTail/Tail/bin/Release](https://github.com/gsirhc/AdvancedTail/raw/master/Tail/bin/Release/Tail.exe) Folder
-2. Place anywhere on your system and run.
+1. Download the release executable from [/AdvancedTail/releases](https://github.com/gsirhc/AdvancedTail/releases)
+2. Place the EXE file anywhere on your system and run.
 
 ### Downloading Source
 You are of course welcome to download the source.  AdvancedTail source was written using 
