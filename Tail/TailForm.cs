@@ -59,16 +59,16 @@
 
         protected override void OnLoad(EventArgs e)
         {
-            if (!SettingsManager.Instance.LastWindowLocation.IsEmpty)
-            {
-                this.Location = SettingsManager.Instance.LastWindowLocation;
-            }
+            //if (!SettingsManager.Instance.LastWindowLocation.IsEmpty)
+            //{
+            //    this.Location = SettingsManager.Instance.LastWindowLocation;
+            //}
 
-            // Set window size
-            if (!SettingsManager.Instance.LastWindowSize.IsEmpty)
-            {
-                this.Size = SettingsManager.Instance.LastWindowSize;
-            }
+            //// Set window size
+            //if (!SettingsManager.Instance.LastWindowSize.IsEmpty)
+            //{
+            //    this.Size = SettingsManager.Instance.LastWindowSize;
+            //}
 
             base.OnLoad(e);
         }
