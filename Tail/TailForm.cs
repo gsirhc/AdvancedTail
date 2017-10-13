@@ -111,6 +111,11 @@
             logDisplay.ShowLineNumbers = fileSettings.ShowLineNumbers;
 
             SetState(false);
+
+            if (SettingsManager.Instance.RunAtStartup)
+            {
+                StartTail();
+            }
         }
 
         private void SetupFilterConfigForm()
