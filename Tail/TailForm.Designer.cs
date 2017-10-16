@@ -38,30 +38,37 @@
             this.mainMenuToolbar.Dock = System.Windows.Forms.DockStyle.Top;
             this.mainMenuToolbar.FilePath = "";
             this.mainMenuToolbar.FilterEnabled = true;
+            this.mainMenuToolbar.HighlightEnabled = true;
+            this.mainMenuToolbar.LoadLastNLines = -1;
             this.mainMenuToolbar.Location = new System.Drawing.Point(0, 0);
+            this.mainMenuToolbar.Margin = new System.Windows.Forms.Padding(11, 11, 11, 11);
             this.mainMenuToolbar.Name = "mainMenuToolbar";
-            this.mainMenuToolbar.Size = new System.Drawing.Size(806, 77);
+            this.mainMenuToolbar.PreviewPredefinedFilter = true;
+            this.mainMenuToolbar.PromptRefreshOnFilterChange = true;
+            this.mainMenuToolbar.Size = new System.Drawing.Size(1478, 120);
             this.mainMenuToolbar.TabIndex = 0;
             this.mainMenuToolbar.TrimEnabled = true;
             // 
             // logDisplay
             // 
             this.logDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.logDisplay.Location = new System.Drawing.Point(0, 77);
+            this.logDisplay.Location = new System.Drawing.Point(0, 120);
+            this.logDisplay.Margin = new System.Windows.Forms.Padding(11, 11, 11, 11);
             this.logDisplay.Name = "logDisplay";
             this.logDisplay.ShowLineNumbers = false;
-            this.logDisplay.Size = new System.Drawing.Size(806, 492);
+            this.logDisplay.Size = new System.Drawing.Size(1478, 930);
             this.logDisplay.TabIndex = 1;
             this.logDisplay.WordWrap = false;
             // 
             // TailForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(806, 569);
+            this.ClientSize = new System.Drawing.Size(1478, 1050);
             this.Controls.Add(this.logDisplay);
             this.Controls.Add(this.mainMenuToolbar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "TailForm";
             this.Text = "AdvancedTail";
             this.ResumeLayout(false);

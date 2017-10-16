@@ -56,17 +56,21 @@
                 var lastLines = FileSettings.Default.LoadLastLines;
                 this.Invoke(new Action(() =>
                 {
-                    if (comboBoxLoadLast.SelectedItem != null)
+                    if (allToolStripMenuItem.Checked)
                     {
-                        switch (comboBoxLoadLast.SelectedItem.ToString())
-                        {
-                            case "ALL":
-                                lastLines = -1;
-                                break;
-                            default:
-                                lastLines = int.Parse(comboBoxLoadLast.SelectedItem.ToString());
-                                break;
-                        }
+                        lastLines = - 1;
+                    }
+                    else if (tenToolStripMenuItem2.Checked)
+                    {
+                        lastLines = 10;
+                    }
+                    else if (hundredToolStripMenuItem3.Checked)
+                    {
+                        lastLines = 100;
+                    }
+                    else if (thousandToolStripMenuItem4.Checked)
+                    {
+                        lastLines = 1000;
                     }
                 }));
 
@@ -74,7 +78,7 @@
             }
             set
             {
-                comboBoxLoadLast.SelectedItem = value == -1 ? "ALL" : value.ToString();
+                setLoadLastLinesState(value);
             }
         }
 
@@ -188,7 +192,7 @@
             toolStripButtonRefresh.Enabled = refreshToolStripMenuItem.Enabled = running;
             toolStripButtonClear.Enabled = clearDisplayToolStripMenuItem.Enabled = running;
             toolStripButtonStop.Enabled = stopToolStripMenuItem.Enabled = running;
-            comboBoxLoadLast.Enabled = !running;
+            loadLastLinesToolStripMenuItem.Enabled = !running;
 
             this.Text = "AdvancedTail";
 
@@ -426,6 +430,51 @@
         private void helpDocumentationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/gsirhc/AdvancedTail");
-        }        
+        }
+
+        private void allLastLinesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setLoadLastLinesState(-1);
+        }
+
+        private void tenToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            setLoadLastLinesState(10);
+        }
+
+        private void hundredToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            setLoadLastLinesState(100);
+        }
+
+        private void thousandToolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+            setLoadLastLinesState(1000);
+        }
+
+        private void setLoadLastLinesState(int loadLastLines)
+        {
+            tenToolStripMenuItem2.Checked = false;
+            hundredToolStripMenuItem3.Checked = false;
+            thousandToolStripMenuItem4.Checked = false;
+            allToolStripMenuItem.Checked = false;
+
+            if (loadLastLines == 10)
+            {
+                tenToolStripMenuItem2.Checked = true;
+            }
+            else if (loadLastLines == 100)
+            {
+                hundredToolStripMenuItem3.Checked = true;
+            } 
+            else if (loadLastLines == 100)
+            {
+                thousandToolStripMenuItem4.Checked = true;
+            }
+            else
+            {
+                allToolStripMenuItem.Checked = true;
+            }
+        }
     }
 }

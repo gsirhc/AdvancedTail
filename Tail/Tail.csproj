@@ -207,6 +207,24 @@
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
     <Content Include="icon.ico" />
+    <None Include="Resources\if_equalizer_sticker_68529.ico" />
+    <None Include="Resources\if_folder_sticker_68540.ico" />
+    <None Include="Resources\if_search_sticker_68612.ico" />
+    <None Include="Resources\if_document_sticker_68525.ico" />
+    <None Include="Resources\if_button-synchronize_sticker_68502.ico" />
+    <None Include="Resources\if_button-pause_sticker_68493.ico" />
+    <None Include="Resources\if_button-play_sticker_68494.ico" />
+    <None Include="Resources\if_common-search-lookup-outline-stroke_763281.ico" />
+    <None Include="Resources\if_editor-open-folder-glyph_763340.ico" />
+    <None Include="Resources\if_folder_sans_103555.ico" />
+    <None Include="Resources\if_editor-folder-2-glyph_763354.ico" />
+    <None Include="Resources\Gakuseisean-Ivista-2-Start-Menu-Search.ico" />
+    <None Include="Resources\Hopstarter-Sleek-Xp-Basic-Document-Blank.ico" />
+    <None Include="Resources\Hopstarter-Soft-Scraps-Button-Refresh.ico" />
+    <None Include="Resources\Hopstarter-Soft-Scraps-Button-Pause.ico" />
+    <None Include="Resources\Hopstarter-Soft-Scraps-Button-Play.ico" />
+    <None Include="Resources\Double-J-Design-Ravenna-3d-Filter-List.ico" />
+    <None Include="Resources\Custom-Icon-Design-Flatastic-10-Open-file.ico" />
     <None Include="icon_96x96.png" />
     <None Include="Resources\zoom_out.png" />
     <None Include="Resources\zoom_in.png" />

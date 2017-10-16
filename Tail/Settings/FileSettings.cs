@@ -16,7 +16,7 @@ namespace Tail.Settings
             AutoScroll = true,
             EnableFilter = true,
             EnableTrim = true,
-            LoadLastLines = 10
+            LoadLastLines = 1000
         };
 
         public string FilterRegex { get; set; }

@@ -161,7 +161,7 @@ help you filter, trim and highlight the events.
 #### 3rd Party Mentions
 * [ScintillaNET](https://github.com/jacobslusser/ScintillaNET) to display the log.  This is the same control used by [Notepad++](https://notepad-plus-plus.org/).
 * [Fody](https://github.com/Fody/Fody) used to embed DLLs in the EXE to make AdvancedTail a single executable file with no dependencies.
-* [Silk Icons](http://www.famfamfam.com/) for the toolbar.
+* [Super Mono Stickers Icon](https://www.iconfinder.com/iconsets/super-mono-sticker) for the toolbar.
 
 #### Known Issues and Limitations
 * Cannot type into "File:" path textbox.
